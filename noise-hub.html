@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOISE HQ — Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Noise Media Group Brand */
+  --noir: #1B1B1B; --noir2: #1D1D1D; --noir3: #262626; --noir4: #2E2E2E; --noir5: #383838;
+  --red: #C73C1E; --red-light: #D95A3F; --red-dark: #A83018; --red-glow: rgba(199,60,30,.15);
+  --cream: #F8F8E9; --cream2: #F0F0D8; --cream-dark: #D9D9C0;
+  --white: #FFFFFF; --off-white: #F5F5F0;
+  --charcoal: #1A1B1F; --body: #43464D; --muted: #8C8C8C; --light-muted: #AAAAAA;
+  --border: #333333; --border2: #2A2A2A; --border-light: #E0E0D8;
+  --ok: #5CB85C; --ok-bg: #1A2E1A; --ok-text: #7ECF7E; --ok-light-bg: #E8F5EC; --ok-light-text: #2D6B3F;
+  --warn: #D4A843; --warn-bg: #2E2818; --warn-text: #E8C05A; --warn-light-bg: #FDF5E1; --warn-light-text: #7A6220;
+  --risk: #D44A4A; --risk-bg: #2E1A1A; --risk-text: #E87070; --risk-light-bg: #FCEAEA; --risk-light-text: #8B3A3A;
+  --info: #5A9ECF; --info-bg: #1A2430; --info-text: #7AB8E0; --info-light-bg: #E8F0F5; --info-light-text: #3A6580;
+  --purple: #9070C0; --purple-bg: #221A30; --purple-text: #B090D8; --purple-light-bg: #F0EBF5; --purple-light-text: #5A4080;
+  --sidebar-w: 250px;
+  --hFont: 'Space Mono', 'Courier New', monospace;
+  --bFont: 'Montserrat', -apple-system, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--bFont); background: var(--off-white); color: var(--body); }
+input, select, textarea, button { font-family: inherit; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+/* ─── LOGIN ─── */
+.login-screen { display:flex; align-items:center; justify-content:center; min-height:100vh; background: var(--noir); position: relative; overflow: hidden; }
+.login-screen::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: radial-gradient(ellipse at 30% 50%, rgba(199,60,30,.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(248,248,233,.03) 0%, transparent 50%); }
+.login-card { background: var(--noir3); border-radius: 16px; padding: 48px 40px; width: 420px; box-shadow: 0 24px 80px rgba(0,0,0,.4); text-align: center; position: relative; border: 1px solid var(--border); }
+.login-logo { font-family: var(--hFont); font-size: 32px; font-weight: 700; color: var(--cream); margin-bottom: 4px; letter-spacing: 3px; text-transform: uppercase; }
+.login-logo span { color: var(--red); }
+.login-sub { font-size: 11px; color: var(--muted); margin-bottom: 32px; letter-spacing: 3px; text-transform: uppercase; font-family: var(--hFont); }
+.login-field { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 12px; transition: border-color .2s; background: var(--noir2); color: var(--cream); }
+.login-field::placeholder { color: var(--muted); }
+.login-field:focus { outline: none; border-color: var(--red); background: var(--noir); }
+.login-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--red); color: var(--white); font-weight: 700; font-size: 13px; cursor: pointer; transition: all .2s; letter-spacing: 2px; text-transform: uppercase; font-family: var(--hFont); }
+.login-btn:hover { background: var(--red-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(199,60,30,.35); }
+.login-error { color: var(--risk-text); font-size: 12px; margin-top: 8px; display: none; }
+.login-accounts { text-align: left; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+.login-accounts-title { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-family: var(--hFont); }
+.quick-login { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; border: none; background: none; width: 100%; text-align: left; }
+.quick-login:hover { background: var(--noir4); }
+.ql-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--white); flex-shrink: 0; }
+.ql-name { font-size: 13px; font-weight: 500; color: var(--cream); }
+.ql-role { font-size: 11px; color: var(--muted); }
+
+/* ─── APP SHELL ─── */
+.app { display: none; }
+.app.active { display: flex; min-height: 100vh; }
+.sidebar { width: var(--sidebar-w); background: var(--noir); color: var(--white); display: flex; flex-direction: column; position: fixed; left: 0; top: 0; height: 100vh; z-index: 100; border-right: 1px solid var(--border); }
+.sidebar-logo { padding: 20px; border-bottom: 1px solid var(--border); }
+.sidebar-logo h1 { font-family: var(--hFont); font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--cream); }
+.sidebar-logo h1 span { color: var(--red); }
+.sidebar-logo p { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-family: var(--hFont); }
+.sidebar nav { flex: 1; padding: 12px 8px; overflow-y: auto; }
+.nav-section { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); padding: 18px 12px 6px; font-family: var(--hFont); }
+.nav-btn { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 6px; border: none; background: transparent; color: rgba(248,248,233,.4); cursor: pointer; font-size: 13px; text-align: left; transition: all .15s; margin-bottom: 1px; }
+.nav-btn:hover { background: var(--noir3); color: var(--cream); }
+.nav-btn.active { background: var(--red-glow); color: var(--red-light); font-weight: 600; border-left: 2px solid var(--red); }
+.nav-btn .icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge { margin-left: auto; background: var(--red); color: var(--white); font-size: 10px; padding: 2px 7px; border-radius: 6px; font-weight: 700; }
+.sidebar-user { padding: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.sidebar-user .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; background: var(--red); }
+.sidebar-user .name { font-size: 12px; font-weight: 600; color: var(--cream); }
+.sidebar-user .role { font-size: 10px; color: var(--muted); }
+.logout-btn { margin-left: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 4px; }
+.logout-btn:hover { color: var(--red); }
+.main { margin-left: var(--sidebar-w); padding: 28px 32px; flex: 1; max-width: 1200px; }
+
+/* ─── COMPONENTS ─── */
+.avatar-circle { border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 600; flex-shrink: 0; }
+.badge { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; display: inline-block; letter-spacing: .3px; }
+.b-ok { background: var(--ok-light-bg); color: var(--ok-light-text); }
+.b-warn { background: var(--warn-light-bg); color: var(--warn-light-text); }
+.b-risk { background: var(--risk-light-bg); color: var(--risk-light-text); }
+.b-info { background: var(--info-light-bg); color: var(--info-light-text); }
+.b-purple { background: var(--purple-light-bg); color: var(--purple-light-text); }
+.b-default { background: #EEEEEA; color: var(--muted); }
+.b-blush { background: rgba(199,60,30,.1); color: var(--red); }
+.card { background: var(--white); border-radius: 10px; border: 1px solid var(--border-light); padding: 24px; transition: all .2s; }
+.card:hover { border-color: #CCC; }
+.card-click:hover { box-shadow: 0 4px 16px rgba(0,0,0,.06); border-color: var(--red-light); cursor: pointer; }
+.progress-track { flex: 1; background: #EAEAE0; border-radius: 3px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 3px; transition: width .5s ease; }
+.btn-primary { padding: 10px 20px; border-radius: 6px; border: none; background: var(--red); color: var(--white); font-weight: 700; font-size: 12px; cursor: pointer; transition: all .2s; letter-spacing: 1px; text-transform: uppercase; }
+.btn-primary:hover { background: var(--red-light); box-shadow: 0 4px 12px rgba(199,60,30,.25); }
+.btn-secondary { padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border-light); background: var(--white); color: var(--body); font-weight: 500; font-size: 12px; cursor: pointer; }
+.btn-secondary:hover { border-color: var(--red); color: var(--red); }
+.page-title { font-family: var(--hFont); font-size: 24px; font-weight: 700; color: var(--charcoal); letter-spacing: 1px; text-transform: uppercase; }
+.page-sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.section-head { font-family: var(--hFont); font-size: 14px; font-weight: 700; color: var(--charcoal); margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
+.stat-card { text-align: center; }
+.stat-val { font-size: 28px; font-weight: 800; color: var(--charcoal); font-family: var(--hFont); }
+.stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.stat-icon { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin: 0 auto 8px; }
+.tab-bar { display: flex; gap: 2px; background: #EAEAE0; padding: 3px; border-radius: 8px; margin-bottom: 20px; }
+.tab-btn { padding: 8px 16px; border-radius: 6px; border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 500; cursor: pointer; flex: 1; transition: all .2s; letter-spacing: .3px; }
+.tab-btn.active { background: var(--white); color: var(--charcoal); font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.search-box { width: 100%; max-width: 400px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-light); font-size: 13px; background: var(--white); }
+.search-box:focus { outline: none; border-color: var(--red); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.flex { display: flex; } .flex-col { flex-direction: column; } .items-center { align-items: center; }
+.justify-between { justify-content: space-between; } .gap-4 { gap: 4px; } .gap-8 { gap: 8px; }
+.gap-10 { gap: 10px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; } .gap-20 { gap: 20px; }
+.flex-1 { flex: 1; } .text-center { text-align: center; }
+.mb-4 { margin-bottom: 4px; } .mb-8 { margin-bottom: 8px; } .mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; } .mb-20 { margin-bottom: 20px; } .mb-24 { margin-bottom: 24px; }
+.mb-28 { margin-bottom: 28px; } .mt-8 { margin-top: 8px; } .mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; } .pt-16 { padding-top: 16px; border-top: 1px solid var(--border-light); }
+.hidden { display: none !important; }
+
+/* ─── KANBAN ─── */
+.kanban-wrap { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; align-items: flex-start; }
+.kanban-col { min-width: 260px; max-width: 280px; background: #F0F0E8; border-radius: 10px; padding: 14px; flex-shrink: 0; }
+.kanban-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.kanban-col-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-family: var(--hFont); }
+.kanban-count { font-size: 10px; background: #E0E0D4; color: var(--muted); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.kanban-card { background: var(--white); border-radius: 8px; padding: 14px; margin-bottom: 8px; border: 1px solid var(--border-light); cursor: grab; transition: all .15s; }
+.kanban-card:hover { border-color: var(--red-light); box-shadow: 0 2px 8px rgba(199,60,30,.08); }
+.kanban-card.dragging { opacity: .5; transform: rotate(2deg); }
+.kanban-card-title { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; }
+.kanban-card-meta { font-size: 11px; color: var(--muted); }
+.kanban-labels { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+.kanban-label { font-size: 9px; padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+.add-card-btn { width: 100%; padding: 8px; border: 1px dashed #D0D0C4; border-radius: 6px; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; transition: all .15s; }
+.add-card-btn:hover { border-color: var(--red); color: var(--red); background: rgba(199,60,30,.03); }
+
+/* ─── TABLE VIEW ─── */
+.work-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.work-table th { padding: 10px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); background: #F5F5ED; border-bottom: 2px solid var(--border-light); text-align: left; font-family: var(--hFont); }
+.work-table td { padding: 12px 14px; border-bottom: 1px solid #EEEEE8; font-size: 13px; }
+.work-table tr:hover td { background: #FAFAF5; }
+.status-pill { padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 700; text-align: center; display: inline-block; min-width: 80px; text-transform: uppercase; letter-spacing: .5px; }
+
+/* ─── HEAT MAP ─── */
+.heat-cell { padding: 8px 4px; border-radius: 4px; font-size: 12px; font-weight: 700; text-align: center; transition: transform .1s; cursor: default; font-family: var(--hFont); }
+.heat-cell:hover { transform: scale(1.08); }
+.perf-table { width: 100%; border-collapse: separate; border-spacing: 3px; }
+.perf-table th { padding: 8px 4px; font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: var(--hFont); }
+
+/* ─── 9-BOX ─── */
+.ninebox-cell { border-radius: 8px; padding: 14px; min-height: 110px; border: 2px solid transparent; transition: all .2s; }
+.ninebox-cell:hover { border-color: var(--red-light); }
+.cell-label { font-size: 9px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; font-family: var(--hFont); }
+
+/* ─── FEEDBACK / CHECK-IN ─── */
+.feedback-card { padding: 16px; border-radius: 8px; border: 1px solid var(--border-light); background: var(--off-white); margin-bottom: 10px; transition: border-color .15s; }
+.feedback-card:hover { border-color: var(--red-light); }
+.checkin-card { padding: 16px; border-radius: 8px; border-left: 3px solid var(--red); background: var(--white); margin-bottom: 10px; border-top: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+
+/* ─── MODAL ─── */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: center; justify-content: center; }
+.modal { background: var(--white); border-radius: 12px; padding: 32px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,.2); }
+.modal h2 { font-family: var(--hFont); font-size: 18px; margin-bottom: 20px; color: var(--charcoal); letter-spacing: 1px; text-transform: uppercase; }
+.modal label { font-size: 10px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; font-family: var(--hFont); }
+.modal input, .modal select, .modal textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border-light); border-radius: 6px; font-size: 13px; margin-bottom: 14px; background: var(--off-white); }
+.modal input:focus, .modal select:focus, .modal textarea:focus { outline: none; border-color: var(--red); background: var(--white); }
+.modal textarea { min-height: 80px; resize: vertical; }
+
+/* ─── BAR CHART ─── */
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 160px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
+.bar-fill { width: 100%; border-radius: 3px 3px 0 0; transition: height .5s; min-width: 20px; }
+.bar-label { font-size: 9px; color: var(--muted); white-space: nowrap; font-family: var(--hFont); letter-spacing: .5px; }
+.bar-value { font-size: 10px; font-weight: 700; color: var(--charcoal); font-family: var(--hFont); }
+
+/* ─── NM DOT ACCENT ─── */
+.nm-dot { display: inline-block; width: 6px; height: 6px; background: var(--red); border-radius: 50%; margin-left: 2px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ LOGIN SCREEN ═══════ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">NM<span>.</span></div>
+    <div class="login-sub">Noise HQ</div>
+    <input class="login-field" id="loginEmail" type="email" placeholder="Email address">
+    <input class="login-field" id="loginPass" type="password" placeholder="Password">
+    <button class="login-btn" onclick="attemptLogin()">Sign In</button>
+    <div class="login-error" id="loginError">Invalid credentials. Please try again.</div>
+    <div class="login-accounts">
+      <div class="login-accounts-title">Quick Access</div>
+      <div id="quickLogins"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ APP ═══════ -->
+<div class="app" id="app">
+  <div class="sidebar">
+    <div class="sidebar-logo"><h1>NM<span>.</span> HQ</h1><p>Workspace Platform</p></div>
+    <nav id="sideNav"></nav>
+    <div class="sidebar-user" id="sidebarUser"></div>
+  </div>
+  <div class="main" id="mainContent"></div>
+</div>
+
+<!-- ═══════ MODAL ═══════ -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════
+
+const team = [
+  { id:1, name:"Obenewa Adu", initials:"OA", role:"AI & Strategy Lead", dept:"Strategy", email:"obenewa@noisemedia.co.uk", pass:"noise2026", color:"#C73C1E", manager:null, rating:4.6, potential:"High", goalsTotal:5, goalsDone:4, reviewStatus:"Completed" },
+  { id:2, name:"Beau", initials:"BE", role:"Creative Director", dept:"Creative", email:"beau@noisemedia.co.uk", pass:"noise2026", color:"#1B1B1B", manager:"Obenewa Adu", rating:4.3, potential:"High", goalsTotal:4, goalsDone:3, reviewStatus:"Completed" },
+  { id:3, name:"Adam", initials:"AD", role:"Head of Motion", dept:"Production", email:"adam@noisemedia.co.uk", pass:"noise2026", color:"#5A9ECF", manager:"Beau", rating:3.9, potential:"High", goalsTotal:5, goalsDone:3, reviewStatus:"In Progress" },
+  { id:4, name:"Mike", initials:"MK", role:"Head of Production", dept:"Production", email:"mike@noisemedia.co.uk", pass:"noise2026", color:"#5CB85C", manager:"Beau", rating:3.8, potential:"Medium", goalsTotal:4, goalsDone:2, reviewStatus:"In Progress" },
+  { id:5, name:"Leah", initials:"LH", role:"Motion Graphic Designer", dept:"Creative", email:"leah@noisemedia.co.uk", pass:"noise2026", color:"#9070C0", manager:"Adam", rating:4.1, potential:"High", goalsTotal:4, goalsDone:3, reviewStatus:"Completed" },
+  { id:6, name:"Jason", initials:"JS", role:"Content Producer", dept:"Creative", email:"jason@noisemedia.co.uk", pass:"noise2026", color:"#D4A843", manager:"Adam", rating:3.5, potential:"Medium", goalsTotal:3, goalsDone:1, reviewStatus:"Pending" },
+];
+
+const kanbanBoards = {
+  "Client Work": {
+    columns: [
+      { title: "Briefing", cards: [
+        { id:1, title:"Gymshark Q2 Campaign Brief", labels:["Urgent","Content"], assignee:"Adam", due:"Mar 20" },
+        { id:2, title:"ASOS Trend Report", labels:["Research"], assignee:"Leah", due:"Mar 22" },
+      ]},
+      { title: "In Production", cards: [
+        { id:3, title:"Nike Reel Resizes (6 formats)", labels:["Motion","Resize"], assignee:"Leah", due:"Mar 18" },
+        { id:4, title:"Glossier BTS Shoot Edit", labels:["Video"], assignee:"Jason", due:"Mar 21" },
+      ]},
+      { title: "Review / Approval", cards: [
+        { id:5, title:"Fenty Beauty IG Carousel", labels:["Design"], assignee:"Leah", due:"Mar 17" },
+      ]},
+      { title: "Client Feedback", cards: [
+        { id:6, title:"Dr. Martens TikTok Series — Round 2", labels:["Content","Revision"], assignee:"Adam", due:"Mar 19" },
+      ]},
+      { title: "Delivered", cards: [
+        { id:7, title:"Oatly LinkedIn Campaign", labels:["B2B"], assignee:"Jason", due:"Mar 14" },
+        { id:8, title:"Gymshark March Reels Pack", labels:["Content"], assignee:"Adam", due:"Mar 12" },
+      ]},
+    ]
+  },
+  "Line Management": {
+    columns: [
+      { title: "To Discuss", cards: [
+        { id:20, title:"Leah: B2B development goals", labels:["1-to-1"], assignee:"Adam", due:"Mar 25" },
+        { id:21, title:"Jason: Asset collection workflow", labels:["Process"], assignee:"Beau", due:"Mar 24" },
+      ]},
+      { title: "In Progress", cards: [
+        { id:22, title:"Adam & Mike: Brief template standardisation", labels:["Process"], assignee:"Obenewa Adu", due:"Mar 28" },
+      ]},
+      { title: "Waiting", cards: [
+        { id:23, title:"Team AI tool training schedule", labels:["Training"], assignee:"Obenewa Adu", due:"Apr 5" },
+      ]},
+      { title: "Completed", cards: [
+        { id:24, title:"Q1 review prep for all team", labels:["Review"], assignee:"Beau", due:"Mar 10" },
+      ]},
+    ]
+  },
+  "AI Integration": {
+    columns: [
+      { title: "Backlog", cards: [
+        { id:30, title:"AI trend scanner (TikTok/IG/Pinterest)", labels:["Automation"], assignee:"Obenewa Adu", due:"Apr 15" },
+        { id:31, title:"Auto-resize pipeline for video assets", labels:["Automation","High Impact"], assignee:"Adam", due:"Apr 20" },
+      ]},
+      { title: "Exploring", cards: [
+        { id:32, title:"ChatGPT for copywriting & script drafts", labels:["Content"], assignee:"Mike", due:"Mar 30" },
+        { id:33, title:"Midjourney for mood boards & concepts", labels:["Creative"], assignee:"Leah", due:"Apr 1" },
+      ]},
+      { title: "Pilot", cards: [
+        { id:34, title:"Monday.com automation for brief handoffs", labels:["Process"], assignee:"Obenewa Adu", due:"Mar 25" },
+      ]},
+      { title: "Live", cards: [
+        { id:35, title:"ChatGPT for research & ideation", labels:["Adopted"], assignee:"Adam", due:"Active" },
+      ]},
+    ]
+  }
+};
+
+const workItems = [
+  { id:1, task:"Gymshark Q2 Campaign", owner:"Adam", status:"In Progress", priority:"High", due:"2026-03-28", type:"Campaign", progress:45 },
+  { id:2, task:"ASOS Weekly Trend Report", owner:"Leah", status:"Not Started", priority:"Medium", due:"2026-03-22", type:"Report", progress:0 },
+  { id:3, task:"Nike Reel Resizes (6 formats)", owner:"Leah", status:"In Progress", priority:"High", due:"2026-03-18", type:"Production", progress:60 },
+  { id:4, task:"Glossier BTS Shoot Edit", owner:"Jason", status:"In Progress", priority:"Medium", due:"2026-03-21", type:"Video", progress:35 },
+  { id:5, task:"Fenty Beauty IG Carousel", owner:"Leah", status:"Review", priority:"High", due:"2026-03-17", type:"Design", progress:90 },
+  { id:6, task:"Dr. Martens TikTok Series", owner:"Adam", status:"Revision", priority:"Urgent", due:"2026-03-19", type:"Content", progress:70 },
+  { id:7, task:"Brief Template Redesign", owner:"Mike", status:"In Progress", priority:"Medium", due:"2026-03-28", type:"Process", progress:25 },
+  { id:8, task:"B2B Video Series (Internal)", owner:"Jason", status:"Not Started", priority:"Low", due:"2026-04-10", type:"Video", progress:0 },
+  { id:9, task:"AI Integration Roadmap", owner:"Obenewa Adu", status:"In Progress", priority:"High", due:"2026-04-15", type:"Strategy", progress:55 },
+  { id:10, task:"Team AI Training Sessions", owner:"Obenewa Adu", status:"Planned", priority:"Medium", due:"2026-04-05", type:"Training", progress:10 },
+];
+
+const goals = [
+  { id:1, title:"Reduce content resize time by 50%", type:"OKR", owner:"Adam", progress:40, status:"At Risk", due:"2026-06-30",
+    kr:[{t:"Evaluate auto-resize tools",p:80},{t:"Pilot with 2 clients",p:30},{t:"Roll out to full team",p:10}] },
+  { id:2, title:"Launch AI-assisted copywriting workflow", type:"OKR", owner:"Obenewa Adu", progress:55, status:"On Track", due:"2026-04-30",
+    kr:[{t:"Complete team interviews",p:100},{t:"Pilot ChatGPT for briefs",p:60},{t:"Measure time savings",p:20}] },
+  { id:3, title:"Improve brief handoff turnaround to < 24hrs", type:"KPI", owner:"Mike", progress:30, status:"Behind", due:"2026-05-31",
+    kr:[{t:"Standardise brief template",p:40},{t:"Set up Monday automations",p:20}] },
+  { id:4, title:"Grow B2B video output by 3x", type:"OKR", owner:"Jason", progress:25, status:"Behind", due:"2026-06-30",
+    kr:[{t:"Produce 6 B2B videos",p:33},{t:"Establish B2B content calendar",p:20}] },
+  { id:5, title:"Achieve 95% on-time delivery rate", type:"KPI", owner:"Beau", progress:72, status:"On Track", due:"2026-06-30",
+    kr:[{t:"Track delivery dates in Monday",p:85},{t:"Weekly pipeline reviews",p:60}] },
+  { id:6, title:"Build trend scanning automation", type:"OKR", owner:"Obenewa Adu", progress:15, status:"At Risk", due:"2026-06-30",
+    kr:[{t:"Research AI trend tools",p:40},{t:"Set up weekly auto-report",p:0},{t:"Integrate with Slack",p:0}] },
+];
+
+const feedback = [
+  { id:1, from:"Beau", to:"Adam", type:"Manager", date:"2026-03-10", sentiment:"positive", text:"Strong leadership on the Gymshark campaign. Great at rallying the team under tight deadlines.", status:"Submitted" },
+  { id:2, from:"Leah", to:"Adam", type:"Peer", date:"2026-03-08", sentiment:"positive", text:"Always makes time for feedback on my motion work. Really helps me grow.", status:"Submitted" },
+  { id:3, from:"Adam", to:"Adam", type:"Self", date:"2026-03-05", sentiment:"neutral", text:"Need to improve delegation — I take on too much and it affects scheduling. Want to develop my AI skills.", status:"Submitted" },
+  { id:4, from:"Beau", to:"Leah", type:"Manager", date:"2026-03-11", sentiment:"positive", text:"Leah's design work is consistently excellent. The onboarding flow redesign was transformative.", status:"Submitted" },
+  { id:5, from:"Adam", to:"Leah", type:"Manager", date:"2026-03-09", sentiment:"positive", text:"Reliable and creative. Handles resizes efficiently and brings fresh ideas to briefs.", status:"Submitted" },
+  { id:6, from:"Beau", to:"Jason", type:"Manager", date:"2026-03-12", sentiment:"neutral", text:"Good creative instincts for B2B content. Would benefit from more proactive communication on timelines.", status:"Draft" },
+  { id:7, from:"Obenewa Adu", to:"Beau", type:"Upward", date:"2026-03-07", sentiment:"positive", text:"Excellent creative vision and team culture. Approval bottleneck is the main area to address.", status:"Submitted" },
+  { id:8, from:"Mike", to:"Adam", type:"Peer", date:"2026-03-06", sentiment:"positive", text:"Great partner on production planning. We work well dividing creative and logistics.", status:"Submitted" },
+];
+
+const checkins = [
+  { id:1, manager:"Beau", employee:"Adam", date:"2026-03-14", type:"1-to-1", mood:"😊", notes:"Discussed Gymshark campaign progress. Adam flagged scheduling concerns for next sprint. Agreed to trial AI tools for script drafts.", actions:["Trial ChatGPT for 2 briefs this week","Review resize workflow with Leah"] },
+  { id:2, manager:"Beau", employee:"Leah", date:"2026-03-13", type:"1-to-1", mood:"😊", notes:"Leah keen to develop B2B skills. Discussed path to senior designer role. Fenty carousel nearly done.", actions:["Share B2B design references","Set up LinkedIn portfolio"] },
+  { id:3, manager:"Adam", employee:"Jason", date:"2026-03-12", type:"1-to-1", mood:"😐", notes:"Jason wants more creative direction opportunities. Discussed asset collection pain points. Agreed to document current process.", actions:["Map asset collection workflow","Shadow Adam on next creative brief"] },
+  { id:4, manager:"Obenewa Adu", employee:"Beau", date:"2026-03-10", type:"Wellbeing", mood:"😊", notes:"Beau feeling positive about team momentum. Mentioned wanting to address approval bottleneck. Supportive of AI integration plans.", actions:["Draft streamlined approval process","Attend AI demo session"] },
+];
+
+const competencies = ["Creative Vision","Technical Skills","Communication","Time Management","Collaboration","Initiative"];
+
+// ─── STATE ───
+let currentUser = null;
+let currentPage = "dashboard";
+let currentBoard = "Client Work";
+let workFilter = "All";
+let goalFilter = "All";
+let feedbackEmp = 0;
+let feedbackTab = "Received";
+let dragCard = null;
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+const av = (initials,size=40,bg='#C73C1E') => `<div class="avatar-circle" style="width:${size}px;height:${size}px;font-size:${size*.33}px;background:${bg}">${initials}</div>`;
+const teamAv = (name,size=32) => { const m=team.find(t=>t.name===name); return m ? av(m.initials,size,m.color) : av(name.split(' ').map(x=>x[0]).join(''),size); };
+const bdg = (text,cls='b-default') => `<span class="badge ${cls}">${text}</span>`;
+const prog = (val,color='var(--red)',h=6,showLabel=false) => `<div style="display:flex;align-items:center;gap:8px;width:100%"><div class="progress-track" style="height:${h}px"><div class="progress-bar" style="width:${Math.min(val,100)}%;background:${color};height:${h}px"></div></div>${showLabel?`<span style="font-size:11px;font-weight:700;color:var(--muted);min-width:36px;font-family:var(--hFont)">${val}%</span>`:''}</div>`;
+
+function statusBdg(s) {
+  if(s==='Completed'||s==='Done'||s==='Delivered') return bdg(s,'b-ok');
+  if(s==='In Progress') return bdg(s,'b-info');
+  if(s==='Pending'||s==='Not Started'||s==='Planned') return bdg(s,'b-default');
+  if(s==='Review') return bdg(s,'b-purple');
+  if(s==='Revision'||s==='At Risk') return bdg(s,'b-warn');
+  if(s==='Overdue'||s==='Behind') return bdg(s,'b-risk');
+  if(s==='On Track') return bdg(s,'b-ok');
+  return bdg(s,'b-default');
+}
+function priBdg(p) {
+  if(p==='Urgent') return bdg(p,'b-risk');
+  if(p==='High') return bdg(p,'b-warn');
+  if(p==='Medium') return bdg(p,'b-info');
+  return bdg(p,'b-default');
+}
+function goalColor(s){ return s==='On Track'||s==='Completed'?'var(--ok)':s==='At Risk'?'var(--warn)':'var(--risk)'; }
+function heatColor(v){ return v>=4.5?'#3D8B4F':v>=4.0?'#5CB85C':v>=3.5?'#8FD48F':v>=3.0?'#D4A843':v>=2.5?'#D47B50':'#C73C1E'; }
+function heatText(v){ return v>=3.5&&v<4.0?'var(--charcoal)':'var(--white)'; }
+function labelColor(l) {
+  const m = {'Urgent':'#C73C1E','Content':'#1B1B1B','Research':'#5A9ECF','Motion':'#9070C0','Resize':'#D4A843',
+    'Video':'#5A9ECF','Design':'#9070C0','Revision':'#D4A843','B2B':'#5CB85C','1-to-1':'#C73C1E',
+    'Process':'#5A9ECF','Training':'#9070C0','Automation':'#D4A843','High Impact':'#C73C1E',
+    'Creative':'#9070C0','Adopted':'#5CB85C','Review':'#C73C1E'};
+  return m[l]||'#8C8C8C';
+}
+function statusPill(s) {
+  const colors = {'In Progress':'#5A9ECF','Not Started':'#8C8C8C','Review':'#9070C0','Revision':'#D4A843',
+    'Planned':'#AAAAAA','Done':'#5CB85C','Delivered':'#5CB85C','Urgent':'#C73C1E'};
+  const c = colors[s]||'#8C8C8C';
+  return `<span class="status-pill" style="background:${c}15;color:${c};border:1px solid ${c}30">${s}</span>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════════
+function renderQuickLogins() {
+  document.getElementById('quickLogins').innerHTML = team.map(t =>
+    `<button class="quick-login" onclick="quickLogin(${t.id})">
+      <div class="ql-avatar" style="background:${t.color}">${t.initials}</div>
+      <div><div class="ql-name">${t.name}</div><div class="ql-role">${t.role}</div></div>
+    </button>`
+  ).join('');
+}
+function attemptLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  const user = team.find(t => t.email === email && t.pass === pass);
+  if (user) { loginAs(user); }
+  else { document.getElementById('loginError').style.display = 'block'; }
+}
+function quickLogin(id) { loginAs(team.find(t=>t.id===id)); }
+function loginAs(user) {
+  currentUser = user;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('active');
+  renderApp();
+}
+function logout() {
+  currentUser = null;
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// APP SHELL
+// ═══════════════════════════════════════════════════════════
+const navItems = [
+  { section: "Overview" },
+  { id:"dashboard", label:"Dashboard", icon:"◉" },
+  { section: "Projects" },
+  { id:"boards", label:"Project Boards", icon:"▦" },
+  { id:"work", label:"Work Table", icon:"▤" },
+  { section: "Performance" },
+  { id:"goals", label:"Goals & OKRs", icon:"◎" },
+  { id:"reviews", label:"Reviews", icon:"↻", badge:2 },
+  { id:"feedback", label:"360° Feedback", icon:"◈" },
+  { id:"checkins", label:"1-to-1 Check-ins", icon:"◇" },
+  { id:"heatmap", label:"Heat Map", icon:"▥" },
+  { id:"ninebox", label:"9-Box Grid", icon:"▣" },
+  { section: "People" },
+  { id:"team", label:"Team", icon:"◔" },
+];
+
+function renderNav() {
+  document.getElementById('sideNav').innerHTML = navItems.map(item => {
+    if (item.section) return `<div class="nav-section">${item.section}</div>`;
+    return `<button class="nav-btn ${currentPage===item.id?'active':''}" onclick="navigate('${item.id}')">
+      <span class="icon">${item.icon}</span>${item.label}${item.badge?`<span class="nav-badge">${item.badge}</span>`:''}
+    </button>`;
+  }).join('');
+}
+function renderSidebarUser() {
+  if (!currentUser) return;
+  document.getElementById('sidebarUser').innerHTML = `
+    ${av(currentUser.initials,34,currentUser.color)}
+    <div><div class="name">${currentUser.name}</div><div class="role">${currentUser.role}</div></div>
+    <button class="logout-btn" onclick="logout()" title="Sign out">⏻</button>`;
+}
+function navigate(page) { currentPage = page; renderApp(); }
+function renderApp() { renderNav(); renderSidebarUser(); renderPage(); }
+function renderPage() {
+  const m = document.getElementById('mainContent');
+  const pages = { dashboard:renderDashboard, boards:renderBoards, work:renderWork, goals:renderGoals,
+    reviews:renderReviews, feedback:renderFeedback, checkins:renderCheckins, heatmap:renderHeatmap,
+    ninebox:renderNinebox, team:renderTeam };
+  m.innerHTML = (pages[currentPage]||renderDashboard)();
+}
+
+// ═══════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════
+function renderDashboard() {
+  const activeItems = workItems.filter(w=>w.status==='In Progress').length;
+  const urgentItems = workItems.filter(w=>w.priority==='Urgent'||w.priority==='High').length;
+  const avgGoalProg = Math.round(goals.reduce((a,g)=>a+g.progress,0)/goals.length);
+  const reviewsDone = team.filter(t=>t.reviewStatus==='Completed').length;
+
+  return `
+  <div class="mb-28"><h1 class="page-title">Welcome back, ${currentUser.name.split(' ')[0]}<span class="nm-dot"></span></h1><p class="page-sub">Here's what's happening at Noise Media Group</p></div>
+
+  <div class="grid-4 mb-24">
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--info-light-bg)">▦</div><div class="stat-val">${activeItems}</div><div class="stat-label">Active Projects</div></div>
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--risk-light-bg)">⚡</div><div class="stat-val">${urgentItems}</div><div class="stat-label">Urgent / High</div></div>
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--ok-light-bg)">◎</div><div class="stat-val">${avgGoalProg}%</div><div class="stat-label">Avg Goal Progress</div></div>
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--purple-light-bg)">↻</div><div class="stat-val">${reviewsDone}/${team.length}</div><div class="stat-label">Reviews Done</div></div>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card">
+      <h3 class="section-head">Project Pipeline<span class="nm-dot"></span></h3>
+      ${workItems.slice(0,5).map(w => `
+        <div class="flex items-center gap-12" style="padding:10px 0;border-bottom:1px solid #EEEEE8">
+          ${teamAv(w.owner,28)}
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--charcoal)">${w.task}</div><div style="font-size:11px;color:var(--muted)">${w.owner} · Due ${w.due}</div></div>
+          ${statusPill(w.status)}
+        </div>`).join('')}
+      <button class="btn-secondary mt-12" onclick="navigate('work')" style="width:100%">View All Work →</button>
+    </div>
+    <div class="card">
+      <h3 class="section-head">Goals Overview<span class="nm-dot"></span></h3>
+      ${goals.slice(0,4).map(g => `
+        <div style="padding:10px 0;border-bottom:1px solid #EEEEE8">
+          <div class="flex justify-between items-center mb-4">
+            <span style="font-size:13px;font-weight:600;color:var(--charcoal)">${g.title}</span>
+            ${statusBdg(g.status)}
+          </div>
+          ${prog(g.progress,goalColor(g.status),5,true)}
+        </div>`).join('')}
+      <button class="btn-secondary mt-12" onclick="navigate('goals')" style="width:100%">View All Goals →</button>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card">
+      <h3 class="section-head">Recent Check-ins<span class="nm-dot"></span></h3>
+      ${checkins.slice(0,3).map(c => `
+        <div class="checkin-card">
+          <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-8"><span style="font-size:18px">${c.mood}</span><span style="font-size:13px;font-weight:600">${c.manager} → ${c.employee}</span></div>
+            <span style="font-size:11px;color:var(--muted);font-family:var(--hFont)">${c.date}</span>
+          </div>
+          <p style="font-size:12px;color:var(--body);line-height:1.5">${c.notes.substring(0,100)}...</p>
+        </div>`).join('')}
+    </div>
+    <div class="card">
+      <h3 class="section-head">Recent Feedback<span class="nm-dot"></span></h3>
+      ${feedback.slice(0,4).map(fb => `
+        <div class="flex items-center gap-10" style="padding:8px 0;border-bottom:1px solid #EEEEE8">
+          ${teamAv(fb.from,26)}
+          <div style="flex:1"><div style="font-size:12px"><span style="font-weight:600">${fb.from}</span> <span style="color:var(--muted)">→</span> <span style="font-weight:600">${fb.to}</span></div>
+          <div style="font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px">${fb.text}</div></div>
+          ${bdg(fb.type, fb.type==='Peer'?'b-purple':fb.type==='Manager'?'b-info':fb.type==='Self'?'b-blush':'b-default')}
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROJECT BOARDS (Trello-style)
+// ═══════════════════════════════════════════════════════════
+function renderBoards() {
+  const boardNames = Object.keys(kanbanBoards);
+  const board = kanbanBoards[currentBoard];
+  return `
+  <div class="flex justify-between items-center mb-28">
+    <div><h1 class="page-title">Project Boards<span class="nm-dot"></span></h1><p class="page-sub">Drag and drop cards to manage your workflow</p></div>
+    <button class="btn-primary" onclick="openNewCardModal()">+ Add Card</button>
+  </div>
+  <div class="tab-bar mb-20">
+    ${boardNames.map(b => `<button class="tab-btn ${currentBoard===b?'active':''}" onclick="currentBoard='${b}';renderPage()">${b}</button>`).join('')}
+  </div>
+  <div class="kanban-wrap">
+    ${board.columns.map((col,ci) => `
+      <div class="kanban-col" ondragover="event.preventDefault()" ondrop="dropCard(event,${ci})">
+        <div class="kanban-col-header">
+          <span class="kanban-col-title">${col.title}</span>
+          <span class="kanban-count">${col.cards.length}</span>
+        </div>
+        ${col.cards.map(card => `
+          <div class="kanban-card" draggable="true" ondragstart="dragStart(event,'${currentBoard}',${ci},${card.id})" ondragend="dragEnd(event)">
+            <div class="kanban-labels">${card.labels.map(l=>`<span class="kanban-label" style="background:${labelColor(l)}15;color:${labelColor(l)}">${l}</span>`).join('')}</div>
+            <div class="kanban-card-title">${card.title}</div>
+            <div class="flex justify-between items-center">
+              <div class="kanban-card-meta">${card.due}</div>
+              ${teamAv(card.assignee,22)}
+            </div>
+          </div>`).join('')}
+        <button class="add-card-btn" onclick="openNewCardModal(${ci})">+ Add card</button>
+      </div>`).join('')}
+  </div>`;
+}
+
+function dragStart(e,board,colIdx,cardId) { dragCard={board,colIdx,cardId}; e.target.classList.add('dragging'); }
+function dragEnd(e) { e.target.classList.remove('dragging'); }
+function dropCard(e,targetColIdx) {
+  e.preventDefault();
+  if (!dragCard || dragCard.board !== currentBoard) return;
+  const board = kanbanBoards[dragCard.board];
+  const srcCol = board.columns[dragCard.colIdx];
+  const cardIdx = srcCol.cards.findIndex(c=>c.id===dragCard.cardId);
+  if (cardIdx===-1) return;
+  const [card] = srcCol.cards.splice(cardIdx,1);
+  board.columns[targetColIdx].cards.push(card);
+  dragCard = null;
+  renderPage();
+}
+
+// ═══════════════════════════════════════════════════════════
+// WORK TABLE (Monday.com-style)
+// ═══════════════════════════════════════════════════════════
+function renderWork() {
+  const filters = ['All','In Progress','Not Started','Review','Revision','Planned'];
+  const filtered = workFilter==='All' ? workItems : workItems.filter(w=>w.status===workFilter);
+  return `
+  <div class="flex justify-between items-center mb-28">
+    <div><h1 class="page-title">Work Management<span class="nm-dot"></span></h1><p class="page-sub">Track all tasks, deadlines, and assignments</p></div>
+    <button class="btn-primary" onclick="openNewTaskModal()">+ New Task</button>
+  </div>
+  <div class="tab-bar mb-20">${filters.map(f=>`<button class="tab-btn ${workFilter===f?'active':''}" onclick="workFilter='${f}';renderPage()">${f}</button>`).join('')}</div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="work-table">
+      <thead><tr><th>Task</th><th>Owner</th><th>Status</th><th>Priority</th><th>Due</th><th>Type</th><th style="width:120px">Progress</th></tr></thead>
+      <tbody>${filtered.map(w => `<tr>
+        <td style="font-weight:600;color:var(--charcoal)">${w.task}</td>
+        <td><div class="flex items-center gap-8">${teamAv(w.owner,24)}<span style="font-size:12px">${w.owner}</span></div></td>
+        <td>${statusPill(w.status)}</td>
+        <td>${priBdg(w.priority)}</td>
+        <td style="font-size:12px;color:var(--muted);font-family:var(--hFont)">${w.due}</td>
+        <td>${bdg(w.type,'b-default')}</td>
+        <td>${prog(w.progress,'var(--red)',5,true)}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// GOALS & OKRs
+// ═══════════════════════════════════════════════════════════
+function renderGoals() {
+  const statuses = ['All','On Track','At Risk','Behind','Completed'];
+  const filtered = goalFilter==='All' ? goals : goals.filter(g=>g.status===goalFilter);
+  const avgProg = Math.round(goals.reduce((a,g)=>a+g.progress,0)/goals.length);
+  const counts = {ot:goals.filter(g=>g.status==='On Track').length, ar:goals.filter(g=>g.status==='At Risk').length, bh:goals.filter(g=>g.status==='Behind').length};
+
+  return `
+  <div class="mb-28"><h1 class="page-title">Goals & OKRs<span class="nm-dot"></span></h1><p class="page-sub">Track objectives and key results across the team</p></div>
+  <div class="grid-4 mb-24">
+    <div class="card stat-card card-click" onclick="goalFilter='On Track';renderPage()"><div style="font-size:28px;font-weight:800;color:var(--ok);font-family:var(--hFont)">${counts.ot}</div><div class="stat-label">On Track</div></div>
+    <div class="card stat-card card-click" onclick="goalFilter='At Risk';renderPage()"><div style="font-size:28px;font-weight:800;color:var(--warn);font-family:var(--hFont)">${counts.ar}</div><div class="stat-label">At Risk</div></div>
+    <div class="card stat-card card-click" onclick="goalFilter='Behind';renderPage()"><div style="font-size:28px;font-weight:800;color:var(--risk);font-family:var(--hFont)">${counts.bh}</div><div class="stat-label">Behind</div></div>
+    <div class="card stat-card"><div style="font-size:28px;font-weight:800;color:var(--red);font-family:var(--hFont)">${avgProg}%</div><div class="stat-label">Average</div></div>
+  </div>
+  <div class="tab-bar mb-20">${statuses.map(s=>`<button class="tab-btn ${goalFilter===s?'active':''}" onclick="goalFilter='${s}';renderPage()">${s}</button>`).join('')}</div>
+  ${filtered.map(g => `
+    <div class="card mb-12">
+      <div class="flex justify-between" style="align-items:flex-start">
+        <div style="flex:1"><div class="flex items-center gap-8 mb-4"><span style="font-weight:700;font-size:15px;color:var(--charcoal)">${g.title}</span></div>
+          <div style="font-size:12px;color:var(--muted);display:flex;gap:16px"><span>◔ ${g.owner}</span><span>▤ Due ${g.due}</span></div></div>
+        <div class="flex items-center gap-8">${statusBdg(g.status)} ${bdg(g.type,'b-blush')}</div>
+      </div>
+      ${prog(g.progress,goalColor(g.status),7,true)}
+      <div class="mt-12 pt-16">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-family:var(--hFont)">Key Results</div>
+        ${g.kr.map(kr => `
+          <div style="padding:8px 12px;background:#F5F5ED;border-radius:6px;margin-bottom:6px">
+            <div class="flex justify-between mb-4"><span style="font-size:12px;color:var(--body)">${kr.t}</span><span style="font-size:11px;font-weight:700;color:${kr.p>=70?'var(--ok)':kr.p>=40?'var(--warn)':'var(--risk)'};font-family:var(--hFont)">${kr.p}%</span></div>
+            ${prog(kr.p,kr.p>=70?'var(--ok)':kr.p>=40?'var(--warn)':'var(--risk)',4)}
+          </div>`).join('')}
+      </div>
+    </div>`).join('')}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// REVIEWS
+// ═══════════════════════════════════════════════════════════
+function renderReviews() {
+  const cycles = [
+    { name:"Q1 2026 Performance Review", type:"360°", status:"Active", start:"2026-01-15", end:"2026-03-31", comp:67, done:4, pend:1, over:1 },
+    { name:"Mid-Year Check-in", type:"Manager", status:"Scheduled", start:"2026-06-01", end:"2026-06-30", comp:0, done:0, pend:6, over:0 },
+  ];
+  return `
+  <div class="flex justify-between items-center mb-28">
+    <div><h1 class="page-title">Review Cycles<span class="nm-dot"></span></h1><p class="page-sub">Manage performance review cycles — powered by <a href="https://www.appraisd.com" target="_blank" style="color:var(--red);text-decoration:none;font-weight:600">Appraisd</a></p></div>
+    <button class="btn-primary">+ New Cycle</button>
+  </div>
+  ${cycles.map(cy => {
+    const color = cy.status==='Active'?'var(--ok)':'var(--info)';
+    return `<div class="card mb-12">
+      <div class="flex justify-between items-center mb-12">
+        <div class="flex items-center gap-12">
+          <div style="width:40px;height:40px;border-radius:8px;background:${cy.status==='Active'?'var(--ok-light-bg)':'var(--info-light-bg)'};display:flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--hFont);font-weight:700">${cy.status==='Active'?'●':'◇'}</div>
+          <div><div style="font-weight:700;font-size:15px;color:var(--charcoal)">${cy.name}</div><div style="font-size:12px;color:var(--muted);font-family:var(--hFont)">${cy.type} · ${cy.start} → ${cy.end}</div></div>
+        </div>
+        <div class="flex items-center gap-12">${statusBdg(cy.status)}<div style="text-align:right"><div style="font-size:22px;font-weight:800;color:var(--charcoal);font-family:var(--hFont)">${cy.comp}%</div></div></div>
+      </div>
+      ${prog(cy.comp,color,6)}
+      <div class="grid-3 mt-12">
+        <div style="text-align:center;padding:10px;background:var(--ok-light-bg);border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--ok-light-text);font-family:var(--hFont)">${cy.done}</div><div style="font-size:10px;color:var(--ok-light-text);text-transform:uppercase;letter-spacing:1px">Done</div></div>
+        <div style="text-align:center;padding:10px;background:var(--warn-light-bg);border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--warn-light-text);font-family:var(--hFont)">${cy.pend}</div><div style="font-size:10px;color:var(--warn-light-text);text-transform:uppercase;letter-spacing:1px">Pending</div></div>
+        <div style="text-align:center;padding:10px;background:var(--risk-light-bg);border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--risk-light-text);font-family:var(--hFont)">${cy.over}</div><div style="font-size:10px;color:var(--risk-light-text);text-transform:uppercase;letter-spacing:1px">Overdue</div></div>
+      </div>
+      <div class="mt-16"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;font-family:var(--hFont)">Team Progress</div>
+        ${team.map(t => `<div class="flex items-center gap-12" style="padding:8px 0;border-bottom:1px solid #EEEEE8">
+          ${av(t.initials,28,t.color)}<div style="flex:1"><div style="font-size:13px;font-weight:600">${t.name}</div><div style="font-size:11px;color:var(--muted)">${t.role}</div></div>
+          ${statusBdg(t.reviewStatus)}
+        </div>`).join('')}
+      </div>
+    </div>`}).join('')}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 360° FEEDBACK
+// ═══════════════════════════════════════════════════════════
+function renderFeedback() {
+  const emp = team[feedbackEmp];
+  const empFb = feedback.filter(f => feedbackTab==='Received' ? f.to===emp.name : f.from===emp.name);
+  return `
+  <div class="mb-28"><h1 class="page-title">360° Feedback<span class="nm-dot"></span></h1><p class="page-sub">Multi-rater feedback: self, peer, manager, and upward</p></div>
+  <div style="display:grid;grid-template-columns:220px 1fr;gap:16px">
+    <div class="card" style="padding:12px">
+      <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding:0 4px;font-family:var(--hFont)">Team</div>
+      ${team.map((t,i) => `<button style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;border:none;background:${feedbackEmp===i?'#F0F0E8':'transparent'};cursor:pointer;width:100%;text-align:left;transition:background .15s" onclick="feedbackEmp=${i};renderPage()">
+        ${av(t.initials,26,t.color)}
+        <div><div style="font-size:12px;font-weight:${feedbackEmp===i?700:400};color:var(--charcoal)">${t.name}</div><div style="font-size:10px;color:var(--muted)">${t.role}</div></div>
+      </button>`).join('')}
+    </div>
+    <div>
+      <div class="card mb-16">
+        <div class="flex items-center gap-16">
+          ${av(emp.initials,52,emp.color)}
+          <div style="flex:1"><div style="font-size:20px;font-weight:700;font-family:var(--hFont);color:var(--charcoal);text-transform:uppercase;letter-spacing:1px">${emp.name}</div><div style="font-size:13px;color:var(--muted)">${emp.role} · ${emp.dept}</div>${emp.manager?`<div style="font-size:12px;color:var(--light-muted)">Reports to ${emp.manager}</div>`:''}</div>
+          <div style="text-align:center"><div style="font-size:32px;font-weight:800;color:var(--red);font-family:var(--hFont)">${emp.rating}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Rating</div></div>
+        </div>
+      </div>
+      <div class="card mb-16">
+        <h3 class="section-head">Competency Scores<span class="nm-dot"></span></h3>
+        <div class="grid-2 gap-12">
+          ${competencies.map((c,ci) => { const v = +((((emp.id*7+ci*13)%25)/10)+2.5).toFixed(1); return `
+            <div><div class="flex justify-between mb-4"><span style="font-size:12px;color:var(--body)">${c}</span><span style="font-size:11px;font-weight:700;color:${v>=4?'var(--ok)':v>=3.3?'var(--info)':'var(--warn)'};font-family:var(--hFont)">${v}</span></div>
+            ${prog(v*20,v>=4?'var(--ok)':v>=3.3?'var(--info)':'var(--warn)',5)}</div>`;}).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="tab-bar mb-16"><button class="tab-btn ${feedbackTab==='Received'?'active':''}" onclick="feedbackTab='Received';renderPage()">Received</button><button class="tab-btn ${feedbackTab==='Given'?'active':''}" onclick="feedbackTab='Given';renderPage()">Given</button></div>
+        ${empFb.length>0 ? empFb.map(fb => `
+          <div class="feedback-card">
+            <div class="flex justify-between items-center mb-8">
+              <div class="flex items-center gap-8">
+                <span>${fb.sentiment==='positive'?'▲':fb.sentiment==='negative'?'▼':'►'}</span>
+                <span style="font-weight:600;font-size:13px">${feedbackTab==='Received'?fb.from:fb.to}</span>
+                ${bdg(fb.type, fb.type==='Peer'?'b-purple':fb.type==='Manager'?'b-info':fb.type==='Self'?'b-blush':'b-default')}
+              </div>
+              <div class="flex items-center gap-8">${bdg(fb.status,fb.status==='Submitted'?'b-ok':'b-warn')}<span style="font-size:11px;color:var(--muted);font-family:var(--hFont)">${fb.date}</span></div>
+            </div>
+            <p style="font-size:13px;color:var(--body);line-height:1.6">${fb.text}</p>
+          </div>`).join('') : `<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">◈</div><div style="font-size:14px;font-weight:600;font-family:var(--hFont);text-transform:uppercase;letter-spacing:1px">No ${feedbackTab.toLowerCase()} feedback yet</div></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 1-to-1 CHECK-INS
+// ═══════════════════════════════════════════════════════════
+function renderCheckins() {
+  return `
+  <div class="flex justify-between items-center mb-28">
+    <div><h1 class="page-title">1-to-1 Check-ins<span class="nm-dot"></span></h1><p class="page-sub">Regular touchpoints for alignment, wellbeing, and development</p></div>
+    <button class="btn-primary" onclick="openCheckinModal()">+ Schedule</button>
+  </div>
+  <div class="grid-3 mb-24">
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--ok-light-bg)">◇</div><div class="stat-val">${checkins.length}</div><div class="stat-label">This Month</div></div>
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--info-light-bg)">▤</div><div class="stat-val">${checkins.reduce((a,c)=>a+c.actions.length,0)}</div><div class="stat-label">Action Items</div></div>
+    <div class="card stat-card"><div class="stat-icon" style="background:var(--purple-light-bg)">😊</div><div class="stat-val">${Math.round(checkins.filter(c=>c.mood==='😊').length/checkins.length*100)}%</div><div class="stat-label">Positive Mood</div></div>
+  </div>
+  ${checkins.map(c => `
+    <div class="card mb-12">
+      <div class="flex justify-between items-center mb-12">
+        <div class="flex items-center gap-12">
+          <span style="font-size:28px">${c.mood}</span>
+          <div><div style="font-size:15px;font-weight:700;color:var(--charcoal)">${c.manager} ↔ ${c.employee}</div>
+            <div style="font-size:12px;color:var(--muted);font-family:var(--hFont)">${c.date} · ${c.type}</div></div>
+        </div>
+        ${bdg(c.type, c.type==='Wellbeing'?'b-ok':'b-blush')}
+      </div>
+      <p style="font-size:13px;color:var(--body);line-height:1.6;margin-bottom:12px">${c.notes}</p>
+      <div style="background:#F5F5ED;border-radius:6px;padding:12px">
+        <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-family:var(--hFont)">Actions</div>
+        ${c.actions.map(a => `<div class="flex items-center gap-8" style="padding:4px 0"><span style="color:var(--red);font-size:10px">■</span><span style="font-size:12px;color:var(--body)">${a}</span></div>`).join('')}
+      </div>
+    </div>`).join('')}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// HEAT MAP
+// ═══════════════════════════════════════════════════════════
+function renderHeatmap() {
+  const data = team.map(t => ({...t, scores: competencies.map((_,ci)=>+((t.id*7+ci*13)%25/10+2.5).toFixed(1))}));
+  return `
+  <div class="mb-28"><h1 class="page-title">Performance Heat Map<span class="nm-dot"></span></h1><p class="page-sub">Competency ratings across the team</p></div>
+  <div class="card" style="overflow-x:auto">
+    <table class="perf-table">
+      <thead><tr><th style="text-align:left;min-width:150px">Team Member</th>${competencies.map(c=>`<th style="min-width:70px">${c}</th>`).join('')}<th style="min-width:50px">Avg</th></tr></thead>
+      <tbody>${data.map(row => {
+        const avg = +(row.scores.reduce((a,b)=>a+b,0)/row.scores.length).toFixed(1);
+        return `<tr><td style="padding:6px 12px"><div class="flex items-center gap-8">${av(row.initials,28,row.color)}<div><div style="font-size:12px;font-weight:600">${row.name}</div><div style="font-size:10px;color:var(--muted)">${row.role}</div></div></div></td>
+        ${row.scores.map(s=>`<td><div class="heat-cell" style="background:${heatColor(s)};color:${heatText(s)}">${s}</div></td>`).join('')}
+        <td><div class="heat-cell" style="background:${heatColor(avg)};color:${heatText(avg)};font-weight:700">${avg}</div></td></tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div class="flex items-center gap-16 mt-16" style="justify-content:center;flex-wrap:wrap">
+      <span style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-family:var(--hFont)">Legend:</span>
+      ${[{l:'Exceptional (4.5+)',c:'#3D8B4F'},{l:'Strong (4.0–4.4)',c:'#5CB85C'},{l:'Good (3.5–3.9)',c:'#8FD48F'},{l:'Developing (3.0–3.4)',c:'#D4A843'},{l:'Needs Work (<3.0)',c:'#C73C1E'}].map(x=>
+        `<div class="flex items-center gap-4"><div style="width:10px;height:10px;border-radius:2px;background:${x.c}"></div><span style="font-size:10px;color:var(--muted)">${x.l}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 9-BOX GRID
+// ═══════════════════════════════════════════════════════════
+function renderNinebox() {
+  const labels=[["Enigma","Growth Talent","Future Star"],["Underperformer","Core Player","High Performer"],["Risk","Solid Performer","Consistent Star"]];
+  const bgs=[["var(--warn-light-bg)","var(--info-light-bg)","var(--purple-light-bg)"],["var(--risk-light-bg)","#F0F0E8","var(--ok-light-bg)"],["var(--risk-light-bg)","var(--warn-light-bg)","var(--ok-light-bg)"]];
+  const boxes = {};
+  team.forEach(t => {
+    const pi = t.rating>=4.0?2:t.rating>=3.5?1:0;
+    const poi = t.potential==='High'?2:t.potential==='Medium'?1:0;
+    const k = poi+'-'+pi;
+    if(!boxes[k]) boxes[k]=[];
+    boxes[k].push(t);
+  });
+  let grid = '';
+  [2,1,0].forEach(potIdx => {
+    [0,1,2].forEach(perfIdx => {
+      const k = potIdx+'-'+perfIdx;
+      const es = boxes[k]||[];
+      const r = 2-potIdx;
+      grid += `<div class="ninebox-cell" style="background:${bgs[r][perfIdx]}"><div class="cell-label">${labels[r][perfIdx]}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${es.map(t=>`<div title="${t.name}\n${t.role}\nRating: ${t.rating}">${av(t.initials,30,t.color)}</div>`).join('')}${es.length===0?'<div style="font-size:10px;color:var(--muted);font-style:italic">—</div>':''}</div></div>`;
+    });
+  });
+  return `
+  <div class="mb-28"><h1 class="page-title">9-Box Grid<span class="nm-dot"></span></h1><p class="page-sub">Map team by performance and potential</p></div>
+  <div class="card">
+    <div class="flex">
+      <div style="display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--hFont);font-weight:700;font-size:11px;color:var(--muted);padding-right:12px;letter-spacing:2px;text-transform:uppercase">← Potential →</div>
+      <div style="flex:1">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:4px">${grid}</div>
+        <div class="text-center mt-12" style="font-family:var(--hFont);font-weight:700;font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase">← Performance →</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:4px">${['Low','Medium','High'].map(l=>`<div class="text-center" style="font-size:10px;color:var(--muted);font-family:var(--hFont);text-transform:uppercase;letter-spacing:1px">${l}</div>`).join('')}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:space-around;padding-left:8px">${['High','Medium','Low'].map(l=>`<div style="font-size:9px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--hFont);text-transform:uppercase;letter-spacing:1px">${l}</div>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// TEAM
+// ═══════════════════════════════════════════════════════════
+let selTeamMember = null;
+let teamSearchQ = '';
+function renderTeam() {
+  const filtered = team.filter(t => {
+    const q = teamSearchQ.toLowerCase();
+    return t.name.toLowerCase().includes(q)||t.role.toLowerCase().includes(q)||t.dept.toLowerCase().includes(q);
+  });
+  const sel = selTeamMember ? team.find(t=>t.id===selTeamMember) : null;
+  return `
+  <div class="mb-28"><h1 class="page-title">Team<span class="nm-dot"></span></h1><p class="page-sub">View all team members, ratings, and development</p></div>
+  <div class="mb-16"><input class="search-box" placeholder="Search by name, role, or department..." value="${teamSearchQ}" oninput="teamSearchQ=this.value;renderPage()"></div>
+  <div style="display:grid;grid-template-columns:${sel?'1fr 320px':'1fr'};gap:16px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+      ${filtered.map(t => `
+        <div class="card card-click" onclick="selTeamMember=${sel&&sel.id===t.id?'null':t.id};renderPage()" style="${sel&&sel.id===t.id?'border-color:var(--red-light);box-shadow:0 2px 8px rgba(199,60,30,.1)':''}">
+          <div class="flex items-center gap-12 mb-12">${av(t.initials,38,t.color)}<div><div style="font-weight:700;font-size:14px;color:var(--charcoal)">${t.name}</div><div style="font-size:12px;color:var(--muted)">${t.role} · ${t.dept}</div></div></div>
+          <div class="grid-3 mb-12">
+            <div style="text-align:center;padding:6px;background:#F5F5ED;border-radius:4px"><div style="font-size:16px;font-weight:800;color:var(--red);font-family:var(--hFont)">${t.rating}</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Rating</div></div>
+            <div style="text-align:center;padding:6px;background:#F5F5ED;border-radius:4px"><div style="font-size:16px;font-weight:800;color:var(--ok);font-family:var(--hFont)">${t.goalsDone}/${t.goalsTotal}</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Goals</div></div>
+            <div style="text-align:center;padding:6px;background:#F5F5ED;border-radius:4px">${bdg(t.potential,t.potential==='High'?'b-ok':'b-warn')}</div>
+          </div>
+          <div class="flex justify-between items-center">${statusBdg(t.reviewStatus)}${t.manager?`<span style="font-size:10px;color:var(--light-muted)">→ ${t.manager}</span>`:''}</div>
+        </div>`).join('')}
+    </div>
+    ${sel ? `
+    <div class="card" style="position:sticky;top:16px;align-self:start">
+      <div class="text-center mb-16">
+        ${av(sel.initials,52,sel.color)}
+        <div style="font-family:var(--hFont);font-size:18px;font-weight:700;margin-top:10px;color:var(--charcoal);text-transform:uppercase;letter-spacing:1px">${sel.name}</div>
+        <div style="font-size:13px;color:var(--muted)">${sel.role}</div>
+        <div style="font-size:12px;color:var(--light-muted)">${sel.dept}${sel.manager?' · → '+sel.manager:''}</div>
+      </div>
+      <div class="grid-2 mb-16">
+        <div style="padding:12px;background:#F5F5ED;border-radius:6px;text-align:center"><div style="font-size:24px;font-weight:800;color:var(--red);font-family:var(--hFont)">${sel.rating}</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Rating</div></div>
+        <div style="padding:12px;background:#F5F5ED;border-radius:6px;text-align:center"><div style="font-size:24px;font-weight:800;color:var(--ok);font-family:var(--hFont)">${Math.round(sel.goalsDone/sel.goalsTotal*100)}%</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Goals</div></div>
+      </div>
+      ${prog(Math.round(sel.goalsDone/sel.goalsTotal*100),'var(--ok)',6,true)}
+      <div class="mt-12">
+        <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid #EEEEE8"><span style="font-size:12px;color:var(--muted)">Potential</span>${bdg(sel.potential,sel.potential==='High'?'b-ok':'b-warn')}</div>
+        <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid #EEEEE8"><span style="font-size:12px;color:var(--muted)">Review</span>${statusBdg(sel.reviewStatus)}</div>
+        <div class="flex justify-between" style="padding:8px 0"><span style="font-size:12px;color:var(--muted)">Email</span><span style="font-size:12px;color:var(--red)">${sel.email}</span></div>
+      </div>
+      <div class="flex gap-8 mt-16">
+        <button class="btn-primary" style="flex:1;font-size:11px" onclick="navigate('feedback')">Feedback</button>
+        <button class="btn-secondary" style="flex:1" onclick="navigate('checkins')">Check-ins</button>
+      </div>
+    </div>` : ''}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════════════════
+function openModal(html) { document.getElementById('modalContent').innerHTML=html; document.getElementById('modalOverlay').classList.remove('hidden'); }
+function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
+
+function openNewCardModal(colIdx) {
+  const board = kanbanBoards[currentBoard];
+  openModal(`
+    <h2>Add Card<span class="nm-dot"></span></h2>
+    <label>Title</label><input id="ncTitle" placeholder="Card title...">
+    <label>Assignee</label><select id="ncAssignee">${team.map(t=>`<option>${t.name}</option>`).join('')}</select>
+    <label>Due Date</label><input id="ncDue" type="date">
+    <label>Column</label><select id="ncCol">${board.columns.map((c,i)=>`<option value="${i}" ${i===colIdx?'selected':''}>${c.title}</option>`).join('')}</select>
+    <div class="flex gap-8 mt-8"><button class="btn-primary" onclick="addCard()">Add</button><button class="btn-secondary" onclick="closeModal()">Cancel</button></div>
+  `);
+}
+function addCard() {
+  const title = document.getElementById('ncTitle').value;
+  if (!title) return;
+  const col = +document.getElementById('ncCol').value;
+  kanbanBoards[currentBoard].columns[col].cards.push({ id:Date.now(), title, labels:[], assignee:document.getElementById('ncAssignee').value, due:document.getElementById('ncDue').value||'TBD' });
+  closeModal(); renderPage();
+}
+
+function openNewTaskModal() {
+  openModal(`
+    <h2>New Task<span class="nm-dot"></span></h2>
+    <label>Task Name</label><input id="ntTask" placeholder="Task name...">
+    <label>Owner</label><select id="ntOwner">${team.map(t=>`<option>${t.name}</option>`).join('')}</select>
+    <label>Priority</label><select id="ntPri"><option>High</option><option>Medium</option><option>Low</option><option>Urgent</option></select>
+    <label>Due Date</label><input id="ntDue" type="date">
+    <label>Type</label><input id="ntType" placeholder="Campaign, Video, Design...">
+    <div class="flex gap-8 mt-8"><button class="btn-primary" onclick="addTask()">Add</button><button class="btn-secondary" onclick="closeModal()">Cancel</button></div>
+  `);
+}
+function addTask() {
+  const task = document.getElementById('ntTask').value;
+  if (!task) return;
+  workItems.push({ id:Date.now(), task, owner:document.getElementById('ntOwner').value, status:'Not Started', priority:document.getElementById('ntPri').value, due:document.getElementById('ntDue').value||'TBD', type:document.getElementById('ntType').value||'General', progress:0 });
+  closeModal(); renderPage();
+}
+
+function openCheckinModal() {
+  openModal(`
+    <h2>Schedule Check-in<span class="nm-dot"></span></h2>
+    <label>Manager</label><select id="ciMgr">${team.map(t=>`<option>${t.name}</option>`).join('')}</select>
+    <label>Team Member</label><select id="ciEmp">${team.map(t=>`<option>${t.name}</option>`).join('')}</select>
+    <label>Type</label><select id="ciType"><option>1-to-1</option><option>Wellbeing</option><option>Career Dev</option></select>
+    <label>Date</label><input id="ciDate" type="date">
+    <label>Notes</label><textarea id="ciNotes" placeholder="Discussion topics..."></textarea>
+    <div class="flex gap-8 mt-8"><button class="btn-primary" onclick="addCheckin()">Schedule</button><button class="btn-secondary" onclick="closeModal()">Cancel</button></div>
+  `);
+}
+function addCheckin() {
+  checkins.unshift({ id:Date.now(), manager:document.getElementById('ciMgr').value, employee:document.getElementById('ciEmp').value, date:document.getElementById('ciDate').value||'2026-03-16', type:document.getElementById('ciType').value, mood:'😊', notes:document.getElementById('ciNotes').value||'Scheduled check-in', actions:[] });
+  closeModal(); renderPage();
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+renderQuickLogins();
+document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') attemptLogin(); });
+</script>
+</body>
+</html>

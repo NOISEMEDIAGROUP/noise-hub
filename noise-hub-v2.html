@@ -1,0 +1,2708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NM. HQ — Noise Media Performance Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* BRAND COLORS & FONTS */
+        :root {
+            --color-noir: #1B1B1B;
+            --color-red: #C73C1E;
+            --color-cream: #F8F8E9;
+            --color-offwhite: #F5F5F0;
+            --color-muted: #8C8C8C;
+            --color-body: #43464D;
+            --color-charcoal: #1A1B1F;
+
+            --font-body: 'Montserrat', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --radius: 6px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-offwhite);
+            color: var(--color-body);
+        }
+
+        /* LAYOUT: Main container */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background-color: var(--color-noir);
+            color: var(--color-cream);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 32px 24px;
+            border-right: 1px solid rgba(199, 60, 30, 0.1);
+        }
+
+        .sidebar-logo {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-logo-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .sidebar-subtitle {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--color-muted);
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 12px;
+            margin-bottom: 8px;
+            color: var(--color-cream);
+            cursor: pointer;
+            border-radius: var(--radius);
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: rgba(199, 60, 30, 0.1);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: rgba(199, 60, 30, 0.15);
+            border-left-color: var(--color-red);
+            color: var(--color-cream);
+        }
+
+        .sidebar-nav-icon {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .sidebar-spacer {
+            flex: 1;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-top: 1px solid rgba(199, 60, 30, 0.1);
+            cursor: pointer;
+        }
+
+        .sidebar-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sidebar-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-cream);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user-role {
+            font-size: 11px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--color-red);
+            color: var(--color-red);
+            padding: 6px 12px;
+            border-radius: var(--radius);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--color-red);
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 48px;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-title-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            margin-left: -4px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--color-muted);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* LOGIN SCREEN */
+        .login-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-noir);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .login-container.active {
+            display: flex;
+        }
+
+        .login-content {
+            width: 100%;
+            max-width: 500px;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .login-glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(199, 60, 30, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .login-form {
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-logo {
+            font-family: var(--font-mono);
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--color-cream);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-logo-dot {
+            width: 14px;
+            height: 14px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .login-subtitle {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 48px;
+            font-weight: 700;
+        }
+
+        .login-input-group {
+            margin-bottom: 20px;
+        }
+
+        .login-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(199, 60, 30, 0.3);
+            border-radius: var(--radius);
+            color: var(--color-cream);
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--color-red);
+            background-color: rgba(199, 60, 30, 0.1);
+        }
+
+        .login-input::placeholder {
+            color: rgba(199, 60, 30, 0.5);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 32px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(199, 60, 30, 0.3);
+        }
+
+        .quick-access-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-access-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(199, 60, 30, 0.2);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-access-user:hover {
+            background-color: rgba(199, 60, 30, 0.15);
+            border-color: var(--color-red);
+        }
+
+        .quick-access-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .quick-access-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .quick-access-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-cream);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .quick-access-role {
+            font-size: 10px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* MOOD BOARD PAGE */
+        .mood-board-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mood-input-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            border: 1px solid #E5E5E0;
+        }
+
+        .mood-input-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .mood-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            color: var(--color-body);
+            transition: all 0.2s;
+        }
+
+        .mood-textarea:focus {
+            outline: none;
+            border-color: var(--color-red);
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
+        }
+
+        .mood-input-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .mood-btn-cancel {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mood-btn-cancel:hover {
+            border-color: var(--color-body);
+            color: var(--color-body);
+        }
+
+        .mood-btn-post {
+            padding: 10px 24px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mood-btn-post:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 60, 30, 0.3);
+        }
+
+        .mood-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            flex: 1;
+        }
+
+        .mood-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            border-left: 4px solid #E5E5E0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .mood-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .mood-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .mood-card-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .mood-card-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mood-card-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            display: block;
+        }
+
+        .mood-card-time {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 2px;
+        }
+
+        .mood-card-text {
+            font-size: 14px;
+            color: var(--color-body);
+            line-height: 1.6;
+        }
+
+        /* PROFILE PAGE */
+        .profile-container {
+            flex: 1;
+            display: flex;
+            gap: 32px;
+        }
+
+        .profile-left {
+            flex: 0 0 350px;
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            height: fit-content;
+        }
+
+        .profile-selector {
+            margin-bottom: 24px;
+        }
+
+        .profile-selector-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .profile-selector-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            cursor: pointer;
+        }
+
+        .profile-info-block {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #E5E5E0;
+        }
+
+        .profile-info-block:last-child {
+            border-bottom: none;
+        }
+
+        .profile-info-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .profile-info-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-charcoal);
+        }
+
+        .profile-right {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .profile-header {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+        }
+
+        .profile-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .profile-header-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--color-charcoal);
+            margin-bottom: 6px;
+        }
+
+        .profile-role {
+            font-size: 14px;
+            color: var(--color-red);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .profile-dept {
+            font-size: 13px;
+            color: var(--color-muted);
+        }
+
+        .profile-goals-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        .profile-section-title {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-section-title::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .goals-progress {
+            margin-bottom: 20px;
+        }
+
+        .goals-progress-label {
+            font-size: 13px;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .goals-progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #E5E5E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .goals-progress-fill {
+            height: 100%;
+            background-color: var(--color-red);
+            transition: width 0.3s;
+        }
+
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .goal-item {
+            display: grid;
+            grid-template-columns: 24px 1fr 150px;
+            gap: 12px;
+            align-items: start;
+            padding: 12px;
+            background-color: #F8F8E9;
+            border-radius: var(--radius);
+        }
+
+        .goal-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .goal-text {
+            font-size: 13px;
+            color: var(--color-body);
+        }
+
+        .goal-notes {
+            font-size: 12px;
+            color: var(--color-muted);
+            border-left: 2px solid #E5E5E0;
+            padding-left: 12px;
+            word-break: break-word;
+        }
+
+        /* FEEDBACK SECTION */
+        .feedback-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        .feedback-card {
+            padding: 16px;
+            background-color: #F8F8E9;
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            border-left: 3px solid var(--color-red);
+        }
+
+        .feedback-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .feedback-from {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .feedback-type {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            background-color: rgba(199, 60, 30, 0.1);
+            color: var(--color-red);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .feedback-date {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        .feedback-text {
+            font-size: 13px;
+            color: var(--color-body);
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        /* LINE MANAGERS PAGE */
+        .line-managers-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            height: fit-content;
+        }
+
+        .kanban-column {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            min-height: 500px;
+        }
+
+        .kanban-column-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kanban-column-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .kanban-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .kanban-card {
+            background-color: #F8F8E9;
+            padding: 12px;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--color-red);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .kanban-card-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-body);
+        }
+
+        .kanban-card-meta {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 6px;
+        }
+
+        .line-managers-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .performance-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+        }
+
+        .performance-card-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .performance-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E5E0;
+        }
+
+        .performance-stat:last-child {
+            border-bottom: none;
+        }
+
+        .performance-stat-label {
+            font-size: 12px;
+            color: var(--color-muted);
+        }
+
+        .performance-stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        .team-progress-list {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+        }
+
+        .team-progress-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .team-member-progress {
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E5E0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team-member-progress:last-child {
+            border-bottom: none;
+        }
+
+        .team-member-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-body);
+        }
+
+        .team-member-status {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .status-done {
+            background-color: rgba(92, 184, 92, 0.1);
+            color: #5CB85C;
+        }
+
+        .status-pending {
+            background-color: rgba(140, 140, 140, 0.1);
+            color: var(--color-muted);
+        }
+
+        .status-overdue {
+            background-color: rgba(199, 60, 30, 0.1);
+            color: var(--color-red);
+        }
+
+        /* 360 FEEDBACK PAGE */
+        .feedback-page-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .feedback-team-list {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            height: fit-content;
+        }
+
+        .feedback-team-list-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .feedback-team-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .feedback-team-item:hover {
+            background-color: #F8F8E9;
+        }
+
+        .feedback-team-item.active {
+            background-color: rgba(199, 60, 30, 0.1);
+            border-left: 3px solid var(--color-red);
+            padding-left: 9px;
+        }
+
+        .feedback-team-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .feedback-team-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .feedback-team-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-body);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feedback-team-role {
+            font-size: 10px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feedback-main {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feedback-header {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .feedback-header-info {
+            flex: 1;
+        }
+
+        .feedback-selected-name {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--color-charcoal);
+        }
+
+        .feedback-selected-role {
+            font-size: 13px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        .feedback-tab-bar {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid #E5E5E0;
+            background: white;
+            padding: 0 24px;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .feedback-tab {
+            padding: 16px 0;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-muted);
+            transition: all 0.2s;
+        }
+
+        .feedback-tab.active {
+            color: var(--color-red);
+            border-bottom-color: var(--color-red);
+        }
+
+        .feedback-content {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .feedback-form {
+            background-color: #F8F8E9;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        .feedback-form-group {
+            margin-bottom: 16px;
+        }
+
+        .feedback-form-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .feedback-form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+        }
+
+        .feedback-form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .feedback-form-btn {
+            padding: 10px 20px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .feedback-form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(199, 60, 30, 0.3);
+        }
+
+        .feedback-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feedback-item {
+            padding: 16px;
+            background-color: #F8F8E9;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--color-red);
+        }
+
+        .feedback-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .feedback-item-from {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .feedback-item-type {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            background-color: rgba(199, 60, 30, 0.2);
+            color: var(--color-red);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .feedback-item-date {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        .feedback-item-text {
+            font-size: 13px;
+            color: var(--color-body);
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* CHECKINS PAGE */
+        .checkins-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkins-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            border-top: 4px solid var(--color-red);
+        }
+
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-red);
+        }
+
+        .checkins-list {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .checkin-item {
+            padding: 20px;
+            border-bottom: 1px solid #E5E5E0;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .checkin-item:last-child {
+            border-bottom: none;
+        }
+
+        .checkin-item:hover {
+            background-color: #F8F8E9;
+        }
+
+        .checkin-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkin-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .checkin-mood {
+            font-size: 20px;
+        }
+
+        .checkin-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .checkin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .checkin-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        .checkin-date {
+            font-size: 11px;
+            color: var(--color-muted);
+        }
+
+        .checkin-notes {
+            font-size: 13px;
+            color: var(--color-body);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .checkin-action-items {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #E5E5E0;
+        }
+
+        .checkin-action-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .checkin-action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .checkin-action {
+            font-size: 12px;
+            color: var(--color-body);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .checkin-action::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--color-red);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 24px;
+        }
+
+        .modal-form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-body);
+        }
+
+        .modal-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-body);
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btn-cancel {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-cancel:hover {
+            border-color: var(--color-body);
+            color: var(--color-body);
+        }
+
+        .modal-btn-submit {
+            padding: 10px 24px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 60, 30, 0.3);
+        }
+
+        /* ACCESS RESTRICTED MESSAGE */
+        .access-restricted {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .access-restricted-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .access-restricted-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .access-restricted-text {
+            font-size: 14px;
+            color: var(--color-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .profile-left {
+                flex: none;
+            }
+
+            .line-managers-container {
+                grid-template-columns: 1fr;
+            }
+
+            .line-managers-sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .feedback-page-container {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback-team-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 16px;
+            }
+
+            .page {
+                padding: 24px;
+            }
+
+            .mood-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+
+            .checkins-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-container active" id="loginContainer">
+        <div class="login-glow"></div>
+        <div class="login-content">
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="login-logo">
+                    NM<span class="login-logo-dot"></span>
+                </div>
+                <div class="login-subtitle">NOISE HQ</div>
+
+                <div class="login-input-group">
+                    <label class="login-label" for="emailInput">Email</label>
+                    <input
+                        type="email"
+                        id="emailInput"
+                        class="login-input"
+                        placeholder="your@noisemedia.co.uk"
+                        required
+                    >
+                </div>
+
+                <div class="login-input-group">
+                    <label class="login-label" for="passwordInput">Password</label>
+                    <input
+                        type="password"
+                        id="passwordInput"
+                        class="login-input"
+                        placeholder="••••••••"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-button">Sign In</button>
+            </form>
+
+            <div class="quick-access-label">Quick Access</div>
+            <div class="quick-access-grid" id="quickAccessGrid"></div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                NM<span class="sidebar-logo-dot"></span> HQ
+            </div>
+            <div class="sidebar-subtitle">WORKSPACE PLATFORM</div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-label">OVERVIEW</div>
+                <div class="sidebar-nav-item active" onclick="navigateTo('moodBoard')" data-page="moodBoard">
+                    <span class="sidebar-nav-icon">◉</span>
+                    <span>Mood Board</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-label">PEOPLE</div>
+                <div class="sidebar-nav-item" onclick="navigateTo('profile')" data-page="profile">
+                    <span class="sidebar-nav-icon">◔</span>
+                    <span>My Profile</span>
+                </div>
+                <div class="sidebar-nav-item" id="lineManagersNav" onclick="navigateTo('lineManagers')" data-page="lineManagers">
+                    <span class="sidebar-nav-icon">▦</span>
+                    <span>Line Managers</span>
+                </div>
+                <div class="sidebar-nav-item" onclick="navigateTo('feedback')" data-page="feedback">
+                    <span class="sidebar-nav-icon">◈</span>
+                    <span>360 Feedback</span>
+                </div>
+                <div class="sidebar-nav-item" onclick="navigateTo('checkins')" data-page="checkins">
+                    <span class="sidebar-nav-icon">◇</span>
+                    <span>1-to-1 Check-ins</span>
+                </div>
+            </div>
+
+            <div class="sidebar-spacer"></div>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar" id="sidebarUserAvatar"></div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" id="sidebarUserName"></div>
+                    <div class="sidebar-user-role" id="sidebarUserRole"></div>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- PAGE: MOOD BOARD -->
+            <div class="page active" id="moodBoardPage" data-page="moodBoard">
+                <div class="page-header">
+                    <div class="page-title">
+                        MOOD BOARD<span class="page-title-dot"></span>
+                    </div>
+                    <div class="page-subtitle">Team updates and positivity. Let us know what's on your mind.</div>
+                </div>
+
+                <div class="mood-board-container">
+                    <div class="mood-input-section">
+                        <div class="mood-input-label">Post a New Update</div>
+                        <textarea class="mood-textarea" id="moodInput" placeholder="What's on your mind? Keep it positive..."></textarea>
+                        <div class="mood-input-footer">
+                            <button class="mood-btn-cancel" onclick="resetMoodInput()">Clear</button>
+                            <button class="mood-btn-post" onclick="postMoodUpdate()">Post Update</button>
+                        </div>
+                    </div>
+
+                    <div class="mood-card-grid" id="moodCardGrid"></div>
+                </div>
+            </div>
+
+            <!-- PAGE: PROFILE -->
+            <div class="page" id="profilePage" data-page="profile">
+                <div class="page-header">
+                    <div class="page-title">
+                        PROFILE<span class="page-title-dot"></span>
+                    </div>
+                    <div class="page-subtitle">Your performance and development.</div>
+                </div>
+
+                <div class="profile-container" id="profileContainer"></div>
+            </div>
+
+            <!-- PAGE: LINE MANAGERS -->
+            <div class="page" id="lineManagersPage" data-page="lineManagers">
+                <div class="page-header">
+                    <div class="page-title">
+                        LINE MANAGERS<span class="page-title-dot"></span>
+                    </div>
+                    <div class="page-subtitle">Team management and performance reviews.</div>
+                </div>
+
+                <div class="line-managers-container" id="lineManagersContainer"></div>
+            </div>
+
+            <!-- PAGE: 360 FEEDBACK -->
+            <div class="page" id="feedbackPage" data-page="feedback">
+                <div class="page-header">
+                    <div class="page-title">
+                        360 FEEDBACK<span class="page-title-dot"></span>
+                    </div>
+                    <div class="page-subtitle">Give and receive feedback from your team.</div>
+                </div>
+
+                <div class="feedback-page-container" id="feedbackContainer"></div>
+            </div>
+
+            <!-- PAGE: CHECKINS -->
+            <div class="page" id="checkinsPage" data-page="checkins">
+                <div class="page-header">
+                    <div class="page-title">
+                        1-TO-1 CHECK-INS<span class="page-title-dot"></span>
+                    </div>
+                    <div class="page-subtitle">Regular team member conversations and action items.</div>
+                </div>
+
+                <div class="checkins-container" id="checkinsContainer"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-title" id="modalTitle"></div>
+            <form id="modalForm" onsubmit="handleModalSubmit(event)">
+                <div id="modalContent"></div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="modal-btn-submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================================
+        // DATA MODELS
+        // ============================================================================
+
+        const TEAM_DATA = [
+            // Level 1 — Founders
+            { id:1, name:"Anthony", initials:"AN", role:"Co-Founder", dept:"Leadership", level:1, manager:null, color:"#C73C1E", birthday:"1988-04-15", email:"anthony@noisemedia.co.uk" },
+            { id:2, name:"Joe", initials:"JO", role:"Co-Founder", dept:"Leadership", level:1, manager:null, color:"#1B1B1B", birthday:"1989-08-22", email:"joe@noisemedia.co.uk" },
+            // Level 2 — Line Managers
+            { id:3, name:"Beau", initials:"BE", role:"Creative Director", dept:"Creative", level:2, manager:"Anthony", color:"#5A9ECF", birthday:"1992-02-18", email:"beau@noisemedia.co.uk" },
+            { id:4, name:"Sam", initials:"SM", role:"Head of Operations/Strategy", dept:"Operations", level:2, manager:"Anthony", color:"#9070C0", birthday:"1990-05-12", email:"sam@noisemedia.co.uk" },
+            { id:5, name:"Louise", initials:"LO", role:"Head of Accounts", dept:"Accounts", level:2, manager:"Joe", color:"#D4A843", birthday:"1991-11-03", email:"louise@noisemedia.co.uk" },
+            // Level 3 — Team (managed by Beau)
+            { id:6, name:"Leah", initials:"LH", role:"Motion Graphic Designer", dept:"Creative", level:3, manager:"Beau", color:"#5CB85C", birthday:"1995-09-14", email:"leah@noisemedia.co.uk" },
+            { id:7, name:"Steph", initials:"ST", role:"Senior Designer", dept:"Creative", level:3, manager:"Beau", color:"#E8845C", birthday:"1993-06-20", email:"steph@noisemedia.co.uk" },
+            { id:8, name:"Georgie", initials:"GE", role:"Junior Creative", dept:"Creative", level:3, manager:"Beau", color:"#D47BA0", birthday:"1998-01-10", email:"georgie@noisemedia.co.uk" },
+            // Level 3 — Team (managed by Sam)
+            { id:9, name:"Adam", initials:"AD", role:"Head of Motion", dept:"Production", level:3, manager:"Sam", color:"#7E8FC0", birthday:"1991-07-25", email:"adam@noisemedia.co.uk" },
+            { id:10, name:"Mike", initials:"MK", role:"Head of Production", dept:"Production", level:3, manager:"Sam", color:"#D47B50", birthday:"1989-12-05", email:"mike@noisemedia.co.uk" },
+            { id:11, name:"Luke", initials:"LK", role:"Motion Designer", dept:"Production", level:3, manager:"Sam", color:"#6BAF8D", birthday:"1996-03-18", email:"luke@noisemedia.co.uk" },
+            // Level 3 — Team (managed by Louise)
+            { id:12, name:"Dan", initials:"DN", role:"Paid Media", dept:"Accounts", level:3, manager:"Louise", color:"#8BAEC4", birthday:"1994-06-30", email:"dan@noisemedia.co.uk" },
+            { id:13, name:"Obenewa Adu", initials:"OA", role:"Social Media Intern", dept:"Accounts", level:3, manager:"Louise", color:"#C08070", birthday:"1999-11-03", email:"obenewa@noisemedia.co.uk" },
+        ];
+
+        let currentUser = null;
+        let moodBoardData = [];
+        let feedbackData = [];
+        let checkinsData = [];
+        let profileGoalsData = {};
+        let achievementsData = {};
+
+        // ============================================================================
+        // INITIALIZATION & DATA SETUP
+        // ============================================================================
+
+        function initializeAppData() {
+            // Mood Board
+            moodBoardData = [
+                { id:1, userId:1, name:"Anthony", initials:"AN", color:"#C73C1E", timestamp:"2 hours ago", message:"Exciting times — two new client pitches this week. Let's bring the energy." },
+                { id:2, userId:2, name:"Joe", initials:"JO", color:"#1B1B1B", timestamp:"3 hours ago", message:"Really proud of the team this quarter. The creative output has been next level." },
+                { id:3, userId:3, name:"Beau", initials:"BE", color:"#5A9ECF", timestamp:"5 hours ago", message:"Fenty carousel got amazing feedback from the client. Leah, Steph — great work!" },
+                { id:4, userId:4, name:"Sam", initials:"SM", color:"#9070C0", timestamp:"1 day ago", message:"Gymshark Q2 campaign brief locked in. Adam and Mike — production starts Monday." },
+                { id:5, userId:6, name:"Leah", initials:"LH", color:"#5CB85C", timestamp:"1 day ago", message:"Just finished the Nike resizes — 6 formats done in record time!" },
+                { id:6, userId:9, name:"Adam", initials:"AD", color:"#7E8FC0", timestamp:"1 day ago", message:"Motion team is firing on all cylinders. Luke's been a great addition." },
+                { id:7, userId:12, name:"Dan", initials:"DN", color:"#8BAEC4", timestamp:"2 days ago", message:"Meta campaigns for Q2 are performing above target. CTR up 23%." },
+                { id:8, userId:13, name:"Obenewa", initials:"OA", color:"#C08070", timestamp:"2 days ago", message:"Team interviews wrapping up — brilliant insights on AI integration from everyone." },
+                { id:9, userId:5, name:"Louise", initials:"LO", color:"#D4A843", timestamp:"3 days ago", message:"Account reviews are looking strong. Dan's paid media numbers are exceptional." },
+                { id:10, userId:7, name:"Steph", initials:"ST", color:"#E8845C", timestamp:"3 days ago", message:"Loving the new design system we're building. Consistency across clients is improving." },
+                { id:11, userId:8, name:"Georgie", initials:"GE", color:"#D47BA0", timestamp:"3 days ago", message:"First month in and I'm learning so much. This team is incredible." },
+                { id:12, userId:10, name:"Mike", initials:"MK", color:"#D47B50", timestamp:"4 days ago", message:"Production pipeline is running smoother than ever. New workflow is paying off." },
+                { id:13, userId:11, name:"Luke", initials:"LK", color:"#6BAF8D", timestamp:"4 days ago", message:"Finished the motion templates for social — should save us hours per week." },
+            ];
+
+            // Profile Goals — keyed by user ID
+            profileGoalsData = {};
+            TEAM_DATA.forEach(u => {
+                const goalSets = {
+                    1: [{ text:"Scale agency to 20+ clients", notes:"Q2 Target", completed:false },{ text:"Secure 3 new high-value clients", notes:"Q1", completed:true },{ text:"Build leadership development programme", notes:"Ongoing", completed:false },{ text:"Q1 board review", notes:"March", completed:false },{ text:"Strengthen agency partnerships", notes:"In Progress", completed:false }],
+                    2: [{ text:"Launch new service offering", notes:"Q2", completed:false },{ text:"Strengthen client retention", notes:"Ongoing", completed:true },{ text:"Hire 2 senior roles", notes:"Q1 Target", completed:false },{ text:"Establish agency culture doc", notes:"March", completed:false },{ text:"Revenue growth 30% YoY", notes:"On track", completed:false }],
+                    3: [{ text:"Launch Fenty campaign", notes:"Completed", completed:true },{ text:"Develop creative brief template", notes:"In Progress", completed:false },{ text:"Build creative team capabilities", notes:"Ongoing", completed:true },{ text:"Client presentation workshop", notes:"April", completed:false },{ text:"Establish feedback system", notes:"Q2", completed:false }],
+                    4: [{ text:"Restructure ops workflow", notes:"In Progress", completed:false },{ text:"Implement AI strategy roadmap", notes:"Core project", completed:false },{ text:"Improve brief handoff time to < 24hrs", notes:"Q1 Target", completed:false },{ text:"Team capacity forecasting", notes:"Ongoing", completed:true },{ text:"Q1 business review", notes:"Due March", completed:false }],
+                    5: [{ text:"Streamline account management process", notes:"In Progress", completed:false },{ text:"Client satisfaction score > 90%", notes:"Q1 Target", completed:true },{ text:"Onboard 2 new accounts", notes:"March", completed:false },{ text:"Weekly reporting automation", notes:"Planning", completed:false },{ text:"Train team on new CRM", notes:"April", completed:false }],
+                    6: [{ text:"Complete Nike resizes project", notes:"Done", completed:true },{ text:"Learn advanced After Effects", notes:"In Progress", completed:false },{ text:"Create motion library", notes:"Q2", completed:false },{ text:"Increase design speed by 20%", notes:"Ongoing", completed:false },{ text:"Present work at team review", notes:"March", completed:false }],
+                    7: [{ text:"Build design system v2", notes:"In Progress", completed:false },{ text:"Lead client rebrand project", notes:"Starting", completed:false },{ text:"Mentor Georgie on design tools", notes:"Ongoing", completed:true },{ text:"Portfolio showcase Q2", notes:"April", completed:false },{ text:"Social templates refresh", notes:"March", completed:false }],
+                    8: [{ text:"Complete onboarding programme", notes:"In Progress", completed:false },{ text:"Assist on 3 client projects", notes:"Ongoing", completed:true },{ text:"Learn After Effects basics", notes:"Q2", completed:false },{ text:"Build personal portfolio", notes:"April", completed:false },{ text:"Shadow senior designers", notes:"March", completed:false }],
+                    9: [{ text:"Complete Gymshark production", notes:"March", completed:false },{ text:"Optimize motion pipeline", notes:"Ongoing", completed:true },{ text:"Train Luke on new tech", notes:"Q2", completed:false },{ text:"Reduce turnaround time by 20%", notes:"Q1 Target", completed:false },{ text:"Motion graphics standards doc", notes:"Due soon", completed:false }],
+                    10: [{ text:"Lead Gymshark production", notes:"In Progress", completed:false },{ text:"Establish quality standards", notes:"Q1", completed:true },{ text:"Equipment audit", notes:"March", completed:false },{ text:"Hire production coordinator", notes:"Recruiting", completed:false },{ text:"Team training sessions", notes:"April", completed:false }],
+                    11: [{ text:"Master motion template system", notes:"In Progress", completed:false },{ text:"Deliver 10 social animations", notes:"Q1", completed:true },{ text:"Learn Cinema 4D basics", notes:"Q2", completed:false },{ text:"Support Adam on Gymshark", notes:"Ongoing", completed:false },{ text:"Build reel for portfolio", notes:"April", completed:false }],
+                    12: [{ text:"Deliver Meta campaign Q2", notes:"Planning", completed:false },{ text:"Achieve 25% CTR boost", notes:"On track", completed:false },{ text:"A/B testing framework", notes:"In Progress", completed:true },{ text:"Client weekly reporting", notes:"Ongoing", completed:true },{ text:"New platform testing", notes:"March", completed:false }],
+                    13: [{ text:"Complete AI integration interviews", notes:"Done", completed:true },{ text:"Build AI automation task list", notes:"In Progress", completed:true },{ text:"Research AI tools for agency", notes:"Ongoing", completed:false },{ text:"Support social media campaigns", notes:"March", completed:false },{ text:"Present AI findings to team", notes:"April", completed:false }],
+                };
+                profileGoalsData[u.id] = goalSets[u.id] || [];
+            });
+
+            // Feedback Data
+            feedbackData = [
+                { id:1, toUserId:3, fromUserId:1, type:"Manager", date:"Mar 14, 2026", text:"Creative output this quarter has been outstanding. The Fenty work set a new standard." },
+                { id:2, toUserId:3, fromUserId:6, type:"Upward", date:"Mar 12, 2026", text:"Great creative direction. Really helped me grow as a designer." },
+                { id:3, toUserId:3, fromUserId:7, type:"Upward", date:"Mar 10, 2026", text:"Beau gives clear briefs and constructive feedback. Best manager I've had." },
+                { id:4, toUserId:4, fromUserId:1, type:"Manager", date:"Mar 11, 2026", text:"Sam's operational improvements have been game-changing for the team." },
+                { id:5, toUserId:4, fromUserId:9, type:"Upward", date:"Mar 09, 2026", text:"Good balance between efficiency and quality. Appreciate the support." },
+                { id:6, toUserId:5, fromUserId:2, type:"Manager", date:"Mar 13, 2026", text:"Louise has built incredible client relationships. Account retention is the best it's been." },
+                { id:7, toUserId:6, fromUserId:3, type:"Manager", date:"Mar 10, 2026", text:"Motion work is exceptional. Growing your skills rapidly. Nike resizes were flawless." },
+                { id:8, toUserId:6, fromUserId:6, type:"Self", date:"Mar 07, 2026", text:"Proud of finishing Nike resizes on time. Want to improve my B2B skills next." },
+                { id:9, toUserId:7, fromUserId:3, type:"Manager", date:"Mar 11, 2026", text:"Steph's design system work is raising quality across all clients." },
+                { id:10, toUserId:8, fromUserId:3, type:"Manager", date:"Mar 09, 2026", text:"Georgie is learning fast. Impressed with her initiative on the social templates." },
+                { id:11, toUserId:9, fromUserId:4, type:"Manager", date:"Mar 12, 2026", text:"Adam's motion leadership is excellent. Gymshark production is on track." },
+                { id:12, toUserId:10, fromUserId:4, type:"Manager", date:"Mar 10, 2026", text:"Mike's production standards are consistently high. Great team player." },
+                { id:13, toUserId:11, fromUserId:4, type:"Manager", date:"Mar 08, 2026", text:"Luke's motion templates are saving the whole team hours. Great initiative." },
+                { id:14, toUserId:12, fromUserId:5, type:"Manager", date:"Mar 11, 2026", text:"Dan's Meta campaigns are performing above target. CTR up 23%." },
+                { id:15, toUserId:13, fromUserId:5, type:"Manager", date:"Mar 13, 2026", text:"Obenewa's AI research has been thorough and actionable. Great asset to the team." },
+                { id:16, toUserId:1, fromUserId:3, type:"Upward", date:"Mar 10, 2026", text:"Anthony's vision for the agency is inspiring. Appreciate the trust and autonomy." },
+                { id:17, toUserId:2, fromUserId:5, type:"Upward", date:"Mar 09, 2026", text:"Joe is always available when needed. Great at resolving client escalations." },
+            ];
+
+            // Check-ins Data
+            checkinsData = [
+                { id:1, managerId:3, employeeId:6, date:"Mar 14, 2026", mood:"😊", notes:"Nike resizes wrapped successfully. Leah feeling good about progress. Wants to develop B2B skills.", actionItems:["Complete AE tutorial", "Prepare motion library proposal"] },
+                { id:2, managerId:3, employeeId:7, date:"Mar 13, 2026", mood:"🚀", notes:"Steph's design system v2 coming along well. Confident and energised.", actionItems:["Finish design system docs", "Share with wider team"] },
+                { id:3, managerId:3, employeeId:8, date:"Mar 12, 2026", mood:"😊", notes:"Georgie settling in well. First month has been positive. Keen to learn After Effects.", actionItems:["Set up AE training", "Pair with Leah on next project"] },
+                { id:4, managerId:4, employeeId:9, date:"Mar 11, 2026", mood:"👍", notes:"Adam's motion leadership is strong. Gymshark production on track. Wants to improve delegation.", actionItems:["Delegate resize work to Luke", "Trial AI tools for scripts"] },
+                { id:5, managerId:4, employeeId:10, date:"Mar 10, 2026", mood:"👍", notes:"Mike's production quality is consistently high. Equipment audit needed.", actionItems:["Complete equipment audit", "Plan Q2 production schedule"] },
+                { id:6, managerId:4, employeeId:11, date:"Mar 09, 2026", mood:"🚀", notes:"Luke's motion templates saving the team hours. Great initiative and energy.", actionItems:["Learn Cinema 4D basics", "Build portfolio reel"] },
+                { id:7, managerId:5, employeeId:12, date:"Mar 13, 2026", mood:"😊", notes:"Dan's Meta campaigns performing above target. Would like training on new platforms.", actionItems:["Research TikTok Ads", "Plan skill development session"] },
+                { id:8, managerId:5, employeeId:13, date:"Mar 12, 2026", mood:"🚀", notes:"Obenewa's AI research has been thorough. Team interviews producing great insights.", actionItems:["Finalise AI task spreadsheet", "Present findings to leadership"] },
+                { id:9, managerId:1, employeeId:3, date:"Mar 10, 2026", mood:"👍", notes:"Beau's creative team is hitting targets. Fenty and Nike feedback strong. Discuss hiring.", actionItems:["Review hiring budget", "Post junior designer role"] },
+                { id:10, managerId:1, employeeId:4, date:"Mar 09, 2026", mood:"🚀", notes:"Sam's ops improvements are transforming the agency. Workflow is smoother than ever.", actionItems:["Finalise AI roadmap", "Present to board Q2"] },
+                { id:11, managerId:2, employeeId:5, date:"Mar 08, 2026", mood:"👍", notes:"Louise's account management is exemplary. Client retention at all-time high.", actionItems:["Plan account review cycle", "Train Dan on CRM"] },
+            ];
+
+            // Achievements
+            achievementsData = {};
+            TEAM_DATA.forEach(u => {
+                const sets = {
+                    1: [{ title:"Agency Founder", badge:"👑" },{ title:"Strategic Vision", badge:"⭐" },{ title:"Client Champion", badge:"🎯" }],
+                    2: [{ title:"Agency Founder", badge:"👑" },{ title:"Growth Leader", badge:"📈" },{ title:"Culture Builder", badge:"🔥" }],
+                    3: [{ title:"Creative Excellence", badge:"🎨" },{ title:"Team Builder", badge:"👥" },{ title:"Client Relations", badge:"⭐" }],
+                    4: [{ title:"Process Optimizer", badge:"⚙️" },{ title:"Operations Expert", badge:"📦" },{ title:"AI Champion", badge:"🤖" }],
+                    5: [{ title:"Account Star", badge:"⭐" },{ title:"Client Retention", badge:"🎯" },{ title:"Team Mentor", badge:"💡" }],
+                    6: [{ title:"Design Star", badge:"✨" },{ title:"Quick Turnaround", badge:"⚡" },{ title:"Growth Mindset", badge:"📈" }],
+                    7: [{ title:"Design Systems", badge:"🎨" },{ title:"Mentor", badge:"👥" },{ title:"Quality Leader", badge:"✅" }],
+                    8: [{ title:"Fast Learner", badge:"🚀" },{ title:"Team Spirit", badge:"🔥" },{ title:"Creative Spark", badge:"✨" }],
+                    9: [{ title:"Motion Leader", badge:"🎬" },{ title:"Delivery Expert", badge:"📦" },{ title:"Team Leader", badge:"🏆" }],
+                    10: [{ title:"Production Master", badge:"🎬" },{ title:"Quality Keeper", badge:"✅" },{ title:"Reliable", badge:"🔥" }],
+                    11: [{ title:"Template Wizard", badge:"⚡" },{ title:"Quick Learner", badge:"🚀" },{ title:"Initiative", badge:"💡" }],
+                    12: [{ title:"Performance Specialist", badge:"📊" },{ title:"Data Driven", badge:"📈" },{ title:"Meta Expert", badge:"🎯" }],
+                    13: [{ title:"AI Pioneer", badge:"🤖" },{ title:"Research Star", badge:"🧠" },{ title:"Innovation", badge:"💡" }],
+                };
+                achievementsData[u.id] = sets[u.id] || [];
+            });
+        }
+
+        // ============================================================================
+        // LOGIN SYSTEM
+        // ============================================================================
+
+        function populateQuickAccess() {
+            const grid = document.getElementById('quickAccessGrid');
+            grid.innerHTML = '';
+
+            TEAM_DATA.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'quick-access-user';
+                div.onclick = () => quickAccessLogin(user);
+
+                div.innerHTML = `
+                    <div class="quick-access-avatar" style="background-color: ${user.color}">
+                        ${user.initials}
+                    </div>
+                    <div class="quick-access-info">
+                        <div class="quick-access-name">${user.name}</div>
+                        <div class="quick-access-role">${user.role.split('/')[0]}</div>
+                    </div>
+                `;
+
+                grid.appendChild(div);
+            });
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value.toLowerCase();
+            const password = document.getElementById('passwordInput').value;
+
+            const user = TEAM_DATA.find(u => u.email.toLowerCase() === email && password === 'noise2026');
+
+            if (user) {
+                currentUser = user;
+                showMainApp();
+            } else {
+                alert('Invalid email or password. Try: [name]@noisemedia.co.uk with password "noise2026"');
+            }
+        }
+
+        function quickAccessLogin(user) {
+            currentUser = user;
+            document.getElementById('emailInput').value = user.email;
+            document.getElementById('passwordInput').value = 'noise2026';
+            showMainApp();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            closeModal();
+            document.getElementById('loginContainer').classList.add('active');
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('emailInput').value = '';
+            document.getElementById('passwordInput').value = '';
+            navigateTo('moodBoard');
+        }
+
+        function showMainApp() {
+            document.getElementById('loginContainer').classList.remove('active');
+            document.getElementById('appContainer').style.display = 'flex';
+            updateSidebarUser();
+            updateNavVisibility();
+            renderMoodBoard();
+            navigateTo('moodBoard');
+        }
+
+        // ============================================================================
+        // SIDEBAR & NAVIGATION
+        // ============================================================================
+
+        function updateSidebarUser() {
+            const avatar = document.getElementById('sidebarUserAvatar');
+            const name = document.getElementById('sidebarUserName');
+            const role = document.getElementById('sidebarUserRole');
+
+            avatar.textContent = currentUser.initials;
+            avatar.style.backgroundColor = currentUser.color;
+            name.textContent = currentUser.name;
+            role.textContent = currentUser.role.split('/')[0];
+        }
+
+        function updateNavVisibility() {
+            const lineManagersNav = document.getElementById('lineManagersNav');
+            if (currentUser.level < 2) {
+                lineManagersNav.style.display = 'none';
+            } else {
+                lineManagersNav.style.display = 'flex';
+            }
+        }
+
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+            // Update nav
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+
+            // Show active page
+            const activePage = document.getElementById(page + 'Page');
+            if (activePage) {
+                activePage.classList.add('active');
+
+                // Render page content
+                if (page === 'moodBoard') renderMoodBoard();
+                else if (page === 'profile') renderProfile();
+                else if (page === 'lineManagers') renderLineManagers();
+                else if (page === 'feedback') renderFeedback();
+                else if (page === 'checkins') renderCheckins();
+            }
+        }
+
+        // ============================================================================
+        // PAGE: MOOD BOARD
+        // ============================================================================
+
+        function renderMoodBoard() {
+            const grid = document.getElementById('moodCardGrid');
+            grid.innerHTML = '';
+
+            moodBoardData.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'mood-card';
+                card.style.borderLeftColor = post.color;
+
+                card.innerHTML = `
+                    <div class="mood-card-header">
+                        <div class="mood-card-avatar" style="background-color: ${post.color}">
+                            ${post.initials}
+                        </div>
+                        <div class="mood-card-meta">
+                            <span class="mood-card-name">${post.name}</span>
+                            <div class="mood-card-time">${post.timestamp}</div>
+                        </div>
+                    </div>
+                    <div class="mood-card-text">${post.message}</div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function postMoodUpdate() {
+            const textarea = document.getElementById('moodInput');
+            const message = textarea.value.trim();
+
+            if (!message) {
+                alert('Please write something before posting.');
+                return;
+            }
+
+            const newPost = {
+                id: moodBoardData.length + 1,
+                userId: currentUser.id,
+                name: currentUser.name,
+                initials: currentUser.initials,
+                color: currentUser.color,
+                timestamp: 'just now',
+                message: message
+            };
+
+            moodBoardData.unshift(newPost);
+            renderMoodBoard();
+            resetMoodInput();
+        }
+
+        function resetMoodInput() {
+            document.getElementById('moodInput').value = '';
+        }
+
+        // ============================================================================
+        // PAGE: PROFILE
+        // ============================================================================
+
+        function renderProfile() {
+            const container = document.getElementById('profileContainer');
+
+            // Check access
+            if (currentUser.level === 3) {
+                // Level 3 can only see themselves
+                container.innerHTML = renderProfileView(currentUser);
+            } else if (currentUser.level === 2) {
+                // Level 2 can see themselves and their reports
+                const reports = TEAM_DATA.filter(u => u.manager === currentUser.name);
+                container.innerHTML = renderProfileView(currentUser, reports);
+            } else {
+                // Level 1 can see everyone
+                container.innerHTML = renderProfileView(currentUser, TEAM_DATA.filter(u => u.id !== currentUser.id));
+            }
+        }
+
+        function renderProfileView(user, selectableUsers = []) {
+            let html = `
+                <div class="profile-left">
+            `;
+
+            if (selectableUsers.length > 0) {
+                html += `
+                    <div class="profile-selector">
+                        <label class="profile-selector-label">View Profile</label>
+                        <select class="profile-selector-select" onchange="renderProfileForUser(parseInt(this.value))">
+                            <option value="${user.id}">${user.name} (You)</option>
+                `;
+
+                selectableUsers.forEach(u => {
+                    html += `<option value="${u.id}">${u.name}</option>`;
+                });
+
+                html += `</select></div>`;
+            }
+
+            html += `
+                    <div class="profile-info-block">
+                        <div class="profile-info-label">Position</div>
+                        <div class="profile-info-value">${user.role}</div>
+                    </div>
+                    <div class="profile-info-block">
+                        <div class="profile-info-label">Department</div>
+                        <div class="profile-info-value">${user.dept}</div>
+                    </div>
+                    ${user.manager ? `
+                    <div class="profile-info-block">
+                        <div class="profile-info-label">Line Manager</div>
+                        <div class="profile-info-value">${user.manager}</div>
+                    </div>
+                    ` : ''}
+                    <div class="profile-info-block">
+                        <div class="profile-info-label">Birthday</div>
+                        <div class="profile-info-value">${user.birthday}</div>
+                    </div>
+                    <div class="profile-info-block">
+                        <div class="profile-info-label">Probation Ends</div>
+                        <div class="profile-info-value">N/A</div>
+                    </div>
+                </div>
+
+                <div class="profile-right">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" style="background-color: ${user.color}">
+                            ${user.initials}
+                        </div>
+                        <div class="profile-header-info">
+                            <div class="profile-name">${user.name}</div>
+                            <div class="profile-role">${user.role}</div>
+                            <div class="profile-dept">${user.dept}</div>
+                        </div>
+                    </div>
+            `;
+
+            // Goals Section
+            const goals = profileGoalsData[user.id] || [];
+            const completedCount = goals.filter(g => g.completed).length;
+
+            html += `
+                    <div class="profile-goals-section">
+                        <div class="profile-section-title">Goals</div>
+                        <div class="goals-progress">
+                            <div class="goals-progress-label">
+                                <span>${completedCount}/${goals.length} completed</span>
+                                <span>${Math.round((completedCount / goals.length) * 100)}%</span>
+                            </div>
+                            <div class="goals-progress-bar">
+                                <div class="goals-progress-fill" style="width: ${(completedCount / goals.length) * 100}%"></div>
+                            </div>
+                        </div>
+                        <div class="goals-list">
+            `;
+
+            goals.forEach((goal, idx) => {
+                html += `
+                        <div class="goal-item">
+                            <input type="checkbox" class="goal-checkbox" ${goal.completed ? 'checked' : ''} disabled>
+                            <div class="goal-text">${goal.text}</div>
+                            <div class="goal-notes">${goal.notes}</div>
+                        </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+            `;
+
+            // Feedback Section
+            const userFeedback = feedbackData.filter(f => f.toUserId === user.id);
+            html += `
+                    <div class="feedback-section">
+                        <div class="profile-section-title">Recent Feedback</div>
+                        <div class="feedback-list">
+            `;
+
+            userFeedback.forEach(f => {
+                const fromUser = TEAM_DATA.find(u => u.id === f.fromUserId);
+                html += `
+                        <div class="feedback-card">
+                            <div class="feedback-card-header">
+                                <span class="feedback-from">${fromUser.name}</span>
+                                <span class="feedback-type">${f.type}</span>
+                            </div>
+                            <div class="feedback-date">${f.date}</div>
+                            <div class="feedback-text">${f.text}</div>
+                        </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+            `;
+
+            // Achievements Section
+            const achievements = achievementsData[user.id] || [];
+            html += `
+                    <div class="feedback-section">
+                        <div class="profile-section-title">Achievements</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            `;
+
+            achievements.forEach(a => {
+                html += `
+                        <div style="background-color: #F8F8E9; padding: 16px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">${a.badge}</div>
+                            <div style="font-size: 11px; font-weight: 600; color: #43464D;">${a.title}</div>
+                        </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function renderProfileForUser(userId) {
+            const user = TEAM_DATA.find(u => u.id === userId);
+            if (user) {
+                const container = document.getElementById('profileContainer');
+
+                let selectableUsers = [];
+                if (currentUser.level === 2) {
+                    selectableUsers = TEAM_DATA.filter(u => u.manager === currentUser.name);
+                } else if (currentUser.level === 1) {
+                    selectableUsers = TEAM_DATA.filter(u => u.id !== currentUser.id);
+                }
+
+                container.innerHTML = renderProfileView(user, selectableUsers);
+            }
+        }
+
+        // ============================================================================
+        // PAGE: LINE MANAGERS
+        // ============================================================================
+
+        function renderLineManagers() {
+            if (currentUser.level < 2) {
+                const container = document.getElementById('lineManagersContainer');
+                container.innerHTML = '<div class="access-restricted"><div class="access-restricted-icon">🔒</div><div class="access-restricted-title">Access Restricted</div><div class="access-restricted-text">Only line managers and above can access this page.</div></div>';
+                return;
+            }
+
+            const container = document.getElementById('lineManagersContainer');
+            let html = `
+                <div class="kanban-board">
+                    <div class="kanban-column">
+                        <div class="kanban-column-title">To Discuss</div>
+                        <div class="kanban-cards" id="kanbanTodo"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-column-title">In Progress</div>
+                        <div class="kanban-cards" id="kanbanInProgress"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-column-title">Completed</div>
+                        <div class="kanban-cards" id="kanbanCompleted"></div>
+                    </div>
+                </div>
+
+                <div class="line-managers-sidebar">
+                    <div class="performance-card">
+                        <div class="performance-card-title">Q1 2026 Reviews</div>
+                        <div class="performance-stat">
+                            <div class="performance-stat-label">Completed</div>
+                            <div class="performance-stat-value">3</div>
+                        </div>
+                        <div class="performance-stat">
+                            <div class="performance-stat-label">Pending</div>
+                            <div class="performance-stat-value">2</div>
+                        </div>
+                        <div class="performance-stat">
+                            <div class="performance-stat-label">Overdue</div>
+                            <div class="performance-stat-value">1</div>
+                        </div>
+                    </div>
+
+                    <div class="team-progress-list">
+                        <div class="team-progress-title">Team Review Status</div>
+                        <div id="teamProgressList"></div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            // Populate kanban boards
+            const tasksData = getManagerTasks();
+            document.getElementById('kanbanTodo').innerHTML = tasksData.todo.map(t => `
+                <div class="kanban-card">
+                    <div class="kanban-card-text">${t.text}</div>
+                    <div class="kanban-card-meta">${t.employee}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('kanbanInProgress').innerHTML = tasksData.inProgress.map(t => `
+                <div class="kanban-card">
+                    <div class="kanban-card-text">${t.text}</div>
+                    <div class="kanban-card-meta">${t.employee}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('kanbanCompleted').innerHTML = tasksData.completed.map(t => `
+                <div class="kanban-card">
+                    <div class="kanban-card-text">${t.text}</div>
+                    <div class="kanban-card-meta">${t.employee}</div>
+                </div>
+            `).join('');
+
+            // Populate team progress
+            const teamProgress = getTeamProgressStatus();
+            document.getElementById('teamProgressList').innerHTML = teamProgress.map(item => `
+                <div class="team-member-progress">
+                    <div class="team-member-name">${item.name}</div>
+                    <div class="team-member-status status-${item.status.toLowerCase()}">${item.status}</div>
+                </div>
+            `).join('');
+        }
+
+        function getManagerTasks() {
+            const reports = TEAM_DATA.filter(u => u.manager === currentUser.name);
+            const reportNames = reports.map(r => r.name);
+
+            return {
+                todo: [
+                    { text: `${reportNames[0] || 'Team member'}: Development goals discussion`, employee: "Q1 Planning" },
+                    { text: `${reportNames[1] || 'Team member'}: Career progression review`, employee: "Pending" }
+                ],
+                inProgress: [
+                    { text: `${reportNames[0] || 'Team member'}: Q1 performance review`, employee: "In Progress" },
+                    { text: "360 feedback collection", employee: "Due Mar 25" }
+                ],
+                completed: [
+                    { text: "Mid-year check-in planning", employee: "Done" },
+                    { text: "Team capability assessment", employee: "Done" }
+                ]
+            };
+        }
+
+        function getTeamProgressStatus() {
+            const reports = TEAM_DATA.filter(u => u.manager === currentUser.name);
+            return reports.map(r => ({
+                name: r.name,
+                status: Math.random() > 0.5 ? 'Done' : (Math.random() > 0.6 ? 'Pending' : 'Overdue')
+            }));
+        }
+
+        // ============================================================================
+        // PAGE: 360 FEEDBACK
+        // ============================================================================
+
+        function renderFeedback() {
+            const container = document.getElementById('feedbackContainer');
+
+            let html = `
+                <div class="feedback-team-list">
+                    <div class="feedback-team-list-title">Team</div>
+                    <div id="feedbackTeamList"></div>
+                </div>
+
+                <div class="feedback-main">
+                    <div class="feedback-header">
+                        <div class="feedback-header-info">
+                            <div class="feedback-selected-name" id="feedbackSelectedName">Select a team member</div>
+                            <div class="feedback-selected-role" id="feedbackSelectedRole"></div>
+                        </div>
+                    </div>
+
+                    <div class="feedback-tab-bar">
+                        <div class="feedback-tab active" onclick="switchFeedbackTab('received')">Received</div>
+                        <div class="feedback-tab" onclick="switchFeedbackTab('given')">Given</div>
+                    </div>
+
+                    <div class="feedback-content">
+                        <div id="feedbackFormContainer"></div>
+                        <div id="feedbackListContainer"></div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            // Populate team list — same privacy as profiles
+            // Level 3: only themselves
+            // Level 2: themselves + their Level 3 reports
+            // Level 1: everyone
+            let visibleFeedbackUsers;
+            if (currentUser.level === 3) {
+                visibleFeedbackUsers = [currentUser];
+            } else if (currentUser.level === 2) {
+                const reports = TEAM_DATA.filter(u => u.manager === currentUser.name);
+                visibleFeedbackUsers = [currentUser, ...reports];
+            } else {
+                visibleFeedbackUsers = TEAM_DATA;
+            }
+
+            const teamList = document.getElementById('feedbackTeamList');
+            teamList.innerHTML = visibleFeedbackUsers.map(user => `
+                <div class="feedback-team-item ${user.id === currentUser.id ? 'active' : ''}" onclick="selectFeedbackTeamMember(${user.id})">
+                    <div class="feedback-team-avatar" style="background-color: ${user.color}">
+                        ${user.initials}
+                    </div>
+                    <div class="feedback-team-info">
+                        <div class="feedback-team-name">${user.name}</div>
+                        <div class="feedback-team-role">${user.role.split('/')[0]}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            selectFeedbackTeamMember(currentUser.id);
+        }
+
+        let selectedFeedbackUser = null;
+        let currentFeedbackTab = 'received';
+
+        function selectFeedbackTeamMember(userId) {
+            // Access check: ensure user can view this person's feedback
+            const target = TEAM_DATA.find(u => u.id === userId);
+            if (currentUser.level === 3 && userId !== currentUser.id) return;
+            if (currentUser.level === 2 && userId !== currentUser.id && target.manager !== currentUser.name) return;
+
+            selectedFeedbackUser = target;
+
+            document.querySelectorAll('.feedback-team-item').forEach(item => item.classList.remove('active'));
+            if (event && event.target) event.target.closest('.feedback-team-item')?.classList.add('active');
+
+            document.getElementById('feedbackSelectedName').textContent = selectedFeedbackUser.name;
+            document.getElementById('feedbackSelectedRole').textContent = selectedFeedbackUser.role;
+
+            currentFeedbackTab = 'received';
+            document.querySelectorAll('.feedback-tab').forEach((tab, idx) => {
+                tab.classList.toggle('active', idx === 0);
+            });
+
+            renderFeedbackContent();
+        }
+
+        function switchFeedbackTab(tab) {
+            currentFeedbackTab = tab;
+
+            document.querySelectorAll('.feedback-tab').forEach((t, idx) => {
+                t.classList.toggle('active', (tab === 'received' && idx === 0) || (tab === 'given' && idx === 1));
+            });
+
+            renderFeedbackContent();
+        }
+
+        function renderFeedbackContent() {
+            let feedbackList = [];
+
+            if (currentFeedbackTab === 'received') {
+                feedbackList = feedbackData.filter(f => f.toUserId === selectedFeedbackUser.id);
+            } else {
+                feedbackList = feedbackData.filter(f => f.fromUserId === selectedFeedbackUser.id);
+            }
+
+            const formHTML = `
+                <div class="feedback-form">
+                    <div style="font-weight: 600; margin-bottom: 12px;">Submit Feedback</div>
+                    <div class="feedback-form-group">
+                        <label class="feedback-form-label">Feedback Type</label>
+                        <select class="feedback-form-input" id="feedbackTypeSelect">
+                            <option>Peer</option>
+                            <option>Manager</option>
+                            <option>Upward</option>
+                        </select>
+                    </div>
+                    <div class="feedback-form-group">
+                        <label class="feedback-form-label">Your Feedback</label>
+                        <textarea class="feedback-form-textarea" id="feedbackTextarea" placeholder="Share constructive feedback..."></textarea>
+                    </div>
+                    <button class="feedback-form-btn" onclick="submitFeedback()">Submit Feedback</button>
+                </div>
+            `;
+
+            const listHTML = `
+                <div class="feedback-list">
+                    ${feedbackList.map(f => {
+                        const fromUser = TEAM_DATA.find(u => u.id === f.fromUserId);
+                        return `
+                            <div class="feedback-item">
+                                <div class="feedback-item-header">
+                                    <span class="feedback-item-from">${fromUser.name}</span>
+                                    <span class="feedback-item-type">${f.type}</span>
+                                </div>
+                                <div class="feedback-item-date">${f.date}</div>
+                                <div class="feedback-item-text">${f.text}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            if (currentFeedbackTab === 'received') {
+                document.getElementById('feedbackFormContainer').innerHTML = formHTML;
+                document.getElementById('feedbackListContainer').innerHTML = listHTML;
+            } else {
+                document.getElementById('feedbackFormContainer').innerHTML = '';
+                document.getElementById('feedbackListContainer').innerHTML = listHTML;
+            }
+        }
+
+        function submitFeedback() {
+            const type = document.getElementById('feedbackTypeSelect').value;
+            const text = document.getElementById('feedbackTextarea').value.trim();
+
+            if (!text) {
+                alert('Please write your feedback.');
+                return;
+            }
+
+            const newFeedback = {
+                id: feedbackData.length + 1,
+                toUserId: selectedFeedbackUser.id,
+                fromUserId: currentUser.id,
+                type: type,
+                date: new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }),
+                text: text
+            };
+
+            feedbackData.push(newFeedback);
+            document.getElementById('feedbackTextarea').value = '';
+            renderFeedbackContent();
+        }
+
+        // ============================================================================
+        // PAGE: CHECKINS
+        // ============================================================================
+
+        function renderCheckins() {
+            const visibleCheckins = getVisibleCheckins();
+            const actionItemCount = visibleCheckins.reduce((sum, c) => sum + (c.actionItems?.length || 0), 0);
+
+            let html = `
+                <div class="checkins-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">This Month</div>
+                        <div class="stat-value">${visibleCheckins.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Action Items</div>
+                        <div class="stat-value">${actionItemCount}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg. Sentiment</div>
+                        <div class="stat-value">😊</div>
+                    </div>
+                </div>
+
+                <div class="checkins-list">
+            `;
+
+            visibleCheckins.forEach(c => {
+                const manager = TEAM_DATA.find(u => u.id === c.managerId);
+                const employee = TEAM_DATA.find(u => u.id === c.employeeId);
+
+                html += `
+                    <div class="checkin-item">
+                        <div class="checkin-avatar-section">
+                            <div class="checkin-avatar" style="background-color: ${employee.color}">
+                                ${employee.initials}
+                            </div>
+                            <div class="checkin-mood">${c.mood}</div>
+                        </div>
+                        <div class="checkin-content">
+                            <div class="checkin-header">
+                                <div class="checkin-title">${manager.name} ↔ ${employee.name}</div>
+                                <div class="checkin-date">${c.date}</div>
+                            </div>
+                            <div class="checkin-notes">${c.notes}</div>
+                            ${c.actionItems && c.actionItems.length > 0 ? `
+                            <div class="checkin-action-items">
+                                <div class="checkin-action-label">Action Items</div>
+                                <div class="checkin-action-list">
+                                    ${c.actionItems.map(item => `<div class="checkin-action">${item}</div>`).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+
+            document.getElementById('checkinsContainer').innerHTML = html;
+        }
+
+        function getVisibleCheckins() {
+            if (currentUser.level === 1) {
+                return checkinsData;
+            } else if (currentUser.level === 2) {
+                return checkinsData.filter(c =>
+                    c.managerId === currentUser.id ||
+                    TEAM_DATA.find(u => u.id === c.employeeId)?.manager === currentUser.name
+                );
+            } else {
+                return checkinsData.filter(c => c.employeeId === currentUser.id);
+            }
+        }
+
+        // ============================================================================
+        // MODAL SYSTEM
+        // ============================================================================
+
+        function closeModal(event) {
+            if (event && event.target !== document.getElementById('modalOverlay')) return;
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        function handleModalSubmit(event) {
+            event.preventDefault();
+            closeModal();
+        }
+
+        // ============================================================================
+        // INITIALIZATION
+        // ============================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAppData();
+            populateQuickAccess();
+        });
+    </script>
+</body>
+</html>
