@@ -2487,10 +2487,6 @@
 
                 <div class="mood-card-grid" id="moodCardGrid"></div>
 
-                <div class="comment-section">
-                    <label class="home-card-title">Leave a comment</label>
-                    <textarea class="comment-input" placeholder="Add a comment..."></textarea>
-                </div>
             `;
 
             container.innerHTML = html;
@@ -2737,11 +2733,7 @@
                     </div>
                 </div>
 
-                <!-- Leave a comment -->
-                <div class="comment-section">
-                    <label class="home-card-title">Leave a comment</label>
-                    <textarea class="comment-input" placeholder="Add a comment..."></textarea>
-                </div>
+                
             </div>
             `;
 
@@ -2784,21 +2776,21 @@
                             <div style="display: flex; flex-direction: column;">
                                 <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">To Discuss</div>
                                 <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanTodo"></div>
-                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                                <button class="kanban-add-btn" onclick="addKanbanCard('kanbanTodo')">+ Add Card</button>
                             </div>
 
                             <!-- IN PROGRESS COLUMN -->
                             <div style="display: flex; flex-direction: column;">
                                 <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">In Progress</div>
                                 <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanInProgress"></div>
-                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                                <button class="kanban-add-btn" onclick="addKanbanCard('kanbanInProgress')">+ Add Card</button>
                             </div>
 
                             <!-- COMPLETED COLUMN -->
                             <div style="display: flex; flex-direction: column;">
                                 <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">Completed</div>
                                 <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanCompleted"></div>
-                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                                <button class="kanban-add-btn" onclick="addKanbanCard('kanbanCompleted')">+ Add Card</button>
                             </div>
                         </div>
                     </div>
@@ -2858,6 +2850,22 @@
                     <div class="kanban-card-meta" style="font-size: 11px; color: #8C8C8C;">${t.employee}</div>
                 </div>
             `).join('');
+        }
+
+        function addKanbanCard(columnId) {
+            const cardText = prompt('Enter card title:');
+            if (!cardText || !cardText.trim()) return;
+            const label = prompt('Enter a label (e.g. name, status, date):', '') || '';
+            const column = document.getElementById(columnId);
+            if (!column) return;
+            const borderColor = columnId === 'kanbanInProgress' ? 'border-left: 4px solid #9070C0;' : columnId === 'kanbanCompleted' ? 'border-left: 4px solid #5CB85C;' : '';
+            const strike = columnId === 'kanbanCompleted' ? 'text-decoration: line-through;' : '';
+            const opacity = columnId === 'kanbanCompleted' ? 'opacity: 0.7;' : '';
+            const card = document.createElement('div');
+            card.className = 'kanban-card';
+            card.style.cssText = 'background: white; padding: 16px; border-radius: 6px; border: 1px solid #E5E5E0; cursor: grab; ' + borderColor + opacity;
+            card.innerHTML = '<div class="kanban-card-text" style="font-size: 13px; font-weight: 600; color: #1A1B1F; margin-bottom: 8px; ' + strike + '">' + cardText.trim() + '</div><div class="kanban-card-meta" style="font-size: 11px; color: #8C8C8C;">' + label.trim() + '</div>';
+            column.appendChild(card);
         }
 
         function getManagerTasks() {
@@ -3171,6 +3179,42 @@
                     this.parentElement.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                 });
+            });
+
+            document.querySelectorAll('.checkin-save-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var card = this.closest('.checkin-card');
+                    var title = card.querySelector('.checkin-card-title').textContent;
+                    var textarea = card.querySelector('.checkin-textarea');
+                    var content = textarea ? textarea.value.trim() : '';
+                    var emoji = card.querySelector('.emoji-btn.active');
+                    var saveData = { content: content, date: new Date().toISOString(), user: currentUser.name };
+                    if (emoji) saveData.mood = emoji.textContent;
+                    var key = 'checkin_' + currentUser.id + '_' + title.replace(/\s+/g, '_').toLowerCase();
+                    localStorage.setItem(key, JSON.stringify(saveData));
+                    var originalText = this.textContent;
+                    this.textContent = 'Saved!';
+                    this.style.backgroundColor = '#5CB85C';
+                    var self = this;
+                    setTimeout(function() { self.textContent = originalText; self.style.backgroundColor = ''; }, 2000);
+                });
+            });
+
+            document.querySelectorAll('.checkin-card').forEach(function(card) {
+                var title = card.querySelector('.checkin-card-title').textContent;
+                var key = 'checkin_' + currentUser.id + '_' + title.replace(/\s+/g, '_').toLowerCase();
+                var saved = localStorage.getItem(key);
+                if (saved) {
+                    var data = JSON.parse(saved);
+                    var textarea = card.querySelector('.checkin-textarea');
+                    if (textarea && data.content) textarea.value = data.content;
+                    if (data.mood) {
+                        card.querySelectorAll('.emoji-btn').forEach(function(btn) {
+                            if (btn.textContent === data.mood) btn.classList.add('active');
+                        });
+                    }
+                }
             });
         }
 
