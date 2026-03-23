@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NM. HQ — Noise Media Performance Platform v3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================================
+           BRAND DESIGN SYSTEM - CSS VARIABLES
+           ============================================================================ */
+        :root {
+            --color-red: #C73C1E;
+            --color-noir: #1B1B1B;
+            --color-cream: #F8F8E9;
+            --color-offwhite: #F5F5F0;
+            --color-muted: #8C8C8C;
+            --color-body: #43464D;
+            --color-charcoal: #1A1B1F;
+
+            --font-body: 'Montserrat', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --radius: 6px;
+            --transition-speed: 0.2s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-offwhite);
+            color: var(--color-body);
+            overflow: hidden;
+        }
+
+        /* ============================================================================
+           SCROLLBAR STYLING
+           ============================================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-offwhite);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D0D0D0;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A0A0A0;
+        }
+
+        /* ============================================================================
+           LAYOUT: Main container
+           ============================================================================ */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ============================================================================
+           SIDEBAR
+           ============================================================================ */
+        .sidebar {
+            width: 280px;
+            background-color: var(--color-noir);
+            color: var(--color-cream);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 32px 24px;
+            border-right: 1px solid rgba(199, 60, 30, 0.1);
+        }
+
+        .sidebar-logo {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sidebar-logo-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .sidebar-subtitle {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--color-muted);
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 12px;
+            margin-bottom: 8px;
+            color: var(--color-cream);
+            cursor: pointer;
+            border-radius: var(--radius);
+            border-left: 3px solid transparent;
+            transition: all var(--transition-speed);
+            font-size: 14px;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: rgba(199, 60, 30, 0.1);
+        }
+
+        .sidebar-nav-item.active {
+            background-color: rgba(199, 60, 30, 0.15);
+            border-left-color: var(--color-red);
+            color: var(--color-cream);
+        }
+
+        .sidebar-nav-icon {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .sidebar-spacer {
+            flex: 1;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-top: 1px solid rgba(199, 60, 30, 0.1);
+            cursor: pointer;
+        }
+
+        .sidebar-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sidebar-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-cream);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user-role {
+            font-size: 11px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--color-red);
+            color: var(--color-red);
+            padding: 6px 12px;
+            border-radius: var(--radius);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .logout-btn:hover {
+            background-color: var(--color-red);
+            color: white;
+        }
+
+        /* ============================================================================
+           MAIN CONTENT AREA WITH HEADER
+           ============================================================================ */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header-bar {
+            background: white;
+            border-bottom: 1px solid #E5E5E0;
+            padding: 16px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex: 1;
+        }
+
+        .header-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            min-width: 0;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            background: #F8F8E9;
+            transition: all var(--transition-speed);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-red);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--color-muted);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform var(--transition-speed);
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--color-red);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            min-width: 320px;
+            max-width: 400px;
+            margin-top: 12px;
+            z-index: 100;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-dropdown.active {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 16px;
+            border-bottom: 1px solid #E5E5E0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+        }
+
+        .notification-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #E5E5E0;
+            font-size: 12px;
+            color: var(--color-body);
+            transition: background-color var(--transition-speed);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: #F8F8E9;
+        }
+
+        .notification-item-time {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        /* ============================================================================
+           PAGES & CONTENT AREA
+           ============================================================================ */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 48px;
+            animation: pageEnter 0.3s ease-out;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================================
+           PAGE HEADER & TYPOGRAPHY
+           ============================================================================ */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-title-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            margin-left: -4px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--color-muted);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================================
+           CARDS & COMMON COMPONENTS
+           ============================================================================ */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            transition: all var(--transition-speed);
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            border-top: 4px solid var(--color-red);
+            animation: cardEnter 0.4s ease-out forwards;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-red);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #E5E5E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--color-red);
+            transition: width 0.3s ease;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: rgba(199, 60, 30, 0.1);
+            color: var(--color-red);
+            border-radius: 20px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================================
+           TOAST NOTIFICATIONS
+           ============================================================================ */
+        .toast-container {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--color-noir);
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            animation: toastSlideIn 0.3s ease-out;
+            pointer-events: all;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            background: #5CB85C;
+        }
+
+        .toast.error {
+            background: var(--color-red);
+        }
+
+        .toast.info {
+            background: #5A9ECF;
+        }
+
+        /* ============================================================================
+           LOGIN SCREEN
+           ============================================================================ */
+        .login-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-offwhite);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .login-container.active {
+            display: flex;
+        }
+
+        .login-content {
+            width: 100%;
+            max-width: 500px;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .login-glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(199, 60, 30, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .login-form {
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-logo {
+            font-family: var(--font-mono);
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-logo-dot {
+            width: 14px;
+            height: 14px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .login-subtitle {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-body);
+            margin-bottom: 48px;
+            font-weight: 700;
+        }
+
+        .login-input-group {
+            margin-bottom: 20px;
+        }
+
+        .login-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-body);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: white;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-charcoal);
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: all var(--transition-speed);
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--color-red);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
+        }
+
+        .login-input::placeholder {
+            color: var(--color-muted);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 32px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(199, 60, 30, 0.3);
+        }
+
+        .quick-access-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-body);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-access-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background-color: white;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .quick-access-user:hover {
+            background-color: #FFF5F3;
+            border-color: var(--color-red);
+            box-shadow: 0 2px 8px rgba(199, 60, 30, 0.1);
+        }
+
+        .quick-access-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .quick-access-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .quick-access-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .quick-access-role {
+            font-size: 10px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ============================================================================
+           QUICK STATS ROW (HOME PAGE)
+           ============================================================================ */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .quick-stat-item {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            text-align: center;
+        }
+
+        .quick-stat-label {
+            font-size: 11px;
+            color: var(--color-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .quick-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        /* ============================================================================
+           HOME PAGE / MOOD BOARD
+           ============================================================================ */
+        .mood-board-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mood-input-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            margin-bottom: 32px;
+        }
+
+        .mood-input-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .mood-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            color: var(--color-body);
+            transition: all var(--transition-speed);
+        }
+
+        .mood-textarea:focus {
+            outline: none;
+            border-color: var(--color-red);
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
+        }
+
+        .mood-input-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .mood-btn-cancel {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .mood-btn-cancel:hover {
+            border-color: var(--color-body);
+            color: var(--color-body);
+        }
+
+        .mood-btn-post {
+            padding: 10px 24px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .mood-btn-post:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 60, 30, 0.3);
+        }
+
+        .mood-btn-post.success {
+            background-color: #5CB85C;
+        }
+
+        .mood-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            flex: 1;
+        }
+
+        .mood-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            border-left: 4px solid #E5E5E0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition-speed);
+            animation: cardEnter 0.4s ease-out forwards;
+        }
+
+        .mood-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .mood-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .mood-card-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .mood-card-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mood-card-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            display: block;
+        }
+
+        .mood-card-time {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 2px;
+        }
+
+        .mood-card-text {
+            font-size: 14px;
+            color: var(--color-body);
+            line-height: 1.6;
+        }
+
+        /* ============================================================================
+           PROFILE PAGE
+           ============================================================================ */
+        .profile-container {
+            flex: 1;
+            display: flex;
+            gap: 32px;
+        }
+
+        .profile-left {
+            flex: 0 0 350px;
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            height: fit-content;
+        }
+
+        .profile-selector {
+            margin-bottom: 24px;
+        }
+
+        .profile-selector-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .profile-selector-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            cursor: pointer;
+        }
+
+        .profile-info-block {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #E5E5E0;
+        }
+
+        .profile-info-block:last-child {
+            border-bottom: none;
+        }
+
+        .profile-info-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .profile-info-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-charcoal);
+        }
+
+        .profile-right {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .profile-header {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .profile-header-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-family: var(--font-mono);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .profile-role {
+            font-size: 14px;
+            color: var(--color-red);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .profile-dept {
+            font-size: 13px;
+            color: var(--color-muted);
+        }
+
+        .profile-goals-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        .profile-section-title {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-section-title::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .goals-progress {
+            margin-bottom: 20px;
+        }
+
+        .goals-progress-label {
+            font-size: 13px;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .goals-progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #E5E5E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .goals-progress-fill {
+            height: 100%;
+            background-color: var(--color-red);
+            transition: width 0.3s ease;
+        }
+
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .goal-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .goal-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #E5E5E0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all var(--transition-speed);
+        }
+
+        .goal-checkbox:hover {
+            border-color: var(--color-red);
+        }
+
+        .goal-checkbox.checked {
+            background-color: var(--color-red);
+            border-color: var(--color-red);
+            color: white;
+        }
+
+        .goal-text {
+            flex: 1;
+            font-size: 13px;
+            color: var(--color-body);
+        }
+
+        .goal-notes {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        /* ============================================================================
+           KANBAN BOARD (LINE MANAGERS PAGE)
+           ============================================================================ */
+        .line-managers-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            height: fit-content;
+        }
+
+        .kanban-column {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid #E5E5E0;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kanban-column-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kanban-column-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-red);
+            border-radius: 50%;
+        }
+
+        .kanban-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+            margin-bottom: 16px;
+        }
+
+        .kanban-card {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            border-left: 4px solid var(--color-red);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            position: relative;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .kanban-card-delete {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--color-muted);
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+            padding: 4px;
+        }
+
+        .kanban-card:hover .kanban-card-delete {
+            opacity: 1;
+        }
+
+        .kanban-card-delete:hover {
+            color: var(--color-red);
+        }
+
+        .kanban-card-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-body);
+            padding-right: 20px;
+        }
+
+        .kanban-card-meta {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 6px;
+        }
+
+        .kanban-add-btn {
+            padding: 12px;
+            background-color: #F8F8E9;
+            border: 1px dashed #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-align: center;
+        }
+
+        .kanban-add-btn:hover {
+            background-color: white;
+            border-color: var(--color-red);
+            color: var(--color-red);
+        }
+
+        .line-managers-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .performance-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+        }
+
+        .performance-card-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .performance-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E5E0;
+        }
+
+        .performance-stat:last-child {
+            border-bottom: none;
+        }
+
+        .performance-stat-label {
+            font-size: 12px;
+            color: var(--color-muted);
+        }
+
+        .performance-stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        /* ============================================================================
+           360 FEEDBACK PAGE
+           ============================================================================ */
+        .feedback-page-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .feedback-team-list {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            height: fit-content;
+            border: 1px solid #E5E5E0;
+        }
+
+        .feedback-team-list-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .feedback-team-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: all var(--transition-speed);
+            margin-bottom: 8px;
+        }
+
+        .feedback-team-item:hover {
+            background-color: #F8F8E9;
+        }
+
+        .feedback-team-item.active {
+            background-color: rgba(199, 60, 30, 0.1);
+            border-left: 3px solid var(--color-red);
+            padding-left: 9px;
+        }
+
+        .feedback-team-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .feedback-team-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .feedback-team-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-body);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feedback-team-role {
+            font-size: 10px;
+            color: var(--color-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .feedback-main {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feedback-header {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border: 1px solid #E5E5E0;
+        }
+
+        .feedback-header-info {
+            flex: 1;
+        }
+
+        .feedback-selected-name {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--color-charcoal);
+        }
+
+        .feedback-selected-role {
+            font-size: 13px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        .feedback-tab-bar {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid #E5E5E0;
+            background: white;
+            padding: 0 24px;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .feedback-tab {
+            padding: 16px 0;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-muted);
+            transition: all var(--transition-speed);
+        }
+
+        .feedback-tab.active {
+            color: var(--color-red);
+            border-bottom-color: var(--color-red);
+        }
+
+        .feedback-content {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #E5E5E0;
+        }
+
+        .feedback-form {
+            background-color: #F8F8E9;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        .feedback-form-group {
+            margin-bottom: 16px;
+        }
+
+        .feedback-form-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .feedback-form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+        }
+
+        .feedback-form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .feedback-form-btn {
+            padding: 10px 20px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .feedback-form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(199, 60, 30, 0.3);
+        }
+
+        .feedback-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feedback-item {
+            padding: 16px;
+            background-color: #F8F8E9;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--color-red);
+        }
+
+        .feedback-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .feedback-item-from {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .feedback-item-type {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            background-color: rgba(199, 60, 30, 0.2);
+            color: var(--color-red);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .feedback-item-date {
+            font-size: 11px;
+            color: var(--color-muted);
+            margin-top: 4px;
+        }
+
+        .feedback-item-text {
+            font-size: 13px;
+            color: var(--color-body);
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* ============================================================================
+           CHECK-INS PAGE
+           ============================================================================ */
+        .checkins-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkins-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .objectives-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 32px;
+            background: white;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .objectives-table th,
+        .objectives-table td {
+            padding: 16px;
+            border-bottom: 1px solid #E5E5E0;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .objectives-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .objectives-table th {
+            background: #F8F8E9;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--color-muted);
+            border-bottom: 2px solid #E5E5E0;
+        }
+
+        .checkin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .checkin-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkin-card-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .emoji-scale {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        .emoji-btn {
+            font-size: 32px;
+            background: transparent;
+            border: 2px solid #E5E5E0;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .emoji-btn:hover,
+        .emoji-btn.active {
+            border-color: var(--color-red);
+            background: rgba(199, 60, 30, 0.1);
+        }
+
+        .checkin-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--color-body);
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 12px;
+            transition: all var(--transition-speed);
+        }
+
+        .checkin-textarea:focus {
+            outline: none;
+            border-color: var(--color-red);
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
+        }
+
+        .checkin-save-btn {
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: var(--color-red);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            align-self: flex-start;
+        }
+
+        .checkin-save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(199, 60, 30, 0.2);
+        }
+
+        /* ============================================================================
+           RESPONSIVE DESIGN
+           ============================================================================ */
+        @media (max-width: 1200px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .profile-left {
+                flex: none;
+            }
+
+            .line-managers-container {
+                grid-template-columns: 1fr;
+            }
+
+            .line-managers-sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .feedback-page-container {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback-team-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 16px;
+                order: 2;
+            }
+
+            .main-content {
+                order: 1;
+            }
+
+            .header-bar {
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .page {
+                padding: 24px;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .mood-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+
+            .checkins-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .checkin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-access-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================================================
+           ACCESS RESTRICTED
+           ============================================================================ */
+        .access-restricted {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .access-restricted-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .access-restricted-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .access-restricted-text {
+            font-size: 14px;
+            color: var(--color-muted);
+        }
+
+        /* ============================================================================
+           MODAL
+           ============================================================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-charcoal);
+            margin-bottom: 24px;
+        }
+
+        .modal-form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-body);
+        }
+
+        .modal-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-body);
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btn-cancel {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid #E5E5E0;
+            border-radius: var(--radius);
+            color: var(--color-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .modal-btn-cancel:hover {
+            border-color: var(--color-body);
+            color: var(--color-body);
+        }
+
+        .modal-btn-submit {
+            padding: 10px 24px;
+            background-color: var(--color-red);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .modal-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 60, 30, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- =========================================================================
+         LOGIN SCREEN
+         ========================================================================= -->
+    <div class="login-container active" id="loginContainer">
+        <div class="login-content">
+            <div class="login-glow"></div>
+            <div class="login-form">
+                <div class="login-logo">
+                    NM
+                    <div class="login-logo-dot"></div>
+                </div>
+                <div class="login-subtitle">Performance Platform v3</div>
+
+                <div class="login-input-group">
+                    <label class="login-label">Email</label>
+                    <input type="email" id="loginEmail" class="login-input" placeholder="Enter your email">
+                </div>
+
+                <div class="login-input-group">
+                    <label class="login-label">Password</label>
+                    <input type="password" id="loginPassword" class="login-input" placeholder="Enter your password">
+                </div>
+
+                <button class="login-button" onclick="handleLogin()">Sign In</button>
+
+                <div class="quick-access-label">Quick Access</div>
+                <div class="quick-access-grid" id="quickAccessGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         MAIN APP
+         ========================================================================= -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                NM<div class="sidebar-logo-dot"></div>
+            </div>
+            <div class="sidebar-subtitle">PERFORMANCE HUB</div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-label">MENU</div>
+                <div class="sidebar-nav-item active" onclick="switchPage('home')">
+                    <span class="sidebar-nav-icon">🏠</span>
+                    <span>Home</span>
+                </div>
+                <div class="sidebar-nav-item" onclick="switchPage('profile')">
+                    <span class="sidebar-nav-icon">👤</span>
+                    <span>Profile</span>
+                </div>
+                <div class="sidebar-nav-item" id="lineManagersNav" onclick="switchPage('lineManagers')">
+                    <span class="sidebar-nav-icon">📊</span>
+                    <span>Line Managers</span>
+                </div>
+                <div class="sidebar-nav-item" onclick="switchPage('feedback')">
+                    <span class="sidebar-nav-icon">💬</span>
+                    <span>360 Feedback</span>
+                </div>
+                <div class="sidebar-nav-item" onclick="switchPage('checkins')">
+                    <span class="sidebar-nav-icon">📋</span>
+                    <span>Check-ins</span>
+                </div>
+            </div>
+
+            <div class="sidebar-spacer"></div>
+
+            <div class="sidebar-user" onclick="showUserMenu()">
+                <div class="sidebar-user-avatar" id="sidebarUserAvatar"></div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" id="sidebarUserName"></div>
+                    <div class="sidebar-user-role" id="sidebarUserRole"></div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER BAR -->
+            <div class="header-bar">
+                <div class="header-left">
+                    <div class="header-title" id="headerTitle">Home</div>
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-bell" id="notificationBell" onclick="toggleNotifications()">
+                        🔔
+                        <span class="notification-badge" id="notificationBadge">5</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <div class="notification-header">Notifications</div>
+                            <div class="notification-item">
+                                <strong>Beau</strong> commented on Fenty campaign
+                                <div class="notification-item-time">2 hours ago</div>
+                            </div>
+                            <div class="notification-item">
+                                <strong>Sam</strong> shared Gymshark brief
+                                <div class="notification-item-time">3 hours ago</div>
+                            </div>
+                            <div class="notification-item">
+                                <strong>Louise</strong> approved Meta campaign
+                                <div class="notification-item-time">5 hours ago</div>
+                            </div>
+                            <div class="notification-item">
+                                <strong>Mike</strong> production schedule updated
+                                <div class="notification-item-time">1 day ago</div>
+                            </div>
+                            <div class="notification-item">
+                                <strong>Adam</strong> motion review feedback
+                                <div class="notification-item-time">1 day ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <!-- HOME PAGE -->
+                <div class="page active" id="homePage">
+                    <div class="page-header">
+                        <h1 class="page-title">
+                            Mood Board
+                            <div class="page-title-dot"></div>
+                        </h1>
+                        <p class="page-subtitle">Team performance and updates</p>
+                    </div>
+
+                    <!-- QUICK STATS -->
+                    <div class="quick-stats">
+                        <div class="quick-stat-item">
+                            <div class="quick-stat-label">Team Mood</div>
+                            <div class="quick-stat-value">😊</div>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="quick-stat-label">Goals Progress</div>
+                            <div class="quick-stat-value">72%</div>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="quick-stat-label">Active Check-ins</div>
+                            <div class="quick-stat-value">11</div>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="quick-stat-label">Pending Feedback</div>
+                            <div class="quick-stat-value">4</div>
+                        </div>
+                    </div>
+
+                    <!-- MOOD INPUT -->
+                    <div class="mood-input-section">
+                        <label class="mood-input-label">Share your mood</label>
+                        <textarea class="mood-textarea" id="moodInput" placeholder="What's on your mind? Share updates, wins, or ideas..."></textarea>
+                        <div class="mood-input-footer">
+                            <button class="mood-btn-cancel" onclick="clearMoodInput()">Clear</button>
+                            <button class="mood-btn-post" id="moodPostBtn" onclick="postMood()">Post Update</button>
+                        </div>
+                    </div>
+
+                    <!-- NOISE FEED -->
+                    <div style="margin-bottom: 32px;">
+                        <div class="mood-input-label" style="margin-bottom: 16px;">Noise Feed</div>
+                        <div class="mood-card-grid" id="moodCardGrid"></div>
+                    </div>
+                </div>
+
+                <!-- PROFILE PAGE -->
+                <div class="page" id="profilePage">
+                    <div class="page-header">
+                        <h1 class="page-title">
+                            Profile
+                            <div class="page-title-dot"></div>
+                        </h1>
+                        <p class="page-subtitle">Your performance and development</p>
+                    </div>
+
+                    <div class="profile-container">
+                        <div class="profile-left">
+                            <div class="profile-selector">
+                                <label class="profile-selector-label">View Profile</label>
+                                <select class="profile-selector-select" id="profileSelector" onchange="loadProfileData()">
+                                    <option value="">Select a team member...</option>
+                                </select>
+                            </div>
+
+                            <div class="profile-info-block">
+                                <div class="profile-info-label">Role</div>
+                                <div class="profile-info-value" id="sidebarRole">—</div>
+                            </div>
+
+                            <div class="profile-info-block">
+                                <div class="profile-info-label">Department</div>
+                                <div class="profile-info-value" id="sidebarDept">—</div>
+                            </div>
+
+                            <div class="profile-info-block">
+                                <div class="profile-info-label">Email</div>
+                                <div class="profile-info-value" id="sidebarEmail">—</div>
+                            </div>
+
+                            <div class="profile-info-block">
+                                <div class="profile-info-label">Manager</div>
+                                <div class="profile-info-value" id="sidebarManager">—</div>
+                            </div>
+
+                            <div class="profile-info-block">
+                                <div class="profile-info-label">Birthday</div>
+                                <div class="profile-info-value" id="sidebarBirthday">—</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-right">
+                            <div class="profile-header" id="profileHeader"></div>
+
+                            <div class="profile-goals-section">
+                                <div class="profile-section-title">Goals & Objectives</div>
+                                <div id="profileGoalsContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LINE MANAGERS PAGE -->
+                <div class="page" id="lineManagersPage">
+                    <div class="page-header">
+                        <h1 class="page-title">
+                            Line Managers
+                            <div class="page-title-dot"></div>
+                        </h1>
+                        <p class="page-subtitle">Team management and performance</p>
+                    </div>
+
+                    <div class="line-managers-container">
+                        <div class="kanban-board" id="kanbanBoard"></div>
+                        <div class="line-managers-sidebar">
+                            <div class="performance-card">
+                                <div class="performance-card-title">Team Stats</div>
+                                <div class="performance-stat">
+                                    <span class="performance-stat-label">Total Team</span>
+                                    <span class="performance-stat-value">13</span>
+                                </div>
+                                <div class="performance-stat">
+                                    <span class="performance-stat-label">Goals Completed</span>
+                                    <span class="performance-stat-value">34</span>
+                                </div>
+                                <div class="performance-stat">
+                                    <span class="performance-stat-label">Active Check-ins</span>
+                                    <span class="performance-stat-value">11</span>
+                                </div>
+                                <div class="performance-stat">
+                                    <span class="performance-stat-label">Avg Satisfaction</span>
+                                    <span class="performance-stat-value">92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 360 FEEDBACK PAGE -->
+                <div class="page" id="feedbackPage">
+                    <div class="page-header">
+                        <h1 class="page-title">
+                            360 Feedback
+                            <div class="page-title-dot"></div>
+                        </h1>
+                        <p class="page-subtitle">Peer feedback and performance insights</p>
+                    </div>
+
+                    <div class="feedback-page-container">
+                        <div class="feedback-team-list">
+                            <div class="feedback-team-list-title">Team Members</div>
+                            <div id="feedbackTeamList"></div>
+                        </div>
+
+                        <div class="feedback-main">
+                            <div class="feedback-header" id="feedbackHeader"></div>
+
+                            <div class="feedback-tab-bar">
+                                <div class="feedback-tab active" onclick="switchFeedbackTab('received')">
+                                    Feedback Received
+                                </div>
+                                <div class="feedback-tab" onclick="switchFeedbackTab('given')">
+                                    Feedback Given
+                                </div>
+                                <div class="feedback-tab" onclick="switchFeedbackTab('form')">
+                                    Give Feedback
+                                </div>
+                            </div>
+
+                            <div class="feedback-content">
+                                <div id="feedbackTabContent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHECK-INS PAGE -->
+                <div class="page" id="checkinsPage">
+                    <div class="page-header">
+                        <h1 class="page-title">
+                            Monthly Check-ins
+                            <div class="page-title-dot"></div>
+                        </h1>
+                        <p class="page-subtitle">One-to-one meetings and progress tracking</p>
+                    </div>
+
+                    <div class="checkins-container">
+                        <!-- OBJECTIVES TABLE -->
+                        <table class="objectives-table" id="objectivesTable"></table>
+
+                        <!-- CHECK-IN CARDS -->
+                        <div class="checkin-grid" id="checkinGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ========================================================================
+        // DATA
+        // ========================================================================
+        const TEAM_DATA = [
+            { id:1, name:"Anthony", initials:"AN", role:"Co-Founder", dept:"Leadership", level:1, manager:null, color:"#C73C1E", birthday:"1988-04-15", email:"anthony@noisemedia.co.uk" },
+            { id:2, name:"Joe", initials:"JO", role:"Co-Founder", dept:"Leadership", level:1, manager:null, color:"#1B1B1B", birthday:"1989-08-22", email:"joe@noisemedia.co.uk" },
+            { id:3, name:"Beau", initials:"BE", role:"Creative Director", dept:"Creative", level:2, manager:"Anthony", color:"#5A9ECF", birthday:"1992-02-18", email:"beau@noisemedia.co.uk" },
+            { id:4, name:"Sam", initials:"SM", role:"Head of Operations/Strategy", dept:"Operations", level:2, manager:"Anthony", color:"#9070C0", birthday:"1990-05-12", email:"sam@noisemedia.co.uk" },
+            { id:5, name:"Louise", initials:"LO", role:"Head of Accounts", dept:"Accounts", level:2, manager:"Joe", color:"#D4A843", birthday:"1991-11-03", email:"louise@noisemedia.co.uk" },
+            { id:6, name:"Leah", initials:"LH", role:"Motion Graphic Designer", dept:"Creative", level:3, manager:"Beau", color:"#5CB85C", birthday:"1995-09-14", email:"leah@noisemedia.co.uk" },
+            { id:7, name:"Steph", initials:"ST", role:"Senior Designer", dept:"Creative", level:3, manager:"Beau", color:"#E8845C", birthday:"1993-06-20", email:"steph@noisemedia.co.uk" },
+            { id:8, name:"Georgie", initials:"GE", role:"Junior Creative", dept:"Creative", level:3, manager:"Beau", color:"#D47BA0", birthday:"1998-01-10", email:"georgie@noisemedia.co.uk" },
+            { id:9, name:"Adam", initials:"AD", role:"Head of Motion", dept:"Production", level:3, manager:"Sam", color:"#7E8FC0", birthday:"1991-07-25", email:"adam@noisemedia.co.uk" },
+            { id:10, name:"Mike", initials:"MK", role:"Head of Production", dept:"Production", level:3, manager:"Sam", color:"#D47B50", birthday:"1989-12-05", email:"mike@noisemedia.co.uk" },
+            { id:11, name:"Luke", initials:"LK", role:"Motion Designer", dept:"Production", level:3, manager:"Sam", color:"#6BAF8D", birthday:"1996-03-18", email:"luke@noisemedia.co.uk" },
+            { id:12, name:"Dan", initials:"DN", role:"Paid Media", dept:"Accounts", level:3, manager:"Louise", color:"#8BAEC4", birthday:"1994-06-30", email:"dan@noisemedia.co.uk" },
+            { id:13, name:"Obenewa Adu", initials:"OA", role:"Social Media Intern", dept:"Accounts", level:3, manager:"Louise", color:"#C08070", birthday:"1999-11-03", email:"obenewa@noisemedia.co.uk" },
+        ];
+
+        let currentUser = null;
+        let moodBoardData = [];
+        let feedbackData = [];
+        let checkinsData = [];
+        let profileGoalsData = {};
+        let achievementsData = {};
+        let currentFeedbackUser = null;
+        let currentFeedbackTab = 'received';
+
+        // ========================================================================
+        // INITIALIZATION
+        // ========================================================================
+        function initializeAppData() {
+            moodBoardData = [
+                { id:1, userId:1, name:"Anthony", initials:"AN", color:"#C73C1E", timestamp:"2 hours ago", message:"Exciting times — two new client pitches this week. Let's bring the energy." },
+                { id:2, userId:2, name:"Joe", initials:"JO", color:"#1B1B1B", timestamp:"3 hours ago", message:"Really proud of the team this quarter. The creative output has been next level." },
+                { id:3, userId:3, name:"Beau", initials:"BE", color:"#5A9ECF", timestamp:"5 hours ago", message:"Fenty carousel got amazing feedback from the client. Leah, Steph — great work!" },
+                { id:4, userId:4, name:"Sam", initials:"SM", color:"#9070C0", timestamp:"1 day ago", message:"Gymshark Q2 campaign brief locked in. Adam and Mike — production starts Monday." },
+                { id:5, userId:6, name:"Leah", initials:"LH", color:"#5CB85C", timestamp:"1 day ago", message:"Just finished the Nike resizes — 6 formats done in record time!" },
+                { id:6, userId:9, name:"Adam", initials:"AD", color:"#7E8FC0", timestamp:"1 day ago", message:"Motion team is firing on all cylinders. Luke's been a great addition." },
+                { id:7, userId:12, name:"Dan", initials:"DN", color:"#8BAEC4", timestamp:"2 days ago", message:"Meta campaigns for Q2 are performing above target. CTR up 23%." },
+                { id:8, userId:13, name:"Obenewa", initials:"OA", color:"#C08070", timestamp:"2 days ago", message:"Team interviews wrapping up — brilliant insights on AI integration from everyone." },
+                { id:9, userId:5, name:"Louise", initials:"LO", color:"#D4A843", timestamp:"3 days ago", message:"Account reviews are looking strong. Dan's paid media numbers are exceptional." },
+                { id:10, userId:7, name:"Steph", initials:"ST", color:"#E8845C", timestamp:"3 days ago", message:"Loving the new design system we're building. Consistency across clients is improving." },
+                { id:11, userId:8, name:"Georgie", initials:"GE", color:"#D47BA0", timestamp:"3 days ago", message:"First month in and I'm learning so much. This team is incredible." },
+                { id:12, userId:10, name:"Mike", initials:"MK", color:"#D47B50", timestamp:"4 days ago", message:"Production pipeline is running smoother than ever. New workflow is paying off." },
+                { id:13, userId:11, name:"Luke", initials:"LK", color:"#6BAF8D", timestamp:"4 days ago", message:"Finished the motion templates for social — should save us hours per week." },
+            ];
+
+            profileGoalsData = {};
+            TEAM_DATA.forEach(u => {
+                const goalSets = {
+                    1: [{ text:"Scale agency to 20+ clients", notes:"Q2 Target", completed:false },{ text:"Secure 3 new high-value clients", notes:"Q1", completed:true }],
+                    2: [{ text:"Launch new service offering", notes:"Q2", completed:false },{ text:"Strengthen client retention", notes:"Ongoing", completed:true }],
+                    3: [{ text:"Launch Fenty campaign", notes:"Completed", completed:true },{ text:"Develop creative brief template", notes:"In Progress", completed:false }],
+                    4: [{ text:"Restructure ops workflow", notes:"In Progress", completed:false },{ text:"Implement AI strategy roadmap", notes:"Core project", completed:false }],
+                    5: [{ text:"Streamline account management", notes:"In Progress", completed:false },{ text:"Client satisfaction > 90%", notes:"Q1 Target", completed:true }],
+                    6: [{ text:"Complete Nike resizes", notes:"Done", completed:true },{ text:"Learn advanced After Effects", notes:"In Progress", completed:false }],
+                    7: [{ text:"Build design system v2", notes:"In Progress", completed:false },{ text:"Lead client rebrand", notes:"Starting", completed:false }],
+                    8: [{ text:"Complete onboarding", notes:"In Progress", completed:false },{ text:"Assist 3 client projects", notes:"Ongoing", completed:true }],
+                    9: [{ text:"Gymshark production", notes:"March", completed:false },{ text:"Optimize motion pipeline", notes:"Ongoing", completed:true }],
+                    10: [{ text:"Lead Gymshark production", notes:"In Progress", completed:false },{ text:"Establish quality standards", notes:"Q1", completed:true }],
+                    11: [{ text:"Master motion template system", notes:"In Progress", completed:false },{ text:"Deliver 10 social animations", notes:"Q1", completed:true }],
+                    12: [{ text:"Deliver Meta campaign Q2", notes:"Planning", completed:false },{ text:"Achieve 25% CTR boost", notes:"On track", completed:false }],
+                    13: [{ text:"Complete AI interviews", notes:"Done", completed:true },{ text:"Build AI automation list", notes:"In Progress", completed:true }],
+                };
+                profileGoalsData[u.id] = goalSets[u.id] || [];
+            });
+
+            feedbackData = [
+                { id:1, toUserId:3, fromUserId:1, type:"Manager", date:"Mar 14, 2026", text:"Creative output this quarter has been outstanding. The Fenty work set a new standard." },
+                { id:2, toUserId:3, fromUserId:6, type:"Upward", date:"Mar 12, 2026", text:"Great creative direction. Really helped me grow as a designer." },
+                { id:3, toUserId:4, fromUserId:1, type:"Manager", date:"Mar 11, 2026", text:"Sam's operational improvements have been game-changing for the team." },
+                { id:4, toUserId:5, fromUserId:2, type:"Manager", date:"Mar 13, 2026", text:"Louise has built incredible client relationships. Account retention is the best it's been." },
+                { id:5, toUserId:6, fromUserId:3, type:"Manager", date:"Mar 10, 2026", text:"Motion work is exceptional. Growing your skills rapidly. Nike resizes were flawless." },
+                { id:6, toUserId:12, fromUserId:5, type:"Manager", date:"Mar 11, 2026", text:"Dan's Meta campaigns are performing above target. CTR up 23%." },
+            ];
+
+            checkinsData = [
+                { id:1, managerId:3, employeeId:6, date:"Mar 14, 2026", mood:"😊", notes:"Nike resizes wrapped. Leah feeling good about progress.", actionItems:["Complete AE tutorial", "Prepare motion library proposal"] },
+                { id:2, managerId:3, employeeId:7, date:"Mar 13, 2026", mood:"🚀", notes:"Steph's design system v2 coming along well.", actionItems:["Finish design system docs", "Share with wider team"] },
+                { id:3, managerId:3, employeeId:8, date:"Mar 12, 2026", mood:"😊", notes:"Georgie settling in well. Keen to learn After Effects.", actionItems:["Set up AE training", "Pair with Leah"] },
+                { id:4, managerId:4, employeeId:9, date:"Mar 11, 2026", mood:"👍", notes:"Adam's motion leadership strong. Wants to improve delegation.", actionItems:["Delegate resize work", "Trial AI tools"] },
+                { id:5, managerId:5, employeeId:12, date:"Mar 13, 2026", mood:"😊", notes:"Dan's campaigns performing well. Needs training on new platforms.", actionItems:["Research TikTok Ads", "Plan skill development"] },
+                { id:6, managerId:4, employeeId:11, date:"Mar 09, 2026", mood:"🚀", notes:"Luke's motion templates saving hours. Great energy.", actionItems:["Learn Cinema 4D", "Build portfolio reel"] },
+                { id:7, managerId:2, employeeId:5, date:"Mar 08, 2026", mood:"👍", notes:"Louise's account management exemplary. Client retention high.", actionItems:["Plan account review", "Train Dan on CRM"] },
+                { id:8, managerId:1, employeeId:4, date:"Mar 09, 2026", mood:"🚀", notes:"Sam's ops improvements transforming agency.", actionItems:["Finalise AI roadmap", "Present to board"] },
+                { id:9, managerId:1, employeeId:3, date:"Mar 10, 2026", mood:"👍", notes:"Beau's team hitting targets. Strong feedback.", actionItems:["Review hiring budget", "Post junior role"] },
+                { id:10, managerId:5, employeeId:13, date:"Mar 12, 2026", mood:"🚀", notes:"Obenewa's AI research thorough.", actionItems:["Finalise AI spreadsheet", "Present findings"] },
+                { id:11, managerId:4, employeeId:10, date:"Mar 10, 2026", mood:"👍", notes:"Mike's production quality high. Equipment audit needed.", actionItems:["Equipment audit", "Plan Q2 schedule"] },
+            ];
+
+            achievementsData = {};
+            TEAM_DATA.forEach(u => {
+                const sets = {
+                    1: [{ title:"Agency Founder", badge:"👑" },{ title:"Strategic Vision", badge:"⭐" },{ title:"Client Champion", badge:"🎯" }],
+                    2: [{ title:"Agency Founder", badge:"👑" },{ title:"Growth Leader", badge:"📈" },{ title:"Culture Builder", badge:"🔥" }],
+                    3: [{ title:"Creative Excellence", badge:"🎨" },{ title:"Team Builder", badge:"👥" },{ title:"Client Relations", badge:"⭐" }],
+                    4: [{ title:"Process Optimizer", badge:"⚙️" },{ title:"Operations Expert", badge:"📦" },{ title:"AI Champion", badge:"🤖" }],
+                    5: [{ title:"Account Star", badge:"⭐" },{ title:"Client Retention", badge:"🎯" },{ title:"Team Mentor", badge:"💡" }],
+                    6: [{ title:"Design Star", badge:"✨" },{ title:"Quick Turnaround", badge:"⚡" },{ title:"Growth Mindset", badge:"📈" }],
+                    7: [{ title:"Design Systems", badge:"🎨" },{ title:"Mentor", badge:"👥" },{ title:"Quality Leader", badge:"✅" }],
+                    8: [{ title:"Fast Learner", badge:"🚀" },{ title:"Team Spirit", badge:"🔥" },{ title:"Creative Spark", badge:"✨" }],
+                    9: [{ title:"Motion Leader", badge:"🎬" },{ title:"Delivery Expert", badge:"📦" },{ title:"Team Leader", badge:"🏆" }],
+                    10: [{ title:"Production Master", badge:"🎬" },{ title:"Quality Keeper", badge:"✅" },{ title:"Reliable", badge:"🔥" }],
+                    11: [{ title:"Template Wizard", badge:"⚡" },{ title:"Quick Learner", badge:"🚀" },{ title:"Initiative", badge:"💡" }],
+                    12: [{ title:"Performance Specialist", badge:"📊" },{ title:"Data Driven", badge:"📈" },{ title:"Meta Expert", badge:"🎯" }],
+                    13: [{ title:"AI Pioneer", badge:"🤖" },{ title:"Research Star", badge:"🧠" },{ title:"Innovation", badge:"💡" }],
+                };
+                achievementsData[u.id] = sets[u.id] || [];
+            });
+        }
+
+        // ========================================================================
+        // LOGIN
+        // ========================================================================
+        function populateQuickAccess() {
+            const grid = document.getElementById('quickAccessGrid');
+            grid.innerHTML = '';
+            TEAM_DATA.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'quick-access-user';
+                div.onclick = () => quickAccessLogin(user);
+                div.innerHTML = `
+                    <div class="quick-access-avatar" style="background-color: ${user.color}">${user.initials}</div>
+                    <div class="quick-access-info">
+                        <div class="quick-access-name">${user.name}</div>
+                        <div class="quick-access-role">${user.role}</div>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (email && password) {
+                const user = TEAM_DATA.find(u => u.email === email);
+                if (user) {
+                    loginUser(user);
+                } else {
+                    showToast('User not found', 'error');
+                }
+            } else {
+                showToast('Please enter email and password', 'error');
+            }
+        }
+
+        function quickAccessLogin(user) {
+            loginUser(user);
+        }
+
+        function loginUser(user) {
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            document.getElementById('loginContainer').classList.remove('active');
+            document.getElementById('appContainer').style.display = 'flex';
+            initializeAppData();
+            updateUIAfterLogin();
+            renderHome();
+            updateLineManagersVisibility();
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginContainer').classList.add('active');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ========================================================================
+        // UI UPDATES
+        // ========================================================================
+        function updateUIAfterLogin() {
+            document.getElementById('sidebarUserName').textContent = currentUser.name;
+            document.getElementById('sidebarUserRole').textContent = currentUser.role;
+            const avatarEl = document.getElementById('sidebarUserAvatar');
+            avatarEl.textContent = currentUser.initials;
+            avatarEl.style.backgroundColor = currentUser.color;
+        }
+
+        function updateLineManagersVisibility() {
+            const nav = document.getElementById('lineManagersNav');
+            if (currentUser.level === 3) {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+            }
+        }
+
+        // ========================================================================
+        // PAGE SWITCHING
+        // ========================================================================
+        function switchPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            event.target.closest('.sidebar-nav-item').classList.add('active');
+
+            const titles = {
+                home: 'Home',
+                profile: 'Profile',
+                lineManagers: 'Line Managers',
+                feedback: '360 Feedback',
+                checkins: 'Check-ins'
+            };
+            document.getElementById('headerTitle').textContent = titles[page] || page;
+
+            if (page === 'home') renderHome();
+            if (page === 'profile') renderProfile();
+            if (page === 'lineManagers') renderLineManagers();
+            if (page === 'feedback') renderFeedback();
+            if (page === 'checkins') renderCheckins();
+        }
+
+        // ========================================================================
+        // HOME PAGE
+        // ========================================================================
+        function renderHome() {
+            const grid = document.getElementById('moodCardGrid');
+            grid.innerHTML = moodBoardData.map((card, index) => `
+                <div class="mood-card" style="animation-delay: ${index * 0.05}s">
+                    <div class="mood-card-header">
+                        <div class="mood-card-avatar" style="background-color: ${card.color}">${card.initials}</div>
+                        <div class="mood-card-meta">
+                            <span class="mood-card-name">${card.name}</span>
+                            <span class="mood-card-time">${card.timestamp}</span>
+                        </div>
+                    </div>
+                    <p class="mood-card-text">${card.message}</p>
+                </div>
+            `).join('');
+        }
+
+        function postMood() {
+            const text = document.getElementById('moodInput').value;
+            if (!text.trim()) {
+                showToast('Please write something first', 'error');
+                return;
+            }
+            const btn = document.getElementById('moodPostBtn');
+            btn.classList.add('success');
+            btn.textContent = '✓ Posted';
+            setTimeout(() => {
+                btn.classList.remove('success');
+                btn.textContent = 'Post Update';
+                document.getElementById('moodInput').value = '';
+                showToast('Update posted successfully', 'success');
+            }, 800);
+        }
+
+        function clearMoodInput() {
+            document.getElementById('moodInput').value = '';
+        }
+
+        // ========================================================================
+        // PROFILE PAGE
+        // ========================================================================
+        function renderProfile() {
+            const select = document.getElementById('profileSelector');
+            select.innerHTML = '<option value="">Select a team member...</option>' +
+                TEAM_DATA.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            loadProfileData();
+        }
+
+        function loadProfileData() {
+            const select = document.getElementById('profileSelector');
+            const userId = parseInt(select.value) || currentUser.id;
+            const user = TEAM_DATA.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('sidebarRole').textContent = user.role;
+            document.getElementById('sidebarDept').textContent = user.dept;
+            document.getElementById('sidebarEmail').textContent = user.email;
+            document.getElementById('sidebarManager').textContent = user.manager || 'N/A';
+            document.getElementById('sidebarBirthday').textContent = user.birthday;
+
+            const headerEl = document.getElementById('profileHeader');
+            headerEl.innerHTML = `
+                <div style="display: flex; gap: 32px; align-items: flex-start;">
+                    <div class="profile-avatar-large" style="background-color: ${user.color}">${user.initials}</div>
+                    <div>
+                        <div class="profile-name">${user.name}</div>
+                        <div class="profile-role">${user.role}</div>
+                        <div class="profile-dept">${user.dept}</div>
+                    </div>
+                </div>
+            `;
+
+            const goals = profileGoalsData[user.id] || [];
+            const completed = goals.filter(g => g.completed).length;
+            const pct = goals.length ? Math.round((completed / goals.length) * 100) : 0;
+
+            const goalsContainer = document.getElementById('profileGoalsContainer');
+            goalsContainer.innerHTML = `
+                <div class="goals-progress">
+                    <div class="goals-progress-label">
+                        <span>Overall Progress</span>
+                        <span>${pct}%</span>
+                    </div>
+                    <div class="goals-progress-bar">
+                        <div class="goals-progress-fill" style="width: ${pct}%"></div>
+                    </div>
+                </div>
+                <div class="goals-list">
+                    ${goals.map((goal, i) => `
+                        <div class="goal-item">
+                            <div class="goal-checkbox ${goal.completed ? 'checked' : ''}" onclick="toggleGoal(${user.id}, ${i})">
+                                ${goal.completed ? '✓' : ''}
+                            </div>
+                            <div>
+                                <div class="goal-text">${goal.text}</div>
+                                <div class="goal-notes">${goal.notes}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function toggleGoal(userId, goalIndex) {
+            profileGoalsData[userId][goalIndex].completed = !profileGoalsData[userId][goalIndex].completed;
+            localStorage.setItem('profileGoalsData', JSON.stringify(profileGoalsData));
+            loadProfileData();
+            showToast('Goal updated', 'success');
+        }
+
+        // ========================================================================
+        // LINE MANAGERS PAGE
+        // ========================================================================
+        function renderLineManagers() {
+            if (currentUser.level === 3) {
+                document.getElementById('lineManagersPage').innerHTML = `
+                    <div class="access-restricted">
+                        <div class="access-restricted-icon">🔒</div>
+                        <div class="access-restricted-title">Access Restricted</div>
+                        <div class="access-restricted-text">This page is only available to managers (Level 2 and above)</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const board = document.getElementById('kanbanBoard');
+            board.innerHTML = `
+                <div class="kanban-column">
+                    <div class="kanban-column-title">To Do</div>
+                    <div class="kanban-cards" id="kanbanTodo"></div>
+                    <button class="kanban-add-btn" onclick="addKanbanCard('todo')">+ Add Card</button>
+                </div>
+                <div class="kanban-column">
+                    <div class="kanban-column-title">In Progress</div>
+                    <div class="kanban-cards" id="kanbanProgress"></div>
+                    <button class="kanban-add-btn" onclick="addKanbanCard('progress')">+ Add Card</button>
+                </div>
+                <div class="kanban-column">
+                    <div class="kanban-column-title">Done</div>
+                    <div class="kanban-cards" id="kanbanDone"></div>
+                    <button class="kanban-add-btn" onclick="addKanbanCard('done')">+ Add Card</button>
+                </div>
+            `;
+
+            // Add demo cards
+            const todos = ['Review creative briefs', 'Client meeting prep', 'Budget review'];
+            const progress = ['Nike resizes review', 'Fenty feedback session', 'Team assessment forms'];
+            const done = ['March planning', 'Q1 reviews', 'New CRM setup'];
+
+            document.getElementById('kanbanTodo').innerHTML = todos.map(t =>
+                `<div class="kanban-card"><div class="kanban-card-text">${t}</div><button class="kanban-card-delete" onclick="deleteCard(event)">×</button></div>`
+            ).join('');
+            document.getElementById('kanbanProgress').innerHTML = progress.map(p =>
+                `<div class="kanban-card"><div class="kanban-card-text">${p}</div><button class="kanban-card-delete" onclick="deleteCard(event)">×</button></div>`
+            ).join('');
+            document.getElementById('kanbanDone').innerHTML = done.map(d =>
+                `<div class="kanban-card"><div class="kanban-card-text">${d}</div><button class="kanban-card-delete" onclick="deleteCard(event)">×</button></div>`
+            ).join('');
+        }
+
+        function addKanbanCard(column) {
+            const title = prompt('Enter card title:');
+            if (title) {
+                const container = document.getElementById('kanban' + (column === 'todo' ? 'Todo' : column === 'progress' ? 'Progress' : 'Done'));
+                const card = document.createElement('div');
+                card.className = 'kanban-card';
+                card.innerHTML = `<div class="kanban-card-text">${title}</div><button class="kanban-card-delete" onclick="deleteCard(event)">×</button>`;
+                container.appendChild(card);
+                showToast('Card added', 'success');
+            }
+        }
+
+        function deleteCard(event) {
+            event.target.closest('.kanban-card').remove();
+            showToast('Card deleted', 'success');
+        }
+
+        // ========================================================================
+        // FEEDBACK PAGE
+        // ========================================================================
+        function renderFeedback() {
+            const list = document.getElementById('feedbackTeamList');
+            list.innerHTML = TEAM_DATA.map(user => `
+                <div class="feedback-team-item ${!currentFeedbackUser || currentFeedbackUser.id === user.id ? 'active' : ''}" onclick="selectFeedbackUser(${user.id})">
+                    <div class="feedback-team-avatar" style="background-color: ${user.color}">${user.initials}</div>
+                    <div class="feedback-team-info">
+                        <div class="feedback-team-name">${user.name}</div>
+                        <div class="feedback-team-role">${user.role}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (!currentFeedbackUser) {
+                currentFeedbackUser = TEAM_DATA[0];
+            }
+            updateFeedbackDisplay();
+        }
+
+        function selectFeedbackUser(userId) {
+            currentFeedbackUser = TEAM_DATA.find(u => u.id === userId);
+            document.querySelectorAll('.feedback-team-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.feedback-team-item').classList.add('active');
+            updateFeedbackDisplay();
+        }
+
+        function updateFeedbackDisplay() {
+            const header = document.getElementById('feedbackHeader');
+            header.innerHTML = `
+                <div>
+                    <div class="feedback-selected-name">${currentFeedbackUser.name}</div>
+                    <div class="feedback-selected-role">${currentFeedbackUser.role}</div>
+                </div>
+            `;
+
+            currentFeedbackTab = 'received';
+            updateFeedbackTab();
+        }
+
+        function switchFeedbackTab(tab) {
+            currentFeedbackTab = tab;
+            document.querySelectorAll('.feedback-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            updateFeedbackTab();
+        }
+
+        function updateFeedbackTab() {
+            const content = document.getElementById('feedbackTabContent');
+
+            if (currentFeedbackTab === 'form') {
+                content.innerHTML = `
+                    <div class="feedback-form">
+                        <div class="feedback-form-group">
+                            <label class="feedback-form-label">Feedback Type</label>
+                            <select class="feedback-form-input">
+                                <option>Strengths</option>
+                                <option>Growth Areas</option>
+                                <option>General Feedback</option>
+                            </select>
+                        </div>
+                        <div class="feedback-form-group">
+                            <label class="feedback-form-label">Your Feedback</label>
+                            <textarea class="feedback-form-textarea" id="feedbackText" placeholder="Share your constructive feedback..."></textarea>
+                        </div>
+                        <button class="feedback-form-btn" onclick="submitFeedback()">Submit Feedback</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const userFeedback = feedbackData.filter(f =>
+                currentFeedbackTab === 'received' ? f.toUserId === currentFeedbackUser.id : f.fromUserId === currentFeedbackUser.id
+            );
+
+            if (userFeedback.length === 0) {
+                content.innerHTML = '<p style="text-align: center; color: #8C8C8C; padding: 40px;">No feedback yet</p>';
+                return;
+            }
+
+            content.innerHTML = `
+                <div class="feedback-list">
+                    ${userFeedback.map(fb => `
+                        <div class="feedback-item">
+                            <div class="feedback-item-header">
+                                <div class="feedback-item-from">${TEAM_DATA.find(u => u.id === fb.fromUserId).name}</div>
+                                <div class="feedback-item-type">${fb.type}</div>
+                            </div>
+                            <div class="feedback-item-date">${fb.date}</div>
+                            <div class="feedback-item-text">${fb.text}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function submitFeedback() {
+            const text = document.getElementById('feedbackText').value;
+            if (!text.trim()) {
+                showToast('Please write your feedback', 'error');
+                return;
+            }
+            document.getElementById('feedbackText').value = '';
+            showToast('Feedback submitted successfully', 'success');
+        }
+
+        // ========================================================================
+        // CHECK-INS PAGE
+        // ========================================================================
+        function renderCheckins() {
+            const table = document.getElementById('objectivesTable');
+            table.innerHTML = `
+                <tr>
+                    <th>Team Member</th>
+                    <th>Role</th>
+                    <th>Manager</th>
+                    <th>Next Check-in</th>
+                </tr>
+                ${TEAM_DATA.map(user => {
+                    const checkin = checkinsData.find(c => c.employeeId === user.id);
+                    return `
+                        <tr>
+                            <td>${user.name}</td>
+                            <td>${user.role}</td>
+                            <td>${user.manager || 'N/A'}</td>
+                            <td>${checkin ? checkin.date : 'Not scheduled'}</td>
+                        </tr>
+                    `;
+                }).join('')}
+            `;
+
+            const grid = document.getElementById('checkinGrid');
+            grid.innerHTML = checkinsData.map((checkin, index) => {
+                const employee = TEAM_DATA.find(u => u.id === checkin.employeeId);
+                return `
+                    <div class="checkin-card" style="animation-delay: ${index * 0.05}s">
+                        <div class="checkin-card-title">${employee.name} - ${checkin.date}</div>
+                        <div class="emoji-scale">
+                            ${['😞', '😐', '😊', '🚀'].map(emoji => `
+                                <button class="emoji-btn ${emoji === checkin.mood ? 'active' : ''}" onclick="selectMood(this, '${emoji}')">${emoji}</button>
+                            `).join('')}
+                        </div>
+                        <textarea class="checkin-textarea" placeholder="Check-in notes..." data-checkin="${checkin.id}">${checkin.notes}</textarea>
+                        <button class="checkin-save-btn" onclick="saveCheckin(${checkin.id})">Save Check-in</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectMood(btn, emoji) {
+            btn.parentElement.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function saveCheckin(id) {
+            showToast('Check-in saved successfully', 'success');
+            localStorage.setItem('checkin_' + id, JSON.stringify({ id, timestamp: new Date() }));
+        }
+
+        // ========================================================================
+        // NOTIFICATIONS
+        // ========================================================================
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.notification-bell') && !e.target.closest('.notification-dropdown')) {
+                document.getElementById('notificationDropdown').classList.remove('active');
+            }
+        });
+
+        // ========================================================================
+        // TOAST NOTIFICATIONS
+        // ========================================================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ========================================================================
+        // INITIALIZATION ON LOAD
+        // ========================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAppData();
+            populateQuickAccess();
+
+            // Check for saved login
+            const saved = localStorage.getItem('currentUser');
+            if (saved) {
+                const user = JSON.parse(saved);
+                loginUser(user);
+            }
+        });
+    </script>
+</body>
+</html>
