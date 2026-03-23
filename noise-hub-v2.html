@@ -1645,6 +1645,326 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* HOME PAGE TOP CARDS */
+        .home-top-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .home-card {
+            background: white;
+            padding: 24px;
+            border-radius: 6px;
+            border: 1px solid #E5E5E0;
+        }
+
+        .home-card-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8C8C8C;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        /* CHECKIN PAGE STYLES */
+        .checkin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .checkin-card {
+            background: white;
+            padding: 24px;
+            border-radius: 6px;
+            border: 1px solid #E5E5E0;
+        }
+
+        .checkin-card-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #1A1B1F;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .emoji-scale {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .emoji-btn {
+            font-size: 28px;
+            background: none;
+            border: 2px solid #E5E5E0;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn:hover, .emoji-btn.active {
+            border-color: #C73C1E;
+            background: rgba(199,60,30,0.1);
+        }
+
+        .checkin-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkin-save-btn {
+            margin-top: 12px;
+            padding: 8px 20px;
+            background: #C73C1E;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .objectives-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+
+        .objectives-table th, .objectives-table td {
+            padding: 12px 16px;
+            border: 1px solid #E5E5E0;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .objectives-table th {
+            background: #F8F8E9;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calendar-month {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-day-header {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            text-align: center;
+            color: #8C8C8C;
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 8px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .calendar-day.today {
+            background: #C73C1E;
+            color: white;
+            font-weight: 700;
+            border-radius: 50%;
+        }
+
+        .calendar-day.empty {
+            visibility: hidden;
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .profile-info-card {
+            background: #F8F8E9;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .profile-info-card-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8C8C8C;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-info-card-value {
+            font-size: 14px;
+            color: #1A1B1F;
+            font-weight: 500;
+        }
+
+        .goals-two-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .comment-section {
+            margin-top: 24px;
+            padding: 20px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #E5E5E0;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .checkin-note {
+            font-size: 12px;
+            color: #8C8C8C;
+            text-align: center;
+            margin-top: 24px;
+            font-style: italic;
+        }
+
+        .event-list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E5E0;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-dot {
+            width: 8px;
+            height: 8px;
+            background: #C73C1E;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .schedule-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E5E5E0;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .schedule-btn {
+            width: 100%;
+            padding: 10px;
+            background: #C73C1E;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .noise-feed-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8C8C8C;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-weight: 700;
+        }
+
+        .goals-section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8C8C8C;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .goal-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 8px 0;
+        }
+
+        .goal-checkbox {
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        .goal-text {
+            font-size: 13px;
+            color: #1A1B1F;
+            font-weight: 500;
+        }
+
+        .goal-notes {
+            font-size: 12px;
+            color: #8C8C8C;
+        }
+
+        .achievements-section {
+            margin-top: 24px;
+        }
+
+        .kanban-add-btn {
+            width: 100%;
+            padding: 12px;
+            background: #F8F8E9;
+            border: 2px dashed #E5E5E0;
+            border-radius: 6px;
+            color: #8C8C8C;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .kanban-add-btn:hover {
+            border-color: #C73C1E;
+            color: #C73C1E;
+        }
     </style>
 </head>
 <body>
@@ -1701,7 +2021,7 @@
                 <div class="sidebar-section-label">OVERVIEW</div>
                 <div class="sidebar-nav-item active" onclick="navigateTo('moodBoard')" data-page="moodBoard">
                     <span class="sidebar-nav-icon">◉</span>
-                    <span>Mood Board</span>
+                    <span>Home</span>
                 </div>
             </div>
 
@@ -1739,11 +2059,11 @@
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
-            <!-- PAGE: MOOD BOARD -->
+            <!-- PAGE: HOME -->
             <div class="page active" id="moodBoardPage" data-page="moodBoard">
                 <div class="page-header">
                     <div class="page-title">
-                        MOOD BOARD<span class="page-title-dot"></span>
+                        HOME<span class="page-title-dot"></span>
                     </div>
                     <div class="page-subtitle">Team updates and positivity. Let us know what's on your mind.</div>
                 </div>
@@ -2079,6 +2399,103 @@
         // ============================================================================
 
         function renderMoodBoard() {
+            const container = document.querySelector('.mood-board-container');
+
+            // Create top cards section
+            let html = `
+                <div class="home-top-cards">
+                    <!-- Monthly Team Goals Card -->
+                    <div class="home-card">
+                        <div class="home-card-title">Monthly Team Goals</div>
+                        <div class="goals-list" style="max-height: 200px; overflow-y: auto;">
+            `;
+
+            const currentUserGoals = profileGoalsData[currentUser.id] || [];
+            currentUserGoals.slice(0, 3).forEach(goal => {
+                html += `
+                    <div class="goal-item">
+                        <input type="checkbox" class="goal-checkbox" ${goal.completed ? 'checked' : ''}>
+                        <div>
+                            <div class="goal-text">${goal.text}</div>
+                            <div class="goal-notes">${goal.notes}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+
+                    <!-- Schedule a Meeting Card -->
+                    <div class="home-card">
+                        <div class="home-card-title">Schedule a Meeting</div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <select class="schedule-input" id="meetingTeamSelect">
+                                <option value="">Select Team Member</option>
+            `;
+
+            TEAM_DATA.filter(u => u.id !== currentUser.id).forEach(user => {
+                html += `<option value="${user.name}">${user.name}</option>`;
+            });
+
+            html += `
+                            </select>
+                            <input type="date" class="schedule-input" id="meetingDate">
+                            <input type="time" class="schedule-input" id="meetingTime">
+                            <button class="schedule-btn" onclick="alert('Meeting scheduled! (Demo)')">Schedule</button>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Team Events Card -->
+                    <div class="home-card">
+                        <div class="home-card-title">Upcoming Team Events</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="event-list-item">
+                                <span class="event-dot"></span>
+                                <span>Q2 Planning Session - April 7</span>
+                            </div>
+                            <div class="event-list-item">
+                                <span class="event-dot"></span>
+                                <span>Team Lunch - April 11</span>
+                            </div>
+                            <div class="event-list-item">
+                                <span class="event-dot"></span>
+                                <span>Monthly Review - April 25</span>
+                            </div>
+                            <div class="event-list-item">
+                                <span class="event-dot"></span>
+                                <span>Sam's Birthday - May 12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="noise-feed-label">Noise Feed</div>
+            `;
+
+            // Add the mood input section and grid
+            html += `
+                <div class="mood-input-section">
+                    <div class="mood-input-label">Post a New Update</div>
+                    <textarea class="mood-textarea" id="moodInput" placeholder="What's on your mind? Keep it positive..."></textarea>
+                    <div class="mood-input-footer">
+                        <button class="mood-btn-cancel" onclick="resetMoodInput()">Clear</button>
+                        <button class="mood-btn-post" onclick="postMoodUpdate()">Post Update</button>
+                    </div>
+                </div>
+
+                <div class="mood-card-grid" id="moodCardGrid"></div>
+
+                <div class="comment-section">
+                    <label class="home-card-title">Leave a comment</label>
+                    <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            // Populate mood cards
             const grid = document.getElementById('moodCardGrid');
             grid.innerHTML = '';
 
@@ -2154,10 +2571,9 @@
         }
 
         function renderProfileView(user, selectableUsers = []) {
-            let html = `
-                <div class="profile-left">
-            `;
+            let html = `<div style="display: flex; flex-direction: column;">`;
 
+            // Profile selector for managers/founders
             if (selectableUsers.length > 0) {
                 html += `
                     <div class="profile-selector">
@@ -2173,119 +2589,126 @@
                 html += `</select></div>`;
             }
 
+            // Profile header with avatar
             html += `
-                    <div class="profile-info-block">
-                        <div class="profile-info-label">Position</div>
-                        <div class="profile-info-value">${user.role}</div>
+                <div class="profile-header" style="display: flex; gap: 24px; margin-bottom: 32px; align-items: flex-start;">
+                    <div class="profile-avatar-large" style="background-color: ${user.color}; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 32px; flex-shrink: 0;">
+                        ${user.initials}
                     </div>
-                    <div class="profile-info-block">
-                        <div class="profile-info-label">Department</div>
-                        <div class="profile-info-value">${user.dept}</div>
-                    </div>
-                    ${user.manager ? `
-                    <div class="profile-info-block">
-                        <div class="profile-info-label">Line Manager</div>
-                        <div class="profile-info-value">${user.manager}</div>
-                    </div>
-                    ` : ''}
-                    <div class="profile-info-block">
-                        <div class="profile-info-label">Birthday</div>
-                        <div class="profile-info-value">${user.birthday}</div>
-                    </div>
-                    <div class="profile-info-block">
-                        <div class="profile-info-label">Probation Ends</div>
-                        <div class="profile-info-value">N/A</div>
+                    <div style="flex: 1;">
+                        <div class="profile-name" style="font-size: 28px; font-weight: 700; color: #1A1B1F; margin-bottom: 4px;">${user.name}</div>
+                        <div class="profile-role" style="font-size: 14px; color: #8C8C8C; margin-bottom: 2px;">${user.role}</div>
+                        <div class="profile-dept" style="font-size: 13px; color: #8C8C8C;">${user.dept}</div>
                     </div>
                 </div>
 
-                <div class="profile-right">
-                    <div class="profile-header">
-                        <div class="profile-avatar-large" style="background-color: ${user.color}">
-                            ${user.initials}
-                        </div>
-                        <div class="profile-header-info">
-                            <div class="profile-name">${user.name}</div>
-                            <div class="profile-role">${user.role}</div>
-                            <div class="profile-dept">${user.dept}</div>
-                        </div>
+                <!-- Info Cards Grid -->
+                <div class="profile-info-grid">
+                    <div class="profile-info-card">
+                        <div class="profile-info-card-label">Birthday</div>
+                        <div class="profile-info-card-value">${user.birthday}</div>
                     </div>
-            `;
+                    <div class="profile-info-card">
+                        <div class="profile-info-card-label">Probationary Period Ends</div>
+                        <div class="profile-info-card-value">6 months from start</div>
+                    </div>
+                    <div class="profile-info-card">
+                        <div class="profile-info-card-label">Monthly Meeting</div>
+                        <div class="profile-info-card-value">Last Friday of month</div>
+                    </div>
+                    <div class="profile-info-card">
+                        <div class="profile-info-card-label">Annual Meeting</div>
+                        <div class="profile-info-card-value">December 15th</div>
+                    </div>
+                </div>
 
-            // Goals Section
-            const goals = profileGoalsData[user.id] || [];
-            const completedCount = goals.filter(g => g.completed).length;
+                <!-- Calendar -->
+                <div style="margin-bottom: 32px;">
+                    <div class="goals-section-title">April 2026 Calendar</div>
+                    <div class="calendar-month">
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+                        <div class="calendar-day-header">Sun</div>
 
-            html += `
-                    <div class="profile-goals-section">
-                        <div class="profile-section-title">Goals</div>
-                        <div class="goals-progress">
-                            <div class="goals-progress-label">
-                                <span>${completedCount}/${goals.length} completed</span>
-                                <span>${Math.round((completedCount / goals.length) * 100)}%</span>
-                            </div>
-                            <div class="goals-progress-bar">
-                                <div class="goals-progress-fill" style="width: ${(completedCount / goals.length) * 100}%"></div>
-                            </div>
-                        </div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day">7</div>
+                        <div class="calendar-day">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day">14</div>
+                        <div class="calendar-day">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day">19</div>
+                        <div class="calendar-day">20</div>
+                        <div class="calendar-day">21</div>
+                        <div class="calendar-day">22</div>
+                        <div class="calendar-day">23</div>
+                        <div class="calendar-day">24</div>
+                        <div class="calendar-day">25</div>
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day">30</div>
+                    </div>
+                </div>
+
+                <!-- Goals Two Columns -->
+                <div class="goals-two-col">
+                    <div>
+                        <div class="goals-section-title">Short Term Goals</div>
                         <div class="goals-list">
             `;
 
-            goals.forEach((goal, idx) => {
+            const goals = profileGoalsData[user.id] || [];
+            const shortTermGoals = goals.slice(0, 2);
+            const longTermGoals = goals.slice(2);
+
+            shortTermGoals.forEach((goal) => {
                 html += `
-                        <div class="goal-item">
-                            <input type="checkbox" class="goal-checkbox" ${goal.completed ? 'checked' : ''} disabled>
+                    <div class="goal-item">
+                        <input type="checkbox" class="goal-checkbox" ${goal.completed ? 'checked' : ''} disabled>
+                        <div>
                             <div class="goal-text">${goal.text}</div>
                             <div class="goal-notes">${goal.notes}</div>
                         </div>
+                    </div>
                 `;
             });
 
             html += `
                         </div>
                     </div>
+                    <div>
+                        <div class="goals-section-title">Long Term Goals</div>
+                        <div class="goals-list">
             `;
 
-            // Feedback Section
-            const userFeedback = feedbackData.filter(f => f.toUserId === user.id);
-            html += `
-                    <div class="feedback-section">
-                        <div class="profile-section-title">Recent Feedback</div>
-                        <div class="feedback-list">
-            `;
-
-            userFeedback.forEach(f => {
-                const fromUser = TEAM_DATA.find(u => u.id === f.fromUserId);
+            longTermGoals.forEach((goal) => {
                 html += `
-                        <div class="feedback-card">
-                            <div class="feedback-card-header">
-                                <span class="feedback-from">${fromUser.name}</span>
-                                <span class="feedback-type">${f.type}</span>
-                            </div>
-                            <div class="feedback-date">${f.date}</div>
-                            <div class="feedback-text">${f.text}</div>
-                        </div>
-                `;
-            });
-
-            html += `
+                    <div class="goal-item">
+                        <input type="checkbox" class="goal-checkbox" ${goal.completed ? 'checked' : ''} disabled>
+                        <div>
+                            <div class="goal-text">${goal.text}</div>
+                            <div class="goal-notes">${goal.notes}</div>
                         </div>
                     </div>
-            `;
-
-            // Achievements Section
-            const achievements = achievementsData[user.id] || [];
-            html += `
-                    <div class="feedback-section">
-                        <div class="profile-section-title">Achievements</div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-            `;
-
-            achievements.forEach(a => {
-                html += `
-                        <div style="background-color: #F8F8E9; padding: 16px; border-radius: 6px; text-align: center;">
-                            <div style="font-size: 24px; margin-bottom: 8px;">${a.badge}</div>
-                            <div style="font-size: 11px; font-weight: 600; color: #43464D;">${a.title}</div>
-                        </div>
                 `;
             });
 
@@ -2293,6 +2716,33 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Achievements Section -->
+                <div class="achievements-section">
+                    <div class="goals-section-title">Achievements</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            `;
+
+            const achievements = achievementsData[user.id] || [];
+            achievements.forEach(a => {
+                html += `
+                    <div style="background-color: #F8F8E9; padding: 16px; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 8px;">${a.badge}</div>
+                        <div style="font-size: 11px; font-weight: 600; color: #43464D;">${a.title}</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+
+                <!-- Leave a comment -->
+                <div class="comment-section">
+                    <label class="home-card-title">Leave a comment</label>
+                    <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                </div>
+            </div>
             `;
 
             return html;
@@ -2321,47 +2771,65 @@
         function renderLineManagers() {
             if (currentUser.level < 2) {
                 const container = document.getElementById('lineManagersContainer');
-                container.innerHTML = '<div class="access-restricted"><div class="access-restricted-icon">🔒</div><div class="access-restricted-title">Access Restricted</div><div class="access-restricted-text">Only line managers and above can access this page.</div></div>';
+                container.innerHTML = '<div class="access-restricted"><div class="access-restricted-icon">🔒</div><div class="access-restricted-title">Access Restricted</div><div class="access-restricted-text">Only Level 1 and Level 2 managers can access this page.</div></div>';
                 return;
             }
 
             const container = document.getElementById('lineManagersContainer');
             let html = `
-                <div class="kanban-board">
-                    <div class="kanban-column">
-                        <div class="kanban-column-title">To Discuss</div>
-                        <div class="kanban-cards" id="kanbanTodo"></div>
-                    </div>
-                    <div class="kanban-column">
-                        <div class="kanban-column-title">In Progress</div>
-                        <div class="kanban-cards" id="kanbanInProgress"></div>
-                    </div>
-                    <div class="kanban-column">
-                        <div class="kanban-column-title">Completed</div>
-                        <div class="kanban-cards" id="kanbanCompleted"></div>
-                    </div>
-                </div>
+                <div style="display: grid; grid-template-columns: 1fr 280px; gap: 32px; margin-bottom: 24px;">
+                    <div>
+                        <div class="kanban-board" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <!-- TO DISCUSS COLUMN -->
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">To Discuss</div>
+                                <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanTodo"></div>
+                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                            </div>
 
-                <div class="line-managers-sidebar">
-                    <div class="performance-card">
-                        <div class="performance-card-title">Q1 2026 Reviews</div>
-                        <div class="performance-stat">
-                            <div class="performance-stat-label">Completed</div>
-                            <div class="performance-stat-value">3</div>
-                        </div>
-                        <div class="performance-stat">
-                            <div class="performance-stat-label">Pending</div>
-                            <div class="performance-stat-value">2</div>
-                        </div>
-                        <div class="performance-stat">
-                            <div class="performance-stat-label">Overdue</div>
-                            <div class="performance-stat-value">1</div>
+                            <!-- IN PROGRESS COLUMN -->
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">In Progress</div>
+                                <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanInProgress"></div>
+                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                            </div>
+
+                            <!-- COMPLETED COLUMN -->
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="kanban-column-title" style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 16px; font-weight: 700;">Completed</div>
+                                <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;" id="kanbanCompleted"></div>
+                                <button class="kanban-add-btn" onclick="alert('Add new card (Demo)')">+ Add Card</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="team-progress-list">
-                        <div class="team-progress-title">Team Review Status</div>
-                        <div id="teamProgressList"></div>
+                    <!-- RIGHT SIDEBAR WITH TEAM SELECTOR -->
+                    <div>
+                        <div style="background: white; padding: 20px; border-radius: 6px; border: 1px solid #E5E5E0;">
+                            <div class="goals-section-title">Select Team Member</div>
+                            <select style="width: 100%; padding: 10px 12px; border: 1px solid #E5E5E0; border-radius: 6px; font-size: 13px; margin-bottom: 20px;">
+                                <option>Select team member...</option>
+            `;
+
+            const reports = TEAM_DATA.filter(u => u.manager === currentUser.name);
+            reports.forEach(r => {
+                html += `<option>${r.name}</option>`;
+            });
+
+            html += `
+                            </select>
+
+                            <div class="performance-card" style="background: #F8F8E9; padding: 16px; border-radius: 6px; margin-bottom: 16px;">
+                                <div class="performance-card-title" style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #8C8C8C; margin-bottom: 12px; font-weight: 700;">Q1 2026 Status</div>
+                                <div style="font-size: 13px; margin-bottom: 8px;"><strong>Completed:</strong> 3</div>
+                                <div style="font-size: 13px; margin-bottom: 8px;"><strong>Pending:</strong> 2</div>
+                                <div style="font-size: 13px;"><strong>Overdue:</strong> 1</div>
+                            </div>
+
+                            <div class="checkin-note">
+                                Only accessible to Level 1 and Level 2
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -2371,32 +2839,23 @@
             // Populate kanban boards
             const tasksData = getManagerTasks();
             document.getElementById('kanbanTodo').innerHTML = tasksData.todo.map(t => `
-                <div class="kanban-card">
-                    <div class="kanban-card-text">${t.text}</div>
-                    <div class="kanban-card-meta">${t.employee}</div>
+                <div class="kanban-card" style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #E5E5E0; cursor: grab;">
+                    <div class="kanban-card-text" style="font-size: 13px; font-weight: 600; color: #1A1B1F; margin-bottom: 8px;">${t.text}</div>
+                    <div class="kanban-card-meta" style="font-size: 11px; color: #8C8C8C;">${t.employee}</div>
                 </div>
             `).join('');
 
             document.getElementById('kanbanInProgress').innerHTML = tasksData.inProgress.map(t => `
-                <div class="kanban-card">
-                    <div class="kanban-card-text">${t.text}</div>
-                    <div class="kanban-card-meta">${t.employee}</div>
+                <div class="kanban-card" style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #E5E5E0; border-left: 4px solid #9070C0; cursor: grab;">
+                    <div class="kanban-card-text" style="font-size: 13px; font-weight: 600; color: #1A1B1F; margin-bottom: 8px;">${t.text}</div>
+                    <div class="kanban-card-meta" style="font-size: 11px; color: #8C8C8C;">${t.employee}</div>
                 </div>
             `).join('');
 
             document.getElementById('kanbanCompleted').innerHTML = tasksData.completed.map(t => `
-                <div class="kanban-card">
-                    <div class="kanban-card-text">${t.text}</div>
-                    <div class="kanban-card-meta">${t.employee}</div>
-                </div>
-            `).join('');
-
-            // Populate team progress
-            const teamProgress = getTeamProgressStatus();
-            document.getElementById('teamProgressList').innerHTML = teamProgress.map(item => `
-                <div class="team-member-progress">
-                    <div class="team-member-name">${item.name}</div>
-                    <div class="team-member-status status-${item.status.toLowerCase()}">${item.status}</div>
+                <div class="kanban-card" style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #E5E5E0; border-left: 4px solid #5CB85C; cursor: grab; opacity: 0.7;">
+                    <div class="kanban-card-text" style="font-size: 13px; font-weight: 600; color: #1A1B1F; margin-bottom: 8px; text-decoration: line-through;">${t.text}</div>
+                    <div class="kanban-card-meta" style="font-size: 11px; color: #8C8C8C;">${t.employee}</div>
                 </div>
             `).join('');
         }
@@ -2613,61 +3072,106 @@
 
         function renderCheckins() {
             const visibleCheckins = getVisibleCheckins();
-            const actionItemCount = visibleCheckins.reduce((sum, c) => sum + (c.actionItems?.length || 0), 0);
 
             let html = `
-                <div class="checkins-stats">
-                    <div class="stat-card">
-                        <div class="stat-label">This Month</div>
-                        <div class="stat-value">${visibleCheckins.length}</div>
+                <div style="margin-bottom: 32px;">
+                    <div class="page-subtitle">Regular touchpoints for alignment, wellbeing, and development</div>
+                </div>
+
+                <!-- Monthly Objectives Table -->
+                <div style="margin-bottom: 32px;">
+                    <div class="goals-section-title">Monthly Objectives</div>
+                    <table class="objectives-table">
+                        <thead>
+                            <tr>
+                                <th>Objective</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Deliver Q2 Campaign</td>
+                                <td>Finalize creative assets</td>
+                                <td><span style="background: #E8F4F8; color: #0B7A94; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: 700;">IN PROGRESS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Team Skill Development</td>
+                                <td>Complete training modules</td>
+                                <td><span style="background: #F0F8E8; color: #4A7C2C; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: 700;">ON TRACK</span></td>
+                            </tr>
+                            <tr>
+                                <td>Client Satisfaction Review</td>
+                                <td>Gather feedback and document</td>
+                                <td><span style="background: #FFF4E8; color: #8C5A2B; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: 700;">PENDING</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Checkin Cards Grid -->
+                <div class="checkin-grid">
+                    <!-- Wellbeing Check Card -->
+                    <div class="checkin-card">
+                        <div class="checkin-card-title">Wellbeing Check</div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 12px; color: #8C8C8C; font-weight: 600; display: block; margin-bottom: 8px;">How are you feeling?</label>
+                            <div class="emoji-scale">
+                                <button class="emoji-btn" title="Terrible">😟</button>
+                                <button class="emoji-btn" title="Not great">😕</button>
+                                <button class="emoji-btn" title="Okay">😐</button>
+                                <button class="emoji-btn" title="Good">🙂</button>
+                                <button class="emoji-btn" title="Great">😊</button>
+                            </div>
+                        </div>
+                        <textarea class="checkin-textarea" placeholder="Add notes..." style="margin-bottom: 12px;"></textarea>
+                        <button class="checkin-save-btn">Save</button>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Action Items</div>
-                        <div class="stat-value">${actionItemCount}</div>
+
+                    <!-- Wins Since Last Check-In Card -->
+                    <div class="checkin-card">
+                        <div class="checkin-card-title">Wins Since Last Check-In</div>
+                        <textarea class="checkin-textarea" placeholder="Share your wins..."></textarea>
+                        <button class="checkin-save-btn">Save</button>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Avg. Sentiment</div>
-                        <div class="stat-value">😊</div>
+
+                    <!-- Blockers & Challenges Card -->
+                    <div class="checkin-card">
+                        <div class="checkin-card-title">Blockers & Challenges</div>
+                        <textarea class="checkin-textarea" placeholder="What's blocking progress?"></textarea>
+                        <button class="checkin-save-btn">Save</button>
+                    </div>
+
+                    <!-- Development & Learning Card -->
+                    <div class="checkin-card">
+                        <div class="checkin-card-title">Development & Learning</div>
+                        <textarea class="checkin-textarea" placeholder="What are you learning?"></textarea>
+                        <button class="checkin-save-btn">Save</button>
+                    </div>
+
+                    <!-- Support Needed Card -->
+                    <div class="checkin-card" style="grid-column: 1 / -1;">
+                        <div class="checkin-card-title">Support Needed</div>
+                        <textarea class="checkin-textarea" placeholder="What support do you need?"></textarea>
+                        <button class="checkin-save-btn">Save</button>
                     </div>
                 </div>
 
-                <div class="checkins-list">
+                <div class="checkin-note">
+                    Visible to you and your line manager only
+                </div>
             `;
 
-            visibleCheckins.forEach(c => {
-                const manager = TEAM_DATA.find(u => u.id === c.managerId);
-                const employee = TEAM_DATA.find(u => u.id === c.employeeId);
-
-                html += `
-                    <div class="checkin-item">
-                        <div class="checkin-avatar-section">
-                            <div class="checkin-avatar" style="background-color: ${employee.color}">
-                                ${employee.initials}
-                            </div>
-                            <div class="checkin-mood">${c.mood}</div>
-                        </div>
-                        <div class="checkin-content">
-                            <div class="checkin-header">
-                                <div class="checkin-title">${manager.name} ↔ ${employee.name}</div>
-                                <div class="checkin-date">${c.date}</div>
-                            </div>
-                            <div class="checkin-notes">${c.notes}</div>
-                            ${c.actionItems && c.actionItems.length > 0 ? `
-                            <div class="checkin-action-items">
-                                <div class="checkin-action-label">Action Items</div>
-                                <div class="checkin-action-list">
-                                    ${c.actionItems.map(item => `<div class="checkin-action">${item}</div>`).join('')}
-                                </div>
-                            </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-
             document.getElementById('checkinsContainer').innerHTML = html;
+
+            // Add event listeners to emoji buttons
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.parentElement.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
         }
 
         function getVisibleCheckins() {
