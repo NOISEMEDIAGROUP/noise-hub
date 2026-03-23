@@ -251,7 +251,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--color-noir);
+            background: var(--color-offwhite);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -273,7 +273,7 @@
             position: absolute;
             width: 200px;
             height: 200px;
-            background: radial-gradient(circle, rgba(199, 60, 30, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(199, 60, 30, 0.1) 0%, transparent 70%);
             border-radius: 50%;
             top: 50%;
             left: 50%;
@@ -291,7 +291,7 @@
             font-size: 48px;
             font-weight: 700;
             letter-spacing: 3px;
-            color: var(--color-cream);
+            color: var(--color-charcoal);
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -310,7 +310,7 @@
             font-size: 11px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--color-muted);
+            color: var(--color-body);
             margin-bottom: 48px;
             font-weight: 700;
         }
@@ -325,7 +325,7 @@
             font-size: 11px;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--color-muted);
+            color: var(--color-body);
             margin-bottom: 8px;
             font-weight: 700;
         }
@@ -333,10 +333,10 @@
         .login-input {
             width: 100%;
             padding: 14px 16px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(199, 60, 30, 0.3);
+            background-color: white;
+            border: 1px solid #E5E5E0;
             border-radius: var(--radius);
-            color: var(--color-cream);
+            color: var(--color-charcoal);
             font-family: var(--font-body);
             font-size: 14px;
             transition: all 0.2s;
@@ -345,11 +345,12 @@
         .login-input:focus {
             outline: none;
             border-color: var(--color-red);
-            background-color: rgba(199, 60, 30, 0.1);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(199, 60, 30, 0.1);
         }
 
         .login-input::placeholder {
-            color: rgba(199, 60, 30, 0.5);
+            color: var(--color-muted);
         }
 
         .login-button {
@@ -379,7 +380,7 @@
             font-size: 11px;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--color-muted);
+            color: var(--color-body);
             margin-bottom: 16px;
             font-weight: 700;
         }
@@ -395,16 +396,17 @@
             align-items: center;
             gap: 10px;
             padding: 12px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(199, 60, 30, 0.2);
+            background-color: white;
+            border: 1px solid #E5E5E0;
             border-radius: var(--radius);
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .quick-access-user:hover {
-            background-color: rgba(199, 60, 30, 0.15);
+            background-color: #FFF5F3;
             border-color: var(--color-red);
+            box-shadow: 0 2px 8px rgba(199, 60, 30, 0.1);
         }
 
         .quick-access-avatar {
@@ -428,7 +430,7 @@
         .quick-access-name {
             font-size: 12px;
             font-weight: 600;
-            color: var(--color-cream);
+            color: var(--color-charcoal);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
