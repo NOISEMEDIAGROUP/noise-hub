@@ -900,19 +900,50 @@
             background-color: #5CB85C;
         }
 
-        .mood-card-grid {
+        .home-layout {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            grid-template-columns: 1fr 360px;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .home-main {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .home-feed-sidebar {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid #E5E5E0;
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+        }
+
+        .home-feed-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .home-feed-sidebar::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .mood-card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             flex: 1;
         }
 
         .mood-card {
-            background: white;
-            padding: 20px;
+            background: var(--color-offwhite);
+            padding: 16px;
             border-radius: var(--radius);
-            border-left: 4px solid #E5E5E0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid #E5E5E0;
             transition: all var(--transition-speed);
             animation: cardEnter 0.4s ease-out forwards;
         }
@@ -1845,8 +1876,13 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .mood-card-grid {
+            .home-layout {
                 grid-template-columns: 1fr;
+            }
+
+            .home-feed-sidebar {
+                max-height: 400px;
+                position: static;
             }
 
             .kanban-board {
@@ -2807,40 +2843,44 @@
                         <p class="page-subtitle">Team performance and updates</p>
                     </div>
 
-                    <!-- QUICK STATS -->
-                    <div class="quick-stats">
-                        <div class="quick-stat-item">
-                            <div class="quick-stat-label">Team Mood</div>
-                            <div class="quick-stat-value">😊</div>
-                        </div>
-                        <div class="quick-stat-item">
-                            <div class="quick-stat-label">Goals Progress</div>
-                            <div class="quick-stat-value">72%</div>
-                        </div>
-                        <div class="quick-stat-item">
-                            <div class="quick-stat-label">Active Check-ins</div>
-                            <div class="quick-stat-value">11</div>
-                        </div>
-                        <div class="quick-stat-item">
-                            <div class="quick-stat-label">Pending Feedback</div>
-                            <div class="quick-stat-value">4</div>
-                        </div>
-                    </div>
+                    <div class="home-layout">
+                        <div class="home-main">
+                            <!-- QUICK STATS -->
+                            <div class="quick-stats">
+                                <div class="quick-stat-item">
+                                    <div class="quick-stat-label">Team Mood</div>
+                                    <div class="quick-stat-value">😊</div>
+                                </div>
+                                <div class="quick-stat-item">
+                                    <div class="quick-stat-label">Goals Progress</div>
+                                    <div class="quick-stat-value">72%</div>
+                                </div>
+                                <div class="quick-stat-item">
+                                    <div class="quick-stat-label">Active Check-ins</div>
+                                    <div class="quick-stat-value">11</div>
+                                </div>
+                                <div class="quick-stat-item">
+                                    <div class="quick-stat-label">Pending Feedback</div>
+                                    <div class="quick-stat-value">4</div>
+                                </div>
+                            </div>
 
-                    <!-- MOOD INPUT -->
-                    <div class="mood-input-section">
-                        <label class="mood-input-label">Share your mood</label>
-                        <textarea class="mood-textarea" id="moodInput" placeholder="What's on your mind? Share updates, wins, or ideas..."></textarea>
-                        <div class="mood-input-footer">
-                            <button class="mood-btn-cancel" onclick="clearMoodInput()">Clear</button>
-                            <button class="mood-btn-post" id="moodPostBtn" onclick="postMood()">Post Update</button>
+                            <!-- MOOD INPUT -->
+                            <div class="mood-input-section">
+                                <label class="mood-input-label">Share your mood</label>
+                                <textarea class="mood-textarea" id="moodInput" placeholder="What's on your mind? Share updates, wins, or ideas..."></textarea>
+                                <div class="mood-input-footer">
+                                    <button class="mood-btn-cancel" onclick="clearMoodInput()">Clear</button>
+                                    <button class="mood-btn-post" id="moodPostBtn" onclick="postMood()">Post Update</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- NOISE FEED -->
-                    <div style="margin-bottom: 32px;">
-                        <div class="mood-input-label" style="margin-bottom: 16px;">Noise Feed</div>
-                        <div class="mood-card-grid" id="moodCardGrid"></div>
+                        <!-- NOISE FEED — SIDE PANEL -->
+                        <div class="home-feed-sidebar">
+                            <div class="mood-input-label" style="margin-bottom: 16px;">Noise Feed</div>
+                            <div class="mood-card-grid" id="moodCardGrid"></div>
+                        </div>
                     </div>
                 </div>
 
